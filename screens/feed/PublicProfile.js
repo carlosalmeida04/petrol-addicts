@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { TouchableOpacity, Text, Image, View, SafeAreaView } from 'react-native'
+import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView } from 'react-native'
 
-import { db, getDoc, doc } from "../../firebase/firebasehandler"
+import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../firebase/firebasehandler"
 
 import { useFocusEffect } from '@react-navigation/native'
+import Ionicons from "@expo/vector-icons/Ionicons"
+
 
 import Loading from '../Loading'
 
-export default function PerfilPublico({ route }) {
+export default function PerfilPublico({ route, navigation }) {
 
     const params = route.params
 
     const [userInfo, setUserInfo] = useState({})
+    const [posts, setPosts] = useState([])
     const [isloaded, setLoaded] = useState(false)
 
     async function getUserInfo() {
@@ -26,14 +29,44 @@ export default function PerfilPublico({ route }) {
     }
 
 
+
+    async function getUserPosts() {
+        try {
+            const postsRef = collection(db, "posts")
+            const postsQuery = query(postsRef, where("uid", "==", params.uid), orderBy("postedAt", "desc"))
+            const postSnapshot = await getDocs(postsQuery)
+            const posts = []
+            postSnapshot.forEach((doc) => {
+                posts.push({
+                    id: doc.id,
+                    name: doc.data().name,
+                    desc: doc.data().desc,
+                    car: doc.data().car,
+                    img: doc.data().downloadUrl,
+                    uid: doc.data().uid
+                })
+            })
+            return posts
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+
     useFocusEffect(
         useCallback(() => {
-            isloaded || getUserInfo().then(() => setLoaded(true))
+            isloaded || getUserInfo().then(() => {
+                getUserPosts().then((postReturn) => {
+                    setPosts(postReturn)
+                    setLoaded(true)
+                })
+            })
             return () => {
                 setLoaded(false)
                 setUserInfo({})
             }
-        }, []))
+        }, [])
+    )
 
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
@@ -63,16 +96,37 @@ export default function PerfilPublico({ route }) {
                     </View>
 
 
-                    {/*<View style={{ marginBottom: 10, marginStart: 50, marginEnd: 50 }}>
-                        <Button
-                            title='Limpar Async Storage'
-                            onPress={clearStorage}
-                            color="#299993"
-                        />
-                        </View>*/}
+                    <Ionicons name='apps-outline' style={{ textAlign: "center" }} size={30} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: "1%" }}>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#dbdbdb' }} />
                     </View>
+                    <ScrollView>
+                        <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+                            {
+                                posts.map(posts => (
+                                    <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                        <TouchableOpacity onPress={() => navigation.navigate("Post", {
+                                            id: posts.id,
+                                            img: posts.img,
+                                            name: posts.name,
+                                            desc: posts.desc,
+                                            car: posts.car,
+                                            uid: posts.uid
+                                        })}>
+                                            <Image
+                                                style={{ resizeMode: "cover" }}
+                                                source={{
+                                                    height: "100%",
+                                                    width: "100%",
+                                                    uri: posts.img
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                ))
+                            }
+                        </View>
+                    </ScrollView>
                 </>
             ) : <Loading />}
         </SafeAreaView>
