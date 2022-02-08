@@ -59,10 +59,11 @@ export default function Perfil({ navigation }) {
 
     useEffect(() => {
         isloaded || getUserInfo().then((nome) => {
-            setLoaded(true)
             setName(nome)
-        }) && getUserPosts().then((postReturn) => {
-            setPosts(postReturn)
+            getUserPosts().then((postReturn) => {
+                setPosts(postReturn)
+                setLoaded(true)
+            })
         })
     }, [])
 
@@ -96,22 +97,29 @@ export default function Perfil({ navigation }) {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: "1%" }}>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#dbdbdb' }} />
                     </View>
-                    <ScrollView >
+                    <ScrollView>
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                             {
                                 posts.map(posts => (
-                                    <TouchableOpacity onPress={() => {
-                                        navigation.navigate("Post")
-                                    }} key={posts.id}>
-                                        <Image
-                                            style={{ resizeMode: "cover" }}
-                                            source={{
-                                                height: 130,
-                                                width: "33.3%",
-                                                uri: posts.img
-                                            }}
-                                        />
-                                    </TouchableOpacity>
+                                    <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                        <TouchableOpacity onPress={() => navigation.navigate("Post", {
+                                            id: posts.id,
+                                            img: posts.img,
+                                            name: posts.name,
+                                            desc: posts.desc,
+                                            car: posts.car,
+                                            uid: posts.uid
+                                        })}>
+                                            <Image
+                                                style={{ resizeMode: "cover" }}
+                                                source={{
+                                                    height: "100%",
+                                                    width: "100%",
+                                                    uri: posts.img
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
                                 ))
                             }
                         </View>
