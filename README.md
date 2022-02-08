@@ -1,16 +1,15 @@
-# Foobar
+# Petrol Addicts
 
 This is my PAP
 
 ## Installation
 
-Use the package manager [node](https://nodejs.org/en/) to install node:modules.
+Use the node package manager [npm](https://nodejs.org/en/) to install the dependencies into the project.
 
 ```bash
 npm install
 ```
 
-## Usage
 
 
 ## Contributing
