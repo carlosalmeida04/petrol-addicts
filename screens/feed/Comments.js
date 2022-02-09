@@ -1,23 +1,47 @@
 import { View, Text, ScrollView, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, KeyboardAvoidingView, Platform } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { doc, getDocs, db, collection } from "../../firebase/firebasehandler"
 
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-export default function Comments() {
+export default function Comments({ route }) {
+
+
+    const postId = route.params.postId
+
+    async function getComments(id) {
+        const docRef = collection(db, "posts", id, "comments")
+        const snap = await getDocs(docRef)
+
+        snap.forEach((doc) => {
+            console.log(doc.data())
+        })
+    }
+
+    useEffect(() => {
+        getComments(postId)
+    }, [])
+
     return (
 
-        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : false} style={{ backgroundColor: "#fff", bottom: 0, position: "absolute", flex: 1 }}>
+        <KeyboardAvoidingView behavior='padding'>
+            <ScrollView style={{ backgroundColor: "#fff", height: "100%" }}>
 
-            <SafeAreaView style={styles.commentView}>
-                <TextInput
-                    style={styles.commentInput}
-                    placeholder='Comentário'
-                />
-                <TouchableOpacity>
-                    <Text style={{ color: "#F5A962" }}>Publicar</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
+            </ScrollView>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "position" : false} style={{ backgroundColor: "#fff", bottom: 0, position: "absolute", flex: 1 }}>
+
+                <SafeAreaView style={styles.commentView}>
+                    <TextInput
+                        style={styles.commentInput}
+                        placeholder='Comentário'
+                    />
+                    <TouchableOpacity>
+                        <Text style={{ color: "#F5A962" }}>Publicar</Text>
+                    </TouchableOpacity>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         </KeyboardAvoidingView>
 
     )

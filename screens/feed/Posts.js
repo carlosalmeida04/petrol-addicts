@@ -96,7 +96,9 @@ export default function Posts({ navigation }) {
                                 <Ionicons name='heart-outline' size={35} />
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={{ marginStart: "2%" }} onPress={() => navigation.navigate("Comments")}>
+                            <TouchableOpacity style={{ marginStart: "2%" }} onPress={() => navigation.navigate("Comments", {
+                                postId: posts.id
+                            })}>
                                 <Ionicons name='chatbox-outline' size={33} />
                             </TouchableOpacity>
 

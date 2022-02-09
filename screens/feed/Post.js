@@ -40,7 +40,8 @@ export default function Post({ route, navigation }) {
                     <Ionicons name='heart-outline' size={35} />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={{ marginStart: "2%" }} onPress={() => navigation.navigate("Comments")}>
+                <TouchableOpacity style={{ marginStart: "2%" }}
+                    onPress={() => navigation.navigate("Comments")}>
                     <Ionicons name='chatbox-outline' size={33} />
                 </TouchableOpacity>
 
