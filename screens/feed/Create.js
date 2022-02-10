@@ -6,7 +6,7 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 import * as ImagePicker from 'expo-image-picker'
 
 import 'react-native-get-random-values'
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid'
 
 import {
     storage, uploadBytesResumable,
@@ -69,8 +69,7 @@ export default function Create() {
                 likes: 0,
                 downloadUrl: downlodUrl
             })
-            const addCommentColl = doc(collection(db, "posts", postId, "comments"))                    
-            await setDoc(addCommentColl, {})
+            
             return post
         } catch (e) {
             console.log(e)
