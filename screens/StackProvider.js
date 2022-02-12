@@ -61,7 +61,7 @@ export default function StackProvider() {
 
     return (
         <NavigationContainer>
-            <StatusBar barStyle="dark-content" />
+            <StatusBar style='auto' />
             <Stack.Navigator initialRouteName={routeName}>
                 <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />

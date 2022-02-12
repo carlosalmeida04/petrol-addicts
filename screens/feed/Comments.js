@@ -11,9 +11,10 @@ import Loading from '../Loading'
 export default function Comments({ route }) {
 
 
-    const [comment, setComment] = useState([])
+    const [comment, setComment] = useState("")
     const [name, setName] = useState("")
     const [loaded, setLoaded] = useState(false)
+    const [comments, setComments] = useState([])
     const postId = route.params.postId
 
 
@@ -61,11 +62,9 @@ export default function Comments({ route }) {
     }
 
     useEffect(() => {
-        getName().then((name) => {
-            setName(name)
-        })
+        AsyncStorage.getItem("name").then((name) => setName(name))
         getComments().then((commentReturn) => {
-            setComment(commentReturn)
+            setComments(commentReturn)
             setLoaded(true)
         })
     }, [])
@@ -76,51 +75,48 @@ export default function Comments({ route }) {
             {loaded ? <>
                 <ScrollView style={{ height: "100%", backgroundColor: "#fff" }}>
                     {
-                        comment.map((comment) => (
+                        comments.map((comment) => (
                             <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }}>
                                 <Image
-                                    style={{
-                                        borderWidth: 0.1,
-                                        borderColor: "black",
-                                        borderRadius: 100
-                                    }}
                                     source={{
-                                        height: 35,
-                                        width: 35,
-                                        uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
+                                        height: 40,
+                                        width: 40,
+                                        uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png?background=%23eee`
                                     }}
                                 />
-                                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                                    <Text style={{ fontSize: 14, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
-                                    <Text style={{ fontSize: 13, flexShrink: 1, marginStart: "2%" }}>{comment.comment}</Text>
+                                <View style={{ flexDirection: "row", flexShrink: 1, }}>
+                                    <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
+                                    <Text style={{ fontSize: 15, marginStart: "2%" }}>{comment.comment}</Text>
                                 </View>
                             </View>
                         ))
                     }
-
                 </ScrollView>
-                <SafeAreaView style={styles.commentView}>
 
-                    <TextInput
-                        style={styles.commentInput}
-                        onChangeText={text => setComment(text)}
-                        placeholder='Comentario'
-                        value={comment}
-                    />
-                    <TouchableOpacity
-                        onPress={() => {
-                            makeComment().then(() => {
-                                setComment("")
-                            })
-                        }}
-                        style={{ alignItems: "center", height: 40, justifyContent: "center", marginStart: "2%" }}>
-                        <Text style={{ color: "#F5A962" }}>Publicar</Text>
-                    </TouchableOpacity>
+            </> :
+                <View style={{ backgroundColor: "#fff", height: "100%" }}>
+                    <Loading />
+                </View>
+            }
+            <SafeAreaView style={styles.commentView}>
 
-                </SafeAreaView>
+                <TextInput
+                    style={styles.commentInput}
+                    onChangeText={text => setComment(text)}
+                    placeholder='Comentario'
+                    value={comment}
+                />
+                <TouchableOpacity
+                    onPress={() => {
+                        makeComment().then(() => {
+                            setComment("")
+                        })
+                    }}
+                    style={{ alignItems: "center", height: 40, justifyContent: "center", marginStart: "2%" }}>
+                    <Text style={{ color: "#F5A962" }}>Publicar</Text>
+                </TouchableOpacity>
 
-            </> : <Loading />}
-
+            </SafeAreaView>
         </>
 
     )
