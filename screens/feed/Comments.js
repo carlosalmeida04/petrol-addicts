@@ -67,27 +67,32 @@ export default function Comments({ route, navigation }) {
             {loaded ? <>
                 <ScrollView style={{ height: "100%", backgroundColor: "#fff" }}>
                     {
-                        comments.map((comment) => (
-                            <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }} key={comment.id}>
-                                <Image
-                                    style={{
-                                        borderRadius: 100
-                                    }}
-                                    source={{
-                                        height: 40,
-                                        width: 40,
-                                        uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png?background=%23eee`
-                                    }}
-                                />
-                                <View style={{ flexDirection: "row", flexShrink: 1, }}>
-                                    <TouchableOpacity onPress={() => navigation.navigate("PublicProfile", {uid: comment.uid})}>
-                                        <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
-                                    </TouchableOpacity>
-
-                                    <Text style={{ fontSize: 15, marginStart: "2%" }}>{comment.comment}</Text>
-                                </View>
+                        comments.length === 0 ?
+                            <View style={{ flex: 1, alignItems: "center", marginTop: "80%" }}>
+                                <Text>Ainda não há comentários. Seja o primeiro a comentar!</Text>
                             </View>
-                        ))
+                            :
+                            comments.map((comment) => (
+                                <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }} key={comment.id}>
+                                    <Image
+                                        style={{
+                                            borderRadius: 100
+                                        }}
+                                        source={{
+                                            height: 40,
+                                            width: 40,
+                                            uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
+                                        }}
+                                    />
+                                    <View style={{ flexDirection: "row", flexShrink: 1, alignItems: "center" }}>
+                                        <TouchableOpacity onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid })}>
+                                            <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
+                                        </TouchableOpacity>
+
+                                        <Text style={{ fontSize: 15, marginStart: "2%" }}>{comment.comment}</Text>
+                                    </View>
+                                </View>
+                            ))
                     }
                 </ScrollView>
 

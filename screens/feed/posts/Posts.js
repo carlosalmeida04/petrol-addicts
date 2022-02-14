@@ -107,8 +107,8 @@ export default function Posts({ navigation }) {
                                     navigation.navigate("Car", { carro: posts.car, title: posts.car })
                                 }}
                                 style={{ marginStart: "auto", marginEnd: "1%", flexDirection: "row", alignItems: "center" }}>
+                                <Text style={{ fontWeight: "bold", marginEnd: "2%" }}>{posts.car}</Text>
                                 <Ionicons name='car-sport-outline' size={25} />
-                                <Text style={{ fontWeight: "bold", marginStart: "2%" }}>{posts.car}</Text>
                             </TouchableOpacity>
 
                         </View>
