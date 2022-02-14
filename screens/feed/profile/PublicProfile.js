@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView } from 'react-native'
 
-import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../firebase/firebasehandler"
+import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../../firebase/firebasehandler"
 
 import { useFocusEffect } from '@react-navigation/native'
 import Ionicons from "@expo/vector-icons/Ionicons"
 
 
-import Loading from '../Loading'
+import Loading from '../../Loading'
 
 export default function PerfilPublico({ route, navigation }) {
 

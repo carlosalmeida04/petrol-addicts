@@ -4,9 +4,9 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import Perfil from './Profile'
-import Create from './Create'
-import Posts from './Posts'
+import Perfil from './profile/Profile'
+import Create from './posts/Create'
+import Posts from './posts/Posts'
 
 
 const Tab = createBottomTabNavigator()

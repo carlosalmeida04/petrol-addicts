@@ -1,7 +1,7 @@
 import React from 'react'
 import { Alert, SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { auth, signOut } from "../../firebase/firebasehandler"
+import { auth, signOut } from "../../../firebase/firebasehandler"
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 

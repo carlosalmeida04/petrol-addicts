@@ -3,9 +3,9 @@ import { Text, View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleS
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import { getDocs, db, collection, query, orderBy, doc, setDoc } from "../../firebase/firebasehandler"
+import { getDocs, db, collection, query, orderBy, doc, setDoc } from "../../../firebase/firebasehandler"
 
-import Loading from "../Loading"
+import Loading from "../../Loading"
 export default function Posts({ navigation }) {
 
 

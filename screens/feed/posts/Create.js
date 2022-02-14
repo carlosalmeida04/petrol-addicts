@@ -14,7 +14,7 @@ import {
     ref, auth, doc,
     setDoc, db,
     Timestamp, collection
-} from '../../firebase/firebasehandler';
+} from '../../../firebase/firebasehandler';
 
 
 

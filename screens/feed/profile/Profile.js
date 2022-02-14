@@ -3,9 +3,9 @@ import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView } from 'r
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import { db, getDoc, doc, auth, query, collection, where, getDocs, orderBy } from "../../firebase/firebasehandler"
+import { db, getDoc, doc, auth, query, collection, where, getDocs, orderBy } from "../../../firebase/firebasehandler"
 
-import Loading from '../Loading'
+import Loading from '../../Loading'
 
 
 export default function Perfil({ navigation }) {

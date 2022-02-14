@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../Loading'
 
 
-export default function Comments({ route }) {
+export default function Comments({ route, navigation }) {
 
 
     const [comment, setComment] = useState("")
@@ -17,14 +17,6 @@ export default function Comments({ route }) {
     const [comments, setComments] = useState([])
     const postId = route.params.postId
 
-
-    async function getName() {
-        try {
-            return await AsyncStorage.getItem("name")
-        } catch (e) {
-            console.log(e)
-        }
-    }
 
     async function makeComment() {
         try {
@@ -63,11 +55,11 @@ export default function Comments({ route }) {
 
     useEffect(() => {
         AsyncStorage.getItem("name").then((name) => setName(name))
-        getComments().then((commentReturn) => {
+        loaded || getComments().then((commentReturn) => {
             setComments(commentReturn)
             setLoaded(true)
         })
-    }, [])
+    }, [loaded])
 
 
     return (
@@ -76,8 +68,11 @@ export default function Comments({ route }) {
                 <ScrollView style={{ height: "100%", backgroundColor: "#fff" }}>
                     {
                         comments.map((comment) => (
-                            <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }} key={comment.id}>
                                 <Image
+                                    style={{
+                                        borderRadius: 100
+                                    }}
                                     source={{
                                         height: 40,
                                         width: 40,
@@ -85,7 +80,10 @@ export default function Comments({ route }) {
                                     }}
                                 />
                                 <View style={{ flexDirection: "row", flexShrink: 1, }}>
-                                    <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate("PublicProfile", {uid: comment.uid})}>
+                                        <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
+                                    </TouchableOpacity>
+
                                     <Text style={{ fontSize: 15, marginStart: "2%" }}>{comment.comment}</Text>
                                 </View>
                             </View>
@@ -110,6 +108,7 @@ export default function Comments({ route }) {
                     onPress={() => {
                         makeComment().then(() => {
                             setComment("")
+                            setLoaded(false)
                         })
                     }}
                     style={{ alignItems: "center", height: 40, justifyContent: "center", marginStart: "2%" }}>
