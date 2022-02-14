@@ -12,7 +12,6 @@ export default function App() {
             <StatusBar style='auto' />
             <StackProvider />
         </>
-
     )
 }
 
