@@ -21,14 +21,14 @@ export default StyleSheet.create({
         width: "80%",
         justifyContent: "center",
         borderRadius: 5,
-        borderWidth: 2,
-        borderColor: '#000'
+        borderWidth: 1,
+        borderColor: '#000',
+        marginBottom: 15
     },
     button: {
         alignItems: "center",
         backgroundColor: "#F5A962",
         height: 50,
-        marginBottom: 15,
         width: "80%",
         justifyContent: "center",
         borderRadius: 5,

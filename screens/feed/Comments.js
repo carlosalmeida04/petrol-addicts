@@ -1,12 +1,12 @@
 import { View, Text, ScrollView, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy } from "../../firebase/firebasehandler"
 import React, { useEffect, useState } from 'react'
-import { v4 as uuidv4 } from 'uuid'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import 'react-native-get-random-values'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import Loading from '../Loading'
+import { v4 as uuidv4 } from 'uuid'
 
+import Loading from '../Loading'
 
 export default function Comments({ route, navigation }) {
 

@@ -3,7 +3,7 @@ import { Text, View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleS
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import { getDocs, db, collection, query, orderBy, doc, setDoc } from "../../../firebase/firebasehandler"
+import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
 
 import Loading from "../../Loading"
 export default function Posts({ navigation }) {
@@ -34,13 +34,7 @@ export default function Posts({ navigation }) {
             console.log(e)
         }
     }
-    async function getComments(postId) {
-        const commentRef = doc(collection(db, "posts", postId, "comments"))
-        const snapshot = await setDoc(commentRef, {
 
-        })
-        console.log(snapshot)
-    }
 
     useEffect(() => {
         isloaded || getPosts().then((postReturn) => {
@@ -90,22 +84,20 @@ export default function Posts({ navigation }) {
                             }}
                         />
                         <View style={styles.seperator} />
-                        <View style={[styles.row, { marginTop: "1%" }]}>
+                        <View style={styles.row}>
 
                             <TouchableOpacity>
                                 <Ionicons name='heart-outline' size={35} />
                             </TouchableOpacity>
 
-                            <TouchableOpacity style={{ marginStart: "2%" }} onPress={() => navigation.navigate("Comments", {
-                                postId: posts.id
-                            })}>
+                            <TouchableOpacity
+                                style={{ marginStart: "2%" }}
+                                onPress={() => navigation.navigate("Comments", { postId: posts.id })}>
                                 <Ionicons name='chatbox-outline' size={33} />
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate("Car", { carro: posts.car, title: posts.car })
-                                }}
+                                onPress={() => { navigation.navigate("Car", { carro: posts.car, title: posts.car }) }}
                                 style={{ marginStart: "auto", marginEnd: "1%", flexDirection: "row", alignItems: "center" }}>
                                 <Text style={{ fontWeight: "bold", marginEnd: "2%" }}>{posts.car}</Text>
                                 <Ionicons name='car-sport-outline' size={25} />

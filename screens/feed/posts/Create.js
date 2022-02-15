@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image, View, TextInput, TouchableOpacity, Text, Platform, StyleSheet, ScrollView, Alert, KeyboardAvoidingView } from 'react-native'
+import { Image, View, TextInput, TouchableOpacity, Text, Platform, StyleSheet, Alert, KeyboardAvoidingView } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Ionicons from "@expo/vector-icons/Ionicons"
@@ -13,7 +13,7 @@ import {
     getDownloadURL,
     ref, auth, doc,
     setDoc, db,
-    Timestamp, collection
+    Timestamp,
 } from '../../../firebase/firebasehandler';
 
 
@@ -69,7 +69,6 @@ export default function Create() {
                 likes: 0,
                 downloadUrl: downlodUrl
             })
-            
             return post
         } catch (e) {
             console.log(e)
