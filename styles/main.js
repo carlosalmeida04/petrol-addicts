@@ -20,14 +20,10 @@ export default StyleSheet.create({
         height: 50,
         width: "80%",
         justifyContent: "center",
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: '#000',
-        marginBottom: 15
+        marginBottom: 15,
+        backgroundColor: "#fff"
     },
     button: {
-        alignItems: "center",
-        backgroundColor: "#F5A962",
         height: 50,
         width: "80%",
         justifyContent: "center",
@@ -39,13 +35,8 @@ export default StyleSheet.create({
     },
     input: {
         height: 48,
-        marginBottom: 15,
+        marginBottom: 25,
         width: "80%",
-        paddingStart: 15,
-        borderTopLeftRadius: 5,
-        borderTopRightRadius: 5,
-        backgroundColor: 'rgba(196, 196, 196, 0.4)',
-        borderBottomWidth: 1.5,
     },
     forgotPasswordText: {
         fontSize: 10,

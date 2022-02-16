@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Text, TextInput, Image, TouchableOpacity, SafeAreaView, Alert } from 'react-native'
+import { TouchableWithoutFeedback, Platform, Alert, KeyboardAvoidingView, View } from 'react-native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { createUserWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
 import { doc, setDoc, db } from "../../firebase/firebasehandler"
+
+import { Button, Text, Input, Icon } from '@ui-kitten/components';
+
 
 import styles from "../../styles/main"
 
@@ -15,6 +18,7 @@ export default function Register({ navigation }) {
     const [passowrdConfirm, setPasswordConfirm] = useState("")
     const [email, setEmail] = useState("")
 
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
 
     useEffect(() => {
         const unsubsribe = onAuthStateChanged(auth, user => {
@@ -52,75 +56,99 @@ export default function Register({ navigation }) {
     }
 
     function handleRegister() {
-        {
-            /*email === "" ?
-                Alert.alert("E-mail", "Preencha o seu e-mail", [{ text: 'Ok' }, { cancelable: false }])
-                : password === "" ?
-                    Alert.alert("Palavra-passe", "Preencha a palavra-passe", [{ text: 'Ok' }, { cancelable: false }])
-                    : passowrdConfirm === "" ?
-                        Alert.alert("Palavra-passe", "Repita a palavra-passe", [{ text: 'Ok' }, { cancelable: false }])
-                        : password.length < 6 ? 
-                            Alert.alert("Palavra-passe", "A palavra-passe tem de ter pelo menos 6 caracteres!")
-                            : */
-            password != passowrdConfirm ? Alert.alert("Palavras-passe", "As palavras-passes não combinam!",
-                [
-                    {
-                        text: "Ok",
-                        onPress: () => {
-                            setPassword('')
-                            setPasswordConfirm('')
-                        }
-                    }, { cancelable: false }
-                ])
-                : createUserWithEmailAndPassword(auth, email, password)
-                    .then((user) => {
-                        const uuid = user.user.uid
-                        setUsers(name, email).then(() => {
-                            setUserInfo("1", uuid)
-                        })
+        if (passowrdConfirm === "" && password === "" && email === "" && name === "") {
+            Alert.alert("Campos", "Os campos não podem estar vazio!")
+        } else if (password != passowrdConfirm) {
+            Alert.alert("Palavras-passe", "As palavras-passe não combinam.", [
+                {
+                    text: "Tentar novamente", onPress: () => {
+                        setPassword("")
+                        setPasswordConfirm("")
+                    }
+                }
+            ])
+        } else if (name === "") {
+            Alert.alert("Nome", "Preencha o seu nome.")
+        } else if (email === "") {
+            Alert.alert("E-mail", "Preencha o seu e-mail.")
+        } else {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((user) => {
+                    const uuid = user.user.uid
+                    setUsers(name, email).then(() => {
+                        setUserInfo("1", uuid)
                     })
-                    .catch(error => {
-                        const errorCode = error.code
-                        if (errorCode === "auth/email-already-in-use") {
-                            Alert.alert("Registo", "O e-mail que introduziu já se encontra em uso!")
-                        }
-                    })
+                })
+                .catch(error => {
+                    const errorCode = error.code
+                    if (errorCode === "auth/email-already-in-use") {
+                        Alert.alert("Registo", "O e-mail que introduziu já se encontra em uso!")
+                    }
+                })
         }
     }
+
+
+
+    const toggleSecureEntry = () => {
+        setSecureTextEntry(!secureTextEntry);
+    }
+
+    const renderIcon = (props) => (
+        <TouchableWithoutFeedback onPress={toggleSecureEntry}>
+            <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
+        </TouchableWithoutFeedback>
+    );
+
     return (
-        <SafeAreaView style={styles.containerMain}>
-            <Image source={require("../../assets/img/logo.png")} style={styles.logo} />
-            <TextInput
-                style={styles.input}
-                placeholder="Nome"
-                keyboardType='default'
+        <KeyboardAvoidingView style={styles.containerMain} behavior={Platform.OS === "ios" ? "height" : false}>
+            <View style={{ marginBottom: "20%" }}>
+                <Text category="h1">Registo</Text>
+                <Text category="c1" >Petrol-Addicts</Text>
+            </View>
+            <Input
+                size="large"
+                value={name}
+                status="basic"
+                label='Nome'
+                placeholder='Rodrigo Miguel'
                 onChangeText={text => setName(text)}
-            />
-            <TextInput
                 style={styles.input}
-                placeholder="E-mail"
+            />
+            <Input
                 value={email}
-                autoCapitalize='none'
-                keyboardType='email-address'
+                status="basic"
+                size="large"
+                label='O seu e-mail'
+                placeholder='email@exemplo.com'
                 onChangeText={text => setEmail(text)}
-            />
-            <TextInput
-                secureTextEntry={true}
                 style={styles.input}
+            />
+            <Input
                 value={password}
-                placeholder="Palavra-passe"
+                status="basic"
+                label='Palavra-passe'
+                size="large"
+                placeholder='palavrapasse123'
+                accessoryRight={renderIcon}
+                secureTextEntry={secureTextEntry}
                 onChangeText={text => setPassword(text)}
-            />
-            <TextInput
-                secureTextEntry={true}
-                value={passowrdConfirm}
                 style={styles.input}
-                placeholder="Confirme a palavra-passe"
-                onChangeText={text => setPasswordConfirm(text)}
             />
-            <TouchableOpacity onPress={handleRegister} style={styles.button}>
-                <Text>Registar</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+            <Input
+                value={passowrdConfirm}
+                size="large"
+                status="basic"
+                label='Confirme a palavra-passe'
+                placeholder='palavrapasse123'
+                accessoryRight={renderIcon}
+                secureTextEntry={secureTextEntry}
+                onChangeText={text => setPasswordConfirm(text)}
+                style={[styles.input, { marginBottom: 35 }]}
+            />
+            <Button status="warning" appearance="filled" onPress={handleRegister} style={styles.button} size="large">
+                Registar
+            </Button>
+        </KeyboardAvoidingView>
     )
 }
