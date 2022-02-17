@@ -11,6 +11,9 @@ import { Button, Text, Input, Icon } from '@ui-kitten/components';
 
 import styles from "../../styles/main"
 
+
+
+
 export default function Register({ navigation }) {
 
     const [name, setName] = useState("")
@@ -19,6 +22,7 @@ export default function Register({ navigation }) {
     const [email, setEmail] = useState("")
 
     const [secureTextEntry, setSecureTextEntry] = useState(true);
+
 
     useEffect(() => {
         const unsubsribe = onAuthStateChanged(auth, user => {
@@ -72,19 +76,17 @@ export default function Register({ navigation }) {
         } else if (email === "") {
             Alert.alert("E-mail", "Preencha o seu e-mail.")
         } else {
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((user) => {
-                    const uuid = user.user.uid
-                    setUsers(name, email).then(() => {
-                        setUserInfo("1", uuid)
-                    })
+            createUserWithEmailAndPassword(auth, email, password).then((user) => {
+                const uuid = user.user.uid
+                setUsers(name, email).then(() => {
+                    setUserInfo("1", uuid)
                 })
-                .catch(error => {
-                    const errorCode = error.code
-                    if (errorCode === "auth/email-already-in-use") {
-                        Alert.alert("Registo", "O e-mail que introduziu já se encontra em uso!")
-                    }
-                })
+            }).catch(error => {
+                const errorCode = error.code
+                if (errorCode === "auth/email-already-in-use") {
+                    Alert.alert("Registo", "O e-mail que introduziu já se encontra em uso!")
+                }
+            })
         }
     }
 
@@ -98,55 +100,61 @@ export default function Register({ navigation }) {
         <TouchableWithoutFeedback onPress={toggleSecureEntry}>
             <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
         </TouchableWithoutFeedback>
-    );
+    )
 
     return (
-        <KeyboardAvoidingView style={styles.containerMain} behavior={Platform.OS === "ios" ? "height" : false}>
+        <KeyboardAvoidingView style={styles.containerMain} behavior={Platform.OS === "ios" ? "padding" : false}>
             <View style={{ marginBottom: "20%" }}>
                 <Text category="h1">Registo</Text>
                 <Text category="c1" >Petrol-Addicts</Text>
             </View>
             <Input
                 size="large"
-                value={name}
                 status="basic"
                 label='Nome'
-                placeholder='Rodrigo Miguel'
+                placeholder='Sílvia Raquel'
+                keyboardType='email-address'
+                value={name}
+                accessoryLeft={<Icon name={"person-outline"} />}
                 onChangeText={text => setName(text)}
                 style={styles.input}
             />
             <Input
-                value={email}
+
                 status="basic"
                 size="large"
                 label='O seu e-mail'
                 placeholder='email@exemplo.com'
+                value={email}
+                accessoryLeft={<Icon name={"email-outline"} />}
                 onChangeText={text => setEmail(text)}
                 style={styles.input}
             />
             <Input
-                value={password}
                 status="basic"
                 label='Palavra-passe'
                 size="large"
                 placeholder='palavrapasse123'
+                value={password}
                 accessoryRight={renderIcon}
+                accessoryLeft={<Icon name={"lock-outline"} />}
                 secureTextEntry={secureTextEntry}
                 onChangeText={text => setPassword(text)}
                 style={styles.input}
             />
             <Input
-                value={passowrdConfirm}
                 size="large"
                 status="basic"
                 label='Confirme a palavra-passe'
                 placeholder='palavrapasse123'
+                value={passowrdConfirm}
                 accessoryRight={renderIcon}
                 secureTextEntry={secureTextEntry}
+                accessoryLeft={<Icon name={"lock-outline"} />}
                 onChangeText={text => setPasswordConfirm(text)}
-                style={[styles.input, { marginBottom: 35 }]}
+                style={[styles.input, { marginBottom: 15 }]}
             />
-            <Button status="warning" appearance="filled" onPress={handleRegister} style={styles.button} size="large">
+            <Button appearance="filled" onPress={handleRegister} style={styles.button} size="large">
                 Registar
             </Button>
         </KeyboardAvoidingView>

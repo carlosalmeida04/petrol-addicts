@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react'
 
-import { View, Text, TextInput, Image, TouchableOpacity, SafeAreaView, Alert, KeyboardAvoidingView, Platform } from 'react-native'
+import { View, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { signInWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
 import styles from "../../styles/main"
 
+import { Button, Text, Input, Icon } from '@ui-kitten/components';
+import main from '../../styles/main'
 
 export default function Login({ navigation }) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [secureTextEntry, setSecureTextEntry] = useState(true);
 
     useEffect(() => {
         const unsubsribe = onAuthStateChanged(auth, (user) => {
@@ -78,34 +81,50 @@ export default function Login({ navigation }) {
                     })
         }
     }
+
+    const toggleSecureEntry = () => {
+        setSecureTextEntry(!secureTextEntry);
+    }
+
+    const renderIcon = (props) => (
+        <TouchableWithoutFeedback onPress={toggleSecureEntry} >
+            <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
+        </TouchableWithoutFeedback>
+    )
+
     return (
 
         <KeyboardAvoidingView style={styles.containerMain} behavior={Platform.OS === "ios" ? "padding" : false}>
-            <View style={{ alignItems: "center" }}>
-                <Image source={require('../../assets/img/logo.png')} style={{ height: 300, width: 300 }} />
+            <View style={{ marginBottom: "20%" }}>
+                <Text category="h1">Autenticação</Text>
+                <Text category="c1" >Petrol-Addicts</Text>
             </View>
-            <TextInput
-                onChangeText={text => setEmail(text)}
-                style={styles.input}
-                placeholder="E-mail"
+            <Input
+                label="E-mail"
+                placeholder="email@exemplo.com"
+                size="large"
                 autoCapitalize='none'
                 keyboardType='email-address'
-            />
-            <TextInput
-                onChangeText={text => setPassword(text)}
-                secureTextEntry={true}
+                value={email}
+                accessoryLeft={<Icon name={"email-outline"} />}
                 style={styles.input}
-                placeholder="Palavra-passe"
-                keyboardType='default'
+                onChangeText={text => setEmail(text)}
             />
-            <View style={{ marginLeft: "auto", marginRight: "10%", marginBottom: 15 }}>
-                <TouchableOpacity >
-                    <Text style={styles.forgotPasswordText}>Esqueceste-te da palavra-passe?</Text>
-                </TouchableOpacity>
+            <Input
+                label="Palvra-passe"
+                size="large"
+                placeholder="palavrapasse123"
+                value={password}
+                secureTextEntry={secureTextEntry}
+                style={styles.input}
+                accessoryRight={renderIcon}
+                accessoryLeft={<Icon name={"lock-outline"} />}
+                onChangeText={text => setPassword(text)}
+            />
+            <View style={{ marginLeft: "auto", marginRight: "7%", marginBottom: 15 }}>
+                <Button status={"basic"} size="tiny" appearance="ghost"> Esqueceste-te da palavrapasse?</Button>
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleLogin} >
-                <Text style={{ fontSize: 12 }}>Autenticar</Text>
-            </TouchableOpacity>
+            <Button style={main.button} appearance="filled" onPress={handleLogin}>Autenticar</Button>
         </KeyboardAvoidingView >
 
     )

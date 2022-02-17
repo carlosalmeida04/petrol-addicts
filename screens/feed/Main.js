@@ -8,7 +8,7 @@ import Perfil from './profile/Profile'
 import Create from './posts/Create'
 import Posts from './posts/Posts'
 
-
+import BottomTabBar from '../components/BottomTabBar'
 const Tab = createBottomTabNavigator()
 
 export default function Main({ navigation }) {
@@ -19,27 +19,10 @@ export default function Main({ navigation }) {
             screenOptions={({ route }) => ({
                 headerTitleAlign: "left",
                 tabBarLabel: () => { return null },
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-                    if (route.name === 'Posts') {
-                        size = 28
-                        iconName = focused ? 'car-sport' : 'car-sport-outline'
-                    } else if (route.name === 'Create Post') {
-
-                        size = 40
-                        iconName = focused ? 'add-outline' : 'add-outline'
-                    } else if (route.name === 'Profile') {
-                        size = 27
-                        iconName = focused ? 'person' : 'person-outline'
-                    }
-                    return <Ionicons name={iconName} size={size} color={color} />;
-                },
-                tabBarStyle: {
-                    backgroundColor: "#fff"
-                },
                 tabBarActiveTintColor: '#F5A962',
                 tabBarInactiveTintColor: 'black',
             })}
+            tabBar={props => <BottomTabBar {...props} />}
         >
             <Tab.Screen name='Posts'
                 options={{

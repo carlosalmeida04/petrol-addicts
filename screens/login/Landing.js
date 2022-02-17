@@ -6,7 +6,7 @@ import { Button, Layout } from '@ui-kitten/components';
 
 import styles from "../../styles/main"
 
-function Landing({ navigation }) {
+export default function Landing({ navigation }) {
 
 
     return (
@@ -17,19 +17,15 @@ function Landing({ navigation }) {
             </View>
 
             <View style={styles.bottomView}>
-                <Button appearance='outline' status="basic" style={styles.buttonBorder}
+                <Button appearance='outline' status={"basic"} style={styles.buttonBorder}
                     onPress={() => navigation.navigate("Register")}>
                     Registar
                 </Button>
-                <Button appearance='filled' status="warning" style={styles.button}
+                <Button appearance='filled' style={styles.button}
                     onPress={() => navigation.navigate("Login")}>
                     Iniciar Sessão
                 </Button>
             </View>
         </Layout>
     )
-
-
 }
-
-export default Landing

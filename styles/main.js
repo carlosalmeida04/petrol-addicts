@@ -34,15 +34,13 @@ export default StyleSheet.create({
         width: 300,
     },
     input: {
-        height: 48,
-        marginBottom: 25,
+        marginBottom: 10,
         width: "80%",
     },
     forgotPasswordText: {
         fontSize: 10,
         textDecorationStyle: "solid",
         textDecorationLine: "underline"
-
     },
     editProfile: {
         marginTop: 20,

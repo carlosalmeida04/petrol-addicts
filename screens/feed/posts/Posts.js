@@ -3,6 +3,8 @@ import { Text, View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleS
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
+import { Button, Icon } from '@ui-kitten/components'
+
 import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
 
 import Loading from "../../Loading"
@@ -86,15 +88,15 @@ export default function Posts({ navigation }) {
                         <View style={styles.seperator} />
                         <View style={styles.row}>
 
-                            <TouchableOpacity>
-                                <Ionicons name='heart-outline' size={35} />
-                            </TouchableOpacity>
+
+
 
                             <TouchableOpacity
                                 style={{ marginStart: "2%" }}
                                 onPress={() => navigation.navigate("Comments", { postId: posts.id })}>
                                 <Ionicons name='chatbox-outline' size={33} />
                             </TouchableOpacity>
+                            
 
                             <TouchableOpacity
                                 onPress={() => { navigation.navigate("Car", { carro: posts.car, title: posts.car }) }}
