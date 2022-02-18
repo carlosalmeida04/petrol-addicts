@@ -66,7 +66,9 @@ export default function Perfil({ navigation }) {
             })
         })
     }, [])
-
+    {
+        /* MAXIMO 120 CARACTERES */
+    }
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
             {isloaded ? (
@@ -84,9 +86,7 @@ export default function Perfil({ navigation }) {
 
                         <View style={{ flexDirection: "column", marginStart: "2%", flexShrink: 1 }}>
                             <Text style={{ fontWeight: "bold" }}>{userInfo.nome}</Text>
-                            {
-                                /* MAXIMO 120 CARACTERES */
-                            }
+                            
                             <Text>{userInfo.bio}</Text>
                         </View>
 

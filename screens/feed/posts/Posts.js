@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Text, View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet } from 'react-native'
+import { Text, View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, SafeAreaView } from 'react-native'
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
@@ -54,66 +54,79 @@ export default function Posts({ navigation }) {
     }, [])
 
     return (
-        <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ backgroundColor: "#fff" }}
-            refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
-        >
-            {isloaded ?
-                posts.map(posts => (
-                    <View style={{ marginVertical: "2%" }} key={posts.id}>
-                        <View style={[styles.row, { alignItems: "center", marginBottom: "1%", marginTop: "2%" }]}>
-                            <Image style={{ borderRadius: 100, }}
-                                source={{
-                                    width: 40,
-                                    height: 40,
-                                    uri: `https://avatars.dicebear.com/api/personas/${posts.name}.png`
-                                }}
-                            />
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate("PublicProfile", { uid: posts.uid, title: posts.name })
-                                }}
-                            >
-                                <Text style={styles.poster}>{posts.name}</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={styles.seperator} />
-                        <Image
-                            style={styles.image}
-                            source={{
-                                uri: posts.img
-                            }}
-                        />
-                        <View style={styles.seperator} />
-                        <View style={styles.row}>
+        // <ScrollView
+        //     showsVerticalScrollIndicator={false}
+        //     style={{ backgroundColor: "#fff" }}
+        //     refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+        // >
+        //     {isloaded ?
+        //         posts.map(posts => (
+        //             <View style={{ marginVertical: "2%" }} key={posts.id}>
+        //                 <View style={[styles.row, { alignItems: "center", marginBottom: "1%", marginTop: "2%" }]}>
+        //                     <Image style={{ borderRadius: 100, }}
+        //                         source={{
+        //                             width: 40,
+        //                             height: 40,
+        //                             uri: `https://avatars.dicebear.com/api/personas/${posts.name}.png`
+        //                         }}
+        //                     />
+        //                     <TouchableOpacity
+        //                         onPress={() => {
+        //                             navigation.navigate("PublicProfile", { uid: posts.uid, title: posts.name })
+        //                         }}
+        //                     >
+        //                         <Text style={styles.poster}>{posts.name}</Text>
+        //                     </TouchableOpacity>
+        //                 </View>
+        //                 <View style={styles.seperator} />
+        //                 <Image
+        //                     style={styles.image}
+        //                     source={{
+        //                         uri: posts.img
+        //                     }}
+        //                 />
+        //                 <View style={styles.seperator} />
+        //                 <View style={styles.row}>
 
 
 
 
-                            <TouchableOpacity
-                                style={{ marginStart: "2%" }}
-                                onPress={() => navigation.navigate("Comments", { postId: posts.id })}>
-                                <Ionicons name='chatbox-outline' size={33} />
-                            </TouchableOpacity>
-                            
+        //                     <TouchableOpacity
+        //                         style={{ marginStart: "2%" }}
+        //                         onPress={() => navigation.navigate("Comments", { postId: posts.id })}>
+        //                         <Ionicons name='chatbox-outline' size={33} />
+        //                     </TouchableOpacity>
 
-                            <TouchableOpacity
-                                onPress={() => { navigation.navigate("Car", { carro: posts.car, title: posts.car }) }}
-                                style={{ marginStart: "auto", marginEnd: "1%", flexDirection: "row", alignItems: "center" }}>
-                                <Text style={{ fontWeight: "bold", marginEnd: "2%" }}>{posts.car}</Text>
-                                <Ionicons name='car-sport-outline' size={25} />
-                            </TouchableOpacity>
 
-                        </View>
+        //                     <TouchableOpacity
+        //                         onPress={() => { navigation.navigate("Car", { carro: posts.car, title: posts.car }) }}
+        //                         style={{ marginStart: "auto", marginEnd: "1%", flexDirection: "row", alignItems: "center" }}>
+        //                         <Text style={{ fontWeight: "bold", marginEnd: "2%" }}>{posts.car}</Text>
+        //                         <Ionicons name='car-sport-outline' size={25} />
+        //                     </TouchableOpacity>
 
-                        <View style={[styles.row, { marginTop: "1%" }]}>
-                            <Text style={styles.poster}>{posts.name}</Text>
-                            <Text style={{ marginStart: "1%" }}>{posts.desc}</Text>
-                        </View>
-                    </View>
-                )) : <Loading />}
-        </ScrollView>
+        //                 </View>
+
+        //                 <View style={[styles.row, { marginTop: "1%" }]}>
+        //                     <Text style={styles.poster}>{posts.name}</Text>
+        //                     <Text style={{ marginStart: "1%" }}>{posts.desc}</Text>
+        //                 </View>
+        //             </View>
+        //         )) : <Loading />}
+
+        // </ScrollView>
+        <SafeAreaView style={{ width: null, height: null, flex: 1 }}>
+            <Image
+                resizeMode="stretch"
+                resizeMethod="auto"
+                style={{
+                    flex: 1,
+                    height: null,
+                    width: null
+                }}
+                source={require("../../../assets/img/img.jpg")}
+            />
+        </SafeAreaView>
     )
 }
 
