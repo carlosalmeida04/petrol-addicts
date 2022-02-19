@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { Text, View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, SafeAreaView } from 'react-native'
+import { View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, SafeAreaView } from 'react-native'
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import { Button, Icon } from '@ui-kitten/components'
+import { Button, Icon, Layout, Text } from '@ui-kitten/components'
 
 import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
 
+import { SvgCss } from 'react-native-svg'
 import Loading from "../../Loading"
 export default function Posts({ navigation }) {
 
@@ -114,19 +115,45 @@ export default function Posts({ navigation }) {
         //             </View>
         //         )) : <Loading />}
 
+
         // </ScrollView>
-        <SafeAreaView style={{ width: null, height: null, flex: 1 }}>
-            <Image
-                resizeMode="stretch"
-                resizeMethod="auto"
-                style={{
-                    flex: 1,
-                    height: null,
-                    width: null
-                }}
-                source={require("../../../assets/img/img.jpg")}
-            />
-        </SafeAreaView>
+        <Layout level={"1"} style={{ height: "100%" }}>
+            <SafeAreaView >
+                <ScrollView >
+                    <View style={{ height: undefined, flex: 1, width: undefined }}>
+                        <View style={styles.row}>
+                            <Text style={{ fontWeight: "bold" }}>Carlos Almeida</Text>
+                        </View>
+                        <Image
+                            resizeMode="stretch"
+                            resizeMethod="auto"
+                            style={{
+                                flex: 1,
+                                aspectRatio: 1
+                            }}
+                            source={{ uri: "https://firebasestorage.googleapis.com/v0/b/petrol-addicts.appspot.com/o/posts%2F1ea328b7-6b8e-4e59-b2ee-c9a60e43657b%2Faed3d57e-956b-43f5-84ee-d13771b7964a1644577494511.jpg?alt=media&token=d58d1afd-6cc5-4a8b-bb8c-14ad28c5a240" }}
+                        />
+                        <View style={styles.row}>
+                            <Icon
+                                style={styles.icon}
+                                fill='red'
+                                name='heart'
+                            />
+                            <Icon
+                                style={styles.icon}
+                                fill='black'
+                                name='message-square-outline'
+                            />
+                        </View>
+                        <View style={styles.row}>
+                            <Text style={{ fontWeight: "bold" }}>Carlos Almeida</Text>
+                        </View>
+                    </View>
+                    
+                </ScrollView>
+            </SafeAreaView>
+
+        </Layout>
     )
 }
 
@@ -152,5 +179,9 @@ const styles = StyleSheet.create({
         height: null,
         aspectRatio: 1.5,
         resizeMode: "contain"
-    }
+    },
+    icon: {
+        width: 35,
+        height: 35,
+    },
 })
