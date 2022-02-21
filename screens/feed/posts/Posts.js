@@ -131,17 +131,13 @@ export default function Posts({ navigation }) {
                         <View style={styles.poster}>
                             <TouchableOpacity style={styles.row}>
                                 <Image
-                                    style={{
-                                        borderRadius: 100,
-                                        borderWidth: 0.1,
-                                        borderColor: "#616161"
-                                    }}
                                     source={{
                                         height: 40,
                                         width: 40,
                                         uri: `https://avatars.dicebear.com/api/personas/${postData.name}.png`
-                                    }} />
-                                <Text style={styles.textB} category="s2">{postData.name}</Text>
+                                    }}
+                                />
+                                <Text style={styles.textB} category="s1">{postData.name}</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.seperator} />
@@ -167,9 +163,9 @@ export default function Posts({ navigation }) {
                             />
                         </View>
                         <View style={styles.row}>
-                            <Text style={styles.textB} category="s2">{postData.name}</Text>
+                            <Text style={styles.textB} category="s1">{postData.name}</Text>
                             <View style={styles.text}>
-                                <Text category="s2" >{postData.desc}</Text>
+                                <Text category="c1" >{postData.desc}</Text>
                             </View>
                         </View>
                     </View>
@@ -184,7 +180,6 @@ const styles = StyleSheet.create({
     poster: {
         fontWeight: "bold",
         marginStart: "1%",
-        marginBottom: "1%"
     },
     row: {
         flexDirection: "row",
@@ -195,7 +190,7 @@ const styles = StyleSheet.create({
     },
     seperator: {
         width: "100%",
-        height: 2,
+        height: 1,
         backgroundColor: "#616161"
     },
     image: {
@@ -214,11 +209,11 @@ const styles = StyleSheet.create({
         marginBottom: "2%"
     },
     textB: {
-        fontWeight: "bold",
-        marginStart: "1%"
+        marginStart: "1%",
+        fontWeight: "bold"
     },
     text: {
         flexShrink: 1,
-        marginStart: "1%"
+        marginStart: "1%",
     }
 })
