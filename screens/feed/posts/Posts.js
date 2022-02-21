@@ -9,6 +9,7 @@ import { getDocs, db, collection, query, orderBy } from "../../../firebase/fireb
 
 import { SvgCss } from 'react-native-svg'
 import Loading from "../../Loading"
+
 export default function Posts({ navigation }) {
 
 
@@ -16,22 +17,26 @@ export default function Posts({ navigation }) {
     const [isloaded, setLoaded] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
+
+
     async function getPosts() {
         try {
             const postsRef = collection(db, "posts")
             const postsQuery = query(postsRef, orderBy("postedAt", "desc"))
             const postsSnapshot = await getDocs(postsQuery)
             const posts = []
-            postsSnapshot.forEach((doc) => {
-                posts.push({
-                    id: doc.id,
-                    name: doc.data().name,
-                    desc: doc.data().desc,
-                    car: doc.data().car,
-                    img: doc.data().downloadUrl,
-                    uid: doc.data().uid
-                })
-            })
+            postsSnapshot.forEach(
+                (doc) => {
+                    posts.push({
+                        id: doc.id,
+                        name: doc.data().name,
+                        desc: doc.data().desc,
+                        car: doc.data().car,
+                        img: doc.data().downloadUrl,
+                        uid: doc.data().uid
+                    })
+                }
+            )
             return posts
         } catch (e) {
             console.log(e)
@@ -56,9 +61,7 @@ export default function Posts({ navigation }) {
 
     return (
         // <ScrollView
-        //     showsVerticalScrollIndicator={false}
-        //     style={{ backgroundColor: "#fff" }}
-        //     refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+        //     
         // >
         //     {isloaded ?
         //         posts.map(posts => (
@@ -117,22 +120,40 @@ export default function Posts({ navigation }) {
 
 
         // </ScrollView>
-        <Layout level={"1"} style={{ height: "100%" }}>
-            <SafeAreaView >
-                <ScrollView >
-                    <View style={{ height: undefined, flex: 1, width: undefined }}>
-                        <View style={styles.row}>
-                            <Text style={{ fontWeight: "bold" }}>Carlos Almeida</Text>
+        <Layout level={"1"}>
+            <ScrollView
+                showsVerticalScrollIndicator={false}
+                style={{ backgroundColor: "#fff" }}
+                refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />} >
+
+                {isloaded ? posts.map((postData) => (
+                    <View style={styles.postView} key={postData.id}>
+                        <View style={styles.poster}>
+                            <TouchableOpacity style={styles.row}>
+                                <Image
+                                    style={{
+                                        borderRadius: 100,
+                                        borderWidth: 0.1,
+                                        borderColor: "#616161"
+                                    }}
+                                    source={{
+                                        height: 40,
+                                        width: 40,
+                                        uri: `https://avatars.dicebear.com/api/personas/${postData.name}.png`
+                                    }} />
+                                <Text style={styles.textB} category="s2">{postData.name}</Text>
+                            </TouchableOpacity>
                         </View>
-                        <Image
-                            resizeMode="stretch"
-                            resizeMethod="auto"
-                            style={{
-                                flex: 1,
-                                aspectRatio: 1
-                            }}
-                            source={{ uri: "https://firebasestorage.googleapis.com/v0/b/petrol-addicts.appspot.com/o/posts%2F1ea328b7-6b8e-4e59-b2ee-c9a60e43657b%2Faed3d57e-956b-43f5-84ee-d13771b7964a1644577494511.jpg?alt=media&token=d58d1afd-6cc5-4a8b-bb8c-14ad28c5a240" }}
-                        />
+                        <View style={styles.seperator} />
+                        <View>
+                            <Image
+                                resizeMethod="resize"
+                                resizeMode="cover"
+                                style={{ aspectRatio: 1 }}
+                                source={{ uri: postData.img }}
+                            />
+                        </View>
+                        <View style={styles.seperator} />
                         <View style={styles.row}>
                             <Icon
                                 style={styles.icon}
@@ -146,32 +167,36 @@ export default function Posts({ navigation }) {
                             />
                         </View>
                         <View style={styles.row}>
-                            <Text style={{ fontWeight: "bold" }}>Carlos Almeida</Text>
+                            <Text style={styles.textB} category="s2">{postData.name}</Text>
+                            <View style={styles.text}>
+                                <Text category="s2" >{postData.desc}</Text>
+                            </View>
                         </View>
                     </View>
-                    
-                </ScrollView>
-            </SafeAreaView>
+                )) : <Loading />}
 
-        </Layout>
+            </ScrollView>
+        </Layout >
     )
 }
 
 const styles = StyleSheet.create({
     poster: {
         fontWeight: "bold",
-        marginStart: "2%",
+        marginStart: "1%",
+        marginBottom: "1%"
     },
     row: {
         flexDirection: "row",
         flexShrink: 1,
-        marginStart: "2%",
-        alignItems: "center"
+        marginStart: "1%",
+        alignItems: "center",
+        marginBottom: "1%",
     },
     seperator: {
         width: "100%",
-        height: 1,
-        backgroundColor: "#eeeeee"
+        height: 2,
+        backgroundColor: "#616161"
     },
     image: {
         flex: 1,
@@ -181,7 +206,19 @@ const styles = StyleSheet.create({
         resizeMode: "contain"
     },
     icon: {
-        width: 35,
+        width: 50,
         height: 35,
     },
+    postView: {
+        marginTop: "2%",
+        marginBottom: "2%"
+    },
+    textB: {
+        fontWeight: "bold",
+        marginStart: "1%"
+    },
+    text: {
+        flexShrink: 1,
+        marginStart: "1%"
+    }
 })
