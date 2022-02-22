@@ -1,7 +1,9 @@
-import { View, Text, ScrollView, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy } from "../../firebase/firebasehandler"
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import { Button, Input } from "@ui-kitten/components"
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
@@ -64,61 +66,67 @@ export default function Comments({ route, navigation }) {
 
     return (
         <>
-            {loaded ? <>
-                <ScrollView style={{ height: "100%", backgroundColor: "#fff" }}>
-                    {
-                        comments.length === 0 ?
-                            <View style={{ flex: 1, alignItems: "center", marginTop: "80%" }}>
-                                <Text>Ainda não há comentários. Seja o primeiro a comentar!</Text>
-                            </View>
-                            :
-                            comments.map((comment) => (
-                                <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }} key={comment.id}>
-                                    <Image
-                                        style={{
-                                            borderRadius: 100
-                                        }}
-                                        source={{
-                                            height: 40,
-                                            width: 40,
-                                            uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
-                                        }}
-                                    />
-                                    <View style={{ flexDirection: "row", flexShrink: 1, alignItems: "center" }}>
-                                        <TouchableOpacity onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid })}>
-                                            <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
-                                        </TouchableOpacity>
+            {loaded ?
+                <ScrollView
+                    style={{ height: "100%", backgroundColor: "#fff" }}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                >
+                    {comments.length === 0 ?
+                        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                            <Text>Ainda não há comentários. Seja o primeiro a comentar!</Text>
+                        </View>
+                        :
+                        comments.map((comment) => (
+                            <View style={{ flexDirection: "row", alignItems: "center", marginStart: "2%", marginTop: "1%" }} key={comment.id}>
+                                <Image
+                                    style={{
+                                        borderRadius: 100
+                                    }}
+                                    source={{
+                                        height: 40,
+                                        width: 40,
+                                        uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
+                                    }}
+                                />
+                                <View style={{ flexDirection: "row", flexShrink: 1, alignItems: "center" }}>
+                                    <TouchableOpacity onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid })}>
+                                        <Text style={{ fontSize: 16, fontWeight: "bold", marginStart: "2%" }}>{comment.name}</Text>
+                                    </TouchableOpacity>
 
-                                        <Text style={{ fontSize: 15, marginStart: "2%" }}>{comment.comment}</Text>
-                                    </View>
+                                    <Text style={{ fontSize: 15, marginStart: "2%" }}>{comment.comment}</Text>
                                 </View>
-                            ))
+                            </View>
+                        ))
                     }
                 </ScrollView>
-
-            </> :
+                :
                 <View style={{ backgroundColor: "#fff", height: "100%" }}>
                     <Loading />
                 </View>
             }
             <SafeAreaView style={styles.commentView}>
 
-                <TextInput
-                    style={styles.commentInput}
+                <Input
+                    size="medium"
+                    style={styles.input}
                     onChangeText={text => setComment(text)}
                     placeholder='Comentario'
                     value={comment}
+                    status="basic"
                 />
-                <TouchableOpacity
+                <Button
                     onPress={() => {
                         makeComment().then(() => {
                             setComment("")
                             setLoaded(false)
                         })
                     }}
-                    style={{ alignItems: "center", height: 40, justifyContent: "center", marginStart: "2%" }}>
-                    <Text style={{ color: "#F5A962" }}>Publicar</Text>
-                </TouchableOpacity>
+                    size="medium"
+                    appearance="ghost"
+                    status="basic"
+                >
+                    Publicar
+                </Button>
 
             </SafeAreaView>
         </>
@@ -128,18 +136,15 @@ export default function Comments({ route, navigation }) {
 
 
 const styles = StyleSheet.create({
-    commentInput: {
-        height: 40,
-        paddingStart: 10,
-        borderRadius: 5,
-        width: "80%",
-        backgroundColor: "#eee"
-    },
+
     commentView: {
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: "#eee",
         justifyContent: "center",
         backgroundColor: "#fff",
+    },
+    input: {
+        width: "80%"
     }
 })

@@ -155,7 +155,7 @@ export default function Create() {
                             </TouchableOpacity>
                             :
                             <TouchableOpacity onPress={pickImage} style={{ height: 35, justifyContent: "center" }}>
-                                <Text>Escolher Imagem</Text>
+                                <Text style={{ color: "black" }}>Escolher Imagem</Text>
                             </TouchableOpacity>
                         }
                     </View>
