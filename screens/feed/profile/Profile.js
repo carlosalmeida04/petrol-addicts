@@ -86,7 +86,7 @@ export default function Perfil({ navigation }) {
 
                         <View style={{ flexDirection: "column", marginStart: "2%", flexShrink: 1 }}>
                             <Text style={{ fontWeight: "bold" }}>{userInfo.nome}</Text>
-                            
+
                             <Text>{userInfo.bio}</Text>
                         </View>
 
@@ -97,7 +97,9 @@ export default function Perfil({ navigation }) {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: "1%" }}>
                         <View style={{ flex: 1, height: 1, backgroundColor: '#dbdbdb' }} />
                     </View>
-                    <ScrollView>
+                    <ScrollView
+                        contentContainerStyle={{ flexGrow: 1 }}
+                    >
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                             {
                                 posts.map(posts => (

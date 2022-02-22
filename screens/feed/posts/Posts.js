@@ -3,7 +3,7 @@ import { View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, 
 
 import Ionicons from "@expo/vector-icons/Ionicons"
 
-import { Button, Icon, Layout, Text } from '@ui-kitten/components'
+import { Button, Icon, Layout, Text, Divider } from '@ui-kitten/components'
 
 import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
 
@@ -65,7 +65,7 @@ export default function Posts({ navigation }) {
         <Layout level={"1"}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ backgroundColor: "#fff", height: "100%" }}
+                style={{ backgroundColor: "#fff" }}
                 refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                 contentContainerStyle={{ flexGrow: 1 }}
             >
@@ -90,7 +90,7 @@ export default function Posts({ navigation }) {
                                         <Text style={styles.textB} category="s1">{postData.name}</Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={styles.seperator} />
+                                <Divider />
                                 <View style={{ flexDirection: "row", height: 350 * ratio }}>
                                     <Image
 
@@ -98,7 +98,7 @@ export default function Posts({ navigation }) {
                                         source={{ uri: postData.img }}
                                     />
                                 </View>
-                                <View style={styles.seperator} />
+                                <Divider />
                                 <View style={styles.row}>
                                     <TouchableOpacity>
                                         <Icon
@@ -169,4 +169,4 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         marginStart: "1%",
     }
-})
+}) 
