@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
-
-import Ionicons from "@expo/vector-icons/Ionicons"
-
-import { Button, Icon, Layout, Text, Divider } from '@ui-kitten/components'
-
+import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
 
-import { SvgCss } from 'react-native-svg'
+import { setLike, removeLike } from "../../components/Reducers/"
+
 import Loading from "../../Loading"
+
+const win = Dimensions.get("window")
+const ratio = win.width / 541
 
 export default function Posts({ navigation }) {
 
@@ -17,15 +17,13 @@ export default function Posts({ navigation }) {
     const [isloaded, setLoaded] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
-    const win = Dimensions.get("window")
-    const ratio = win.width / 541
-
     async function getPosts() {
         try {
             const postsRef = collection(db, "posts")
             const postsQuery = query(postsRef, orderBy("postedAt", "desc"))
             const postsSnapshot = await getDocs(postsQuery)
             const posts = []
+
             postsSnapshot.forEach(
                 (doc) => {
                     posts.push({
@@ -43,7 +41,6 @@ export default function Posts({ navigation }) {
             console.log(e)
         }
     }
-
 
     useEffect(() => {
         isloaded || getPosts().then((postReturn) => {
@@ -65,65 +62,65 @@ export default function Posts({ navigation }) {
         <Layout level={"1"}>
             <ScrollView
                 showsVerticalScrollIndicator={false}
-                style={{ backgroundColor: "#fff" }}
+                style={{ backgroundColor: "#fff", height: "100%" }}
                 refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                 contentContainerStyle={{ flexGrow: 1 }}
             >
 
-                {isloaded ?
-                    posts.length === 0 ?
-                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                            <Text>Ainda não temos publicações! :(</Text>
-                        </View>
-                        :
-                        posts.map((postData) => (
-                            <View style={styles.postView} key={postData.id}>
-                                <View style={styles.poster}>
-                                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: postData.uid })}>
-                                        <Image
-                                            source={{
-                                                height: 40,
-                                                width: 40,
-                                                uri: `https://avatars.dicebear.com/api/personas/${postData.name}.png`
-                                            }}
-                                        />
-                                        <Text style={styles.textB} category="s1">{postData.name}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <Divider />
-                                <View style={{ flexDirection: "row", height: 350 * ratio }}>
+                {isloaded ? posts.length === 0 ?
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        <Text>Ainda não temos publicações! :(</Text>
+                    </View>
+                    :
+                    posts.map((postData) => (
+                        <View style={styles.postView} key={postData.id}>
+                            <View style={styles.poster}>
+                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: postData.uid })}>
                                     <Image
-
-                                        style={{ width: win.width, height: undefined }}
-                                        source={{ uri: postData.img }}
+                                        source={{
+                                            height: 40,
+                                            width: 40,
+                                            uri: `https://avatars.dicebear.com/api/personas/${postData.name}.png`
+                                        }}
                                     />
-                                </View>
-                                <Divider />
-                                <View style={styles.row}>
-                                    <TouchableOpacity>
-                                        <Icon
-                                            style={styles.icon}
-                                            fill='black'
-                                            name='heart-outline'
-                                        />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: postData.id })}>
-                                        <Icon
-                                            style={styles.icon}
-                                            fill='black'
-                                            name='message-square-outline'
-                                        />
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={styles.row}>
                                     <Text style={styles.textB} category="s1">{postData.name}</Text>
-                                    <View style={styles.text}>
-                                        <Text category="c1" >{postData.desc}</Text>
-                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                            <Divider />
+                            <View style={styles.imageView}>
+                                <Image
+
+                                    style={styles.image}
+                                    source={{ uri: postData.img }}
+                                />
+                            </View>
+                            <Divider />
+                            <View style={styles.row}>
+
+                                <TouchableOpacity onPress={() => removeLike(postData.id, postData.uid)}>
+                                    <Icon
+                                        style={styles.icon}
+                                        fill='black'
+                                        name='heart-outline'
+                                    />
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: postData.id })}>
+                                    <Icon
+                                        style={styles.icon}
+                                        fill='black'
+                                        name='message-square-outline'
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.row}>
+                                <Text style={styles.textB} category="s1">{postData.name}</Text>
+                                <View style={styles.text}>
+                                    <Text category="c1" >{postData.desc}</Text>
                                 </View>
                             </View>
-                        )) : <Loading />}
-
+                        </View>
+                    )) : <Loading />}
             </ScrollView>
         </Layout >
     )
@@ -150,8 +147,10 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: null,
-        aspectRatio: 1.5,
-        resizeMode: "contain"
+        resizeMode: "cover"
+    },
+    imageView: {
+        aspectRatio: 16 / 9
     },
     icon: {
         width: 40,
@@ -169,4 +168,4 @@ const styles = StyleSheet.create({
         flexShrink: 1,
         marginStart: "1%",
     }
-}) 
+})

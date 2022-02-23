@@ -69,31 +69,28 @@ export default function Comments({ route, navigation }) {
             <ScrollView
                 style={{ backgroundColor: "#fff" }}
                 contentContainerStyle={{ flexGrow: 1 }} >
-                {loaded ?
-                    comments.length === 0 ?
-                        <View style={styles.center}>
-                            <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
-                        </View>
-                        :
-                        comments.map((comment) => (
-                            <View key={comment.id} style={styles.commentView}>
-                                <View style={styles.row}>
-                                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid })}>
-                                        <Image
-                                            style={styles.img}
-                                            source={{
-                                                uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
-                                            }}
-                                        />
-                                        <Text category="p1" style={{ marginStart: "1%", fontWeight: "bold", }}>{comment.name}</Text>
-                                    </TouchableOpacity>
-                                    <Text category="p2" style={{ marginStart: "1%" }}>{comment.comment}</Text>
-                                </View>
+                {loaded ? comments.length === 0 ?
+                    <View style={styles.center}>
+                        <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
+                    </View>
+                    :
+                    comments.map((comment) => (
+                        <View key={comment.id} style={styles.commentView}>
+                            <View style={styles.row}>
+                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid })}>
+                                    <Image
+                                        style={styles.img}
+                                        source={{
+                                            uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
+                                        }}
+                                    />
+                                    <Text category="p1" style={{ marginStart: "1%", fontWeight: "bold", }}>{comment.name}</Text>
+                                </TouchableOpacity>
+                                <Text category="p2" style={{ marginStart: "1%" }}>{comment.comment}</Text>
                             </View>
-                        ))
-                    : <Loading />}
+                        </View>
+                    )) : <Loading />}
             </ScrollView>
-
             <Divider />
             <SafeAreaView style={{ backgroundColor: "#fff", }}>
                 <View style={styles.inputView}>

@@ -16,8 +16,8 @@ import {
     getDoc,
     Timestamp,
     collection, getDocs,
-    onSnapshot, orderBy, 
-    query, limit, where
+    onSnapshot, orderBy,
+    query, limit, where, deleteDoc, increment, updateDoc
 } from "firebase/firestore"
 
 
@@ -50,5 +50,6 @@ export {
     onAuthStateChanged, signOut, doc, setDoc,
     getDoc, ref, uploadBytesResumable,
     getDownloadURL,
-    Timestamp, collection, getDocs, onSnapshot, query, orderBy, limit, where
+    Timestamp, collection, getDocs, onSnapshot, query, orderBy, 
+    limit, where, deleteDoc, updateDoc, increment
 }
