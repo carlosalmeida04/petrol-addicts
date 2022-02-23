@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
 import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
-import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
+import { getDocs, db, collection, query, orderBy, doc, getDoc } from "../../../firebase/firebasehandler"
 
 import { setLike, removeLike } from "../../components/Reducers/"
 
@@ -16,6 +16,7 @@ export default function Posts({ navigation }) {
     const [posts, setPosts] = useState([])
     const [isloaded, setLoaded] = useState(false)
     const [refresh, setRefresh] = useState(false)
+
 
     async function getPosts() {
         try {
@@ -41,6 +42,22 @@ export default function Posts({ navigation }) {
             console.log(e)
         }
     }
+    // async function userHasLike(uid, postId) {
+    //     try {
+    //         const likeRef = doc(db, "users", uid, "likes", postId)
+    //         const likeSnapShot = await getDoc(likeRef)
+    //         if (likeSnapShot.exists()) {
+    //             return true
+    //         } else {
+    //             return false
+    //         }
+
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+
+
+    // }
 
     useEffect(() => {
         isloaded || getPosts().then((postReturn) => {
@@ -96,8 +113,8 @@ export default function Posts({ navigation }) {
                             </View>
                             <Divider />
                             <View style={styles.row}>
-
-                                <TouchableOpacity onPress={() => removeLike(postData.id, postData.uid)}>
+                                { }
+                                <TouchableOpacity onPress={() => removeLike(postData.id, postData.uid)} >
                                     <Icon
                                         style={styles.icon}
                                         fill='black'
@@ -145,12 +162,12 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        width: null,
+        width: win.width,
         height: null,
         resizeMode: "cover"
     },
     imageView: {
-        aspectRatio: 16 / 9
+        aspectRatio: 3 / 2,
     },
     icon: {
         width: 40,

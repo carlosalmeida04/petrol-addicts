@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, SafeAreaView, Text } from 'react-native'
-import Ionicons from "@expo/vector-icons/Ionicons"
+import { Icon } from "@ui-kitten/components"
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
@@ -28,8 +28,8 @@ export default function Main({ navigation }) {
                 options={{
                     title: "Feed",
                     headerRight: () => (
-                        <TouchableOpacity style={{ marginRight: "5%" }}>
-                            <Ionicons name="md-search-outline" size={25} />
+                        <TouchableOpacity style={{ marginRight: "2%" }}>
+                            <Icon name="search-outline" fill="black" style={{ height: 30, width: 30 }} />
                         </TouchableOpacity>
                     )
                 }}
@@ -47,7 +47,7 @@ export default function Main({ navigation }) {
                     title: "Perfil",
                     headerRight: () => (
                         <TouchableOpacity style={{ marginRight: "2%" }} onPress={() => navigation.navigate("Settings")}>
-                            <Ionicons name="settings-outline" size={25} />
+                            <Icon name="settings-2-outline" fill="black" style={{ height: 30, width: 30 }} />
                         </TouchableOpacity>
                     )
                 }}

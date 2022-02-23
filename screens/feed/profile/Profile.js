@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView } from 'react-native'
+import { TouchableOpacity, Image, View, SafeAreaView, ScrollView } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+
+import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 import Ionicons from "@expo/vector-icons/Ionicons"
 
 import { db, getDoc, doc, auth, query, collection, where, getDocs, orderBy } from "../../../firebase/firebasehandler"
@@ -71,7 +73,7 @@ export default function Perfil({ navigation }) {
     }
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-            {isloaded ? (
+            {isloaded ?
                 <View>
                     <View style={{ marginStart: "2.5%", width: "95%", flexDirection: "row", alignItems: "center" }}>
 
@@ -90,46 +92,42 @@ export default function Perfil({ navigation }) {
                             <Text>{userInfo.bio}</Text>
                         </View>
 
-
-
                     </View>
-                    <Ionicons name='apps-outline' style={{ textAlign: "center" }} size={30} />
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: "1%" }}>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#dbdbdb' }} />
+                    <View style={{ alignItems: "center" }}>
+                        <Icon name="grid-outline" fill="black" style={{ height: 30, width: 30 }} />
                     </View>
+                    <Divider />
                     <ScrollView
                         contentContainerStyle={{ flexGrow: 1 }}
                     >
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                            {
-                                posts.map(posts => (
-                                    <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
-                                        <TouchableOpacity onPress={() => navigation.navigate("Post", {
+                            {posts.map(posts => (
+                                <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                    <TouchableOpacity onPress={() => {
+                                        navigation.navigate("Post", {
                                             id: posts.id,
                                             img: posts.img,
                                             name: posts.name,
                                             desc: posts.desc,
                                             car: posts.car,
                                             uid: posts.uid
-                                        })}>
-                                            <Image
-                                                style={{ resizeMode: "cover" }}
-                                                source={{
-                                                    height: "100%",
-                                                    width: "100%",
-                                                    uri: posts.img
-                                                }}
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                                ))
-                            }
+                                        })
+                                    }}>
+                                        <Image
+                                            style={{ resizeMode: "cover" }}
+                                            source={{
+                                                height: "100%",
+                                                width: "100%",
+                                                uri: posts.img
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
                         </View>
                     </ScrollView>
 
-                </View >
-            ) : <Loading />
-            }
+                </View > : <Loading />}
         </SafeAreaView >
     )
 }
