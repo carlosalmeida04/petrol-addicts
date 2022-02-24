@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView } from 'react-native'
 
 import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../../firebase/firebasehandler"
@@ -28,8 +28,6 @@ export default function PerfilPublico({ route, navigation }) {
         }
     }
 
-
-
     async function getUserPosts() {
         try {
             const postsRef = collection(db, "posts")
@@ -51,7 +49,6 @@ export default function PerfilPublico({ route, navigation }) {
             console.log(e)
         }
     }
-
 
     useFocusEffect(
         useCallback(() => {
@@ -90,9 +87,6 @@ export default function PerfilPublico({ route, navigation }) {
                             }
                             <Text>{userInfo.bio}</Text>
                         </View>
-
-
-
                     </View>
 
 
