@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity, SafeAreaView, Text } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import { Icon } from "@ui-kitten/components"
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -16,15 +16,13 @@ export default function Main({ navigation }) {
     return (
         <Tab.Navigator
             backBehavior="order"
-            screenOptions={({ route }) => ({
+            screenOptions={{
                 headerTitleAlign: "left",
-                tabBarLabel: () => { return null },
-                tabBarActiveTintColor: '#F5A962',
-                tabBarInactiveTintColor: 'black',
-            })}
+            }}
             tabBar={props => <BottomTabBar {...props} />}
         >
-            <Tab.Screen name='Posts'
+            <Tab.Screen
+                name='Posts'
                 options={{
                     title: "Feed",
                     headerRight: () => (
@@ -35,14 +33,13 @@ export default function Main({ navigation }) {
                 }}
                 component={Posts}
             />
-            <Tab.Screen name='Create Post'
-                options={{
-                    title: "Criar Publicação",
-                    headerShown: false
-                }}
+            <Tab.Screen
+                name='Create Post'
+                options={{ title: "Criar Publicação", headerShown: false }}
                 component={Create}
             />
-            <Tab.Screen name='Profile'
+            <Tab.Screen
+                name='Profile'
                 options={{
                     title: "Perfil",
                     headerRight: () => (
