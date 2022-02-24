@@ -34,7 +34,7 @@ export default function StackProvider() {
     }
 
     useEffect(() => {
-        //importAll()
+        importAll()
         AsyncStorage
             .getItem("isLoggedIn")
             .then((value) => {

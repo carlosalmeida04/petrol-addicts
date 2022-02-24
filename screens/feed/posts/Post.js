@@ -1,7 +1,7 @@
-import { View, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native'
+import { View, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
 import React from 'react'
 
-import { Button, Icon, Layout, Text, Divider } from '@ui-kitten/components'
+import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 
 
 export default function Post({ route, navigation }) {

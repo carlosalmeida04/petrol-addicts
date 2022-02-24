@@ -3,7 +3,7 @@ import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy }
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { Button, Input, Icon, Divider, Text } from "@ui-kitten/components"
+import { Button, Input, Divider, Text } from "@ui-kitten/components"
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'

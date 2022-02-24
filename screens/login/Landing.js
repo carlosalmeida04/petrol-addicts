@@ -1,5 +1,5 @@
 import React from "react"
-import { SafeAreaView, View, TouchableOpacity, Text, Image } from "react-native"
+import { View, Image } from "react-native"
 
 import { Button, Layout } from '@ui-kitten/components';
 

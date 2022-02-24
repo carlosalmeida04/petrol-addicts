@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { TouchableOpacity, Image, View, SafeAreaView, ScrollView } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
-import Ionicons from "@expo/vector-icons/Ionicons"
+import { Icon, Text, Divider } from '@ui-kitten/components'
 
 import { db, getDoc, doc, auth, query, collection, where, getDocs, orderBy } from "../../../firebase/firebasehandler"
 
