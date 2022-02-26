@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { View, ScrollView, Image, TouchableOpacity, RefreshControl, StyleSheet, SafeAreaView, Dimensions } from 'react-native'
 import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
-import { getDocs, db, collection, query, orderBy, doc, getDoc } from "../../../firebase/firebasehandler"
+import { getDocs, db, collection, query, orderBy, doc, getDoc, auth } from "../../../firebase/firebasehandler"
 
 import { setLike, removeLike } from "../../components/Reducers/"
 
@@ -14,7 +14,7 @@ export default function Posts({ navigation }) {
 
 
     const [posts, setPosts] = useState([])
-    const [isloaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
 
@@ -42,25 +42,26 @@ export default function Posts({ navigation }) {
             console.log(e)
         }
     }
-    // async function userHasLike(uid, postId) {
-    //     try {
-    //         const likeRef = doc(db, "users", uid, "likes", postId)
-    //         const likeSnapShot = await getDoc(likeRef)
-    //         if (likeSnapShot.exists()) {
-    //             return true
-    //         } else {
-    //             return false
-    //         }
+    async function userHasLike(uid, postId) {
+        let haslike
+        try {
+            const likeRef = doc(db, "posts", postId, "likes", uid)
+            const likeSnapShot = await getDoc(likeRef)
+            if (likeSnapShot.exists()) {
+                haslike = true
+            } else {
+                haslike = false
+            }
+            return haslike
+        } catch (e) {
+            console.log(e)
+        }
 
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
 
-
-    // }
+    }
 
     useEffect(() => {
-        isloaded || getPosts().then((postReturn) => {
+        loaded || getPosts().then((postReturn) => {
             setPosts(postReturn)
             setLoaded(true)
         })
@@ -69,7 +70,6 @@ export default function Posts({ navigation }) {
     const onRefresh = useCallback(() => {
         setRefresh(true)
         getPosts().then((postReturn) => {
-
             setPosts(postReturn)
             setRefresh(false)
         })
@@ -84,8 +84,8 @@ export default function Posts({ navigation }) {
                 contentContainerStyle={{ flexGrow: 1 }}
             >
 
-                {isloaded ? posts.length === 0 ?
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                {loaded ? posts.length === 0 ?
+                    <View style={styles.center}>
                         <Text>Ainda não temos publicações! :(</Text>
                     </View>
                     :
@@ -113,8 +113,8 @@ export default function Posts({ navigation }) {
                             </View>
                             <Divider />
                             <View style={styles.row}>
-                                { }
-                                <TouchableOpacity onPress={() => removeLike(postData.id, postData.uid)} >
+
+                                <TouchableOpacity onPress={() => setLike(postData.id, auth.currentUser.uid)} >
                                     <Icon
                                         style={styles.icon}
                                         fill='black'
@@ -155,11 +155,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginBottom: "1%",
     },
-    seperator: {
-        width: "100%",
-        height: 1,
-        backgroundColor: "#616161"
-    },
     image: {
         flex: 1,
         width: win.width,
@@ -184,5 +179,10 @@ const styles = StyleSheet.create({
     text: {
         flexShrink: 1,
         marginStart: "1%",
+    },
+    center: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })

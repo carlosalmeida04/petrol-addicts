@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { SafeAreaView, Text } from 'react-native'
+
 import { StatusBar } from 'expo-status-bar'
 
 import { NavigationContainer } from '@react-navigation/native'
@@ -62,7 +64,13 @@ export default function StackProvider() {
     return (
         <NavigationContainer>
             <StatusBar style='auto' />
-            <Stack.Navigator initialRouteName={routeName}>
+            <Stack.Navigator initialRouteName={routeName} screenOptions={{
+                header: () => (
+                    <SafeAreaView>
+                        <Text>Ola</Text>
+                    </SafeAreaView>
+                )
+            }}>
                 <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
