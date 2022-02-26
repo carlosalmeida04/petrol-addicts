@@ -14,14 +14,16 @@ export default function Perfil({ navigation }) {
 
     const [userInfo, setUserInfo] = useState({})
     const [posts, setPosts] = useState([])
-    const [isloaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false)
 
 
     async function getUserInfo() {
-        const usersDoc = doc(db, "users", auth.currentUser.uid)
+
         try {
-            const usersDocSnap = await getDoc(usersDoc)
-            usersDocSnap.exists() ? setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio }) : console.log("Doc não existente")
+            const usersDocSnap = await getDoc(doc(db, "users", auth.currentUser.uid))
+            usersDocSnap.exists() ?
+                setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio }) :
+                console.log("Doc não existente")
             return usersDocSnap.data().name
         } catch (e) {
             console.log(e)
@@ -50,29 +52,24 @@ export default function Perfil({ navigation }) {
         }
     }
 
-    async function setName(name) {
-        try {
-            return await AsyncStorage.setItem("name", name)
-        } catch (e) {
-            console.log(e)
-        }
-    }
 
     useEffect(() => {
-        isloaded || getUserInfo().then((nome) => {
-            setName(nome)
-            getUserPosts().then((postReturn) => {
-                setPosts(postReturn)
-                setLoaded(true)
+        loaded || getUserInfo().then((nome) => {
+            AsyncStorage.setItem("name", nome).then(() => {
+                getUserPosts().then((postReturn) => {
+                    setPosts(postReturn)
+                    setLoaded(true)
+                })
             })
         })
     }, [])
+
     {
         /* MAXIMO 120 CARACTERES */
     }
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-            {isloaded ?
+            {loaded ?
                 <View>
                     <View style={{ marginStart: "2.5%", width: "95%", flexDirection: "row", alignItems: "center" }}>
 
@@ -80,14 +77,12 @@ export default function Perfil({ navigation }) {
                             source={{
                                 width: 100,
                                 height: 100,
-
                                 uri: `https://avatars.dicebear.com/api/personas/${userInfo.nome}.png`
                             }}
                         />
 
                         <View style={{ flexDirection: "column", marginStart: "2%", flexShrink: 1 }}>
                             <Text style={{ fontWeight: "bold" }}>{userInfo.nome}</Text>
-
                             <Text>{userInfo.bio}</Text>
                         </View>
 
@@ -125,7 +120,6 @@ export default function Perfil({ navigation }) {
                             ))}
                         </View>
                     </ScrollView>
-
                 </View > : <Loading />}
         </SafeAreaView >
     )

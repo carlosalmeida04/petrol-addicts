@@ -77,7 +77,7 @@ export default function Comments({ route, navigation }) {
                     comments.map((comment) => (
                         <View key={comment.id} style={styles.commentView}>
                             <View style={styles.row}>
-                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid })}>
+                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid, title: comment.name })}>
                                     <Image
                                         style={styles.img}
                                         source={{

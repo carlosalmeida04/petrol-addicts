@@ -92,7 +92,7 @@ export default function Posts({ navigation }) {
                     posts.map((postData) => (
                         <View style={styles.postView} key={postData.id}>
                             <View style={styles.poster}>
-                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: postData.uid })}>
+                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: postData.uid, title: postData.name })}>
                                     <Image
                                         source={{
                                             height: 40,

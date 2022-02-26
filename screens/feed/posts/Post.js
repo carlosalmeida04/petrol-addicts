@@ -15,7 +15,7 @@ export default function Post({ route, navigation }) {
         <Layout level={"1"} style={{ height: "100%" }}>
             <View style={styles.postView}>
                 <View style={styles.poster}>
-                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid })}>
+                    <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: params.name })}>
                         <Image
                             source={{
                                 height: 40,

@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView } from 'react-native'
+import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView, Dimensions } from 'react-native'
 
 import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../../firebase/firebasehandler"
 
@@ -9,13 +9,15 @@ import Ionicons from "@expo/vector-icons/Ionicons"
 
 import Loading from '../../Loading'
 
+const win = Dimensions.get("window")
+
 export default function PerfilPublico({ route, navigation }) {
 
     const params = route.params
 
     const [userInfo, setUserInfo] = useState({})
     const [posts, setPosts] = useState([])
-    const [isloaded, setLoaded] = useState(false)
+    const [loaded, setLoaded] = useState(false)
 
     async function getUserInfo() {
         const usersDoc = doc(db, "users", params.uid)
@@ -52,7 +54,7 @@ export default function PerfilPublico({ route, navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            isloaded || getUserInfo().then(() => {
+            loaded || getUserInfo().then(() => {
                 getUserPosts().then((postReturn) => {
                     setPosts(postReturn)
                     setLoaded(true)
@@ -61,13 +63,14 @@ export default function PerfilPublico({ route, navigation }) {
             return () => {
                 setLoaded(false)
                 setUserInfo({})
+                setPosts([])
             }
         }, [])
     )
 
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-            {isloaded ? (
+            {loaded ? (
                 <>
                     <View style={{ marginStart: "2.5%", width: "95%", flexDirection: "row", alignItems: "center" }}>
 
@@ -98,7 +101,7 @@ export default function PerfilPublico({ route, navigation }) {
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                             {
                                 posts.map(posts => (
-                                    <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                    <View key={posts.id} style={{ height: 130, width: win.width / 3 }}>
                                         <TouchableOpacity onPress={() => navigation.navigate("Post", {
                                             id: posts.id,
                                             img: posts.img,
