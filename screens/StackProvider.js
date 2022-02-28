@@ -17,6 +17,7 @@ import Post from './feed/posts/Post'
 import Comments from './feed/Comments'
 import Register from './login/Register'
 import Login from './login/Login'
+import Header from "./components/Header"
 
 const Stack = createNativeStackNavigator()
 
@@ -36,7 +37,7 @@ export default function StackProvider() {
     }
 
     useEffect(() => {
-        importAll()
+        //importAll()
         AsyncStorage
             .getItem("isLoggedIn")
             .then((value) => {
@@ -64,22 +65,37 @@ export default function StackProvider() {
     return (
         <NavigationContainer>
             <StatusBar style='auto' />
-            <Stack.Navigator initialRouteName={routeName} screenOptions={{
-                header: () => (
-                    <SafeAreaView>
-                        <Text>Ola</Text>
-                    </SafeAreaView>
-                )
-            }}>
+            <Stack.Navigator initialRouteName={routeName} >
                 <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
                 <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
-                <Stack.Screen name="Settings" component={Settings} options={{ title: "Definições", headerTitleAlign: "center" }} />
-                <Stack.Screen name="Car" component={Car} options={({ route }) => ({ title: route.params.title, headerTitleAlign: "center" })} />
-                <Stack.Screen name="PublicProfile" component={PerfilPublico} options={({ route }) => ({ title: route.params.title, headerTitleAlign: "center" })} />
-                <Stack.Screen name='Comments' component={Comments} options={{ title: "Comentários", headerTitleAlign: "center" }} />
-                <Stack.Screen name='Post' component={Post} options={{ title: "Publicação", headerTitleAlign: "center" }} />
+                <Stack.Screen name="Settings" component={Settings}
+                    options={{
+                        header: () => (
+                            <Header title="Definições" subtitle="" />
+                        )
+                    }} />
+                <Stack.Screen name="Car" component={Car}
+                    options={({ route }) => ({ title: route.params.title, headerTitleAlign: "center" })} />
+                <Stack.Screen name="PublicProfile" component={PerfilPublico}
+                    options={({ route }) => ({
+                        header: () => (
+                            <Header subtitle={route.params.title} title="Perfil" />
+                        )
+                    })} />
+                <Stack.Screen name='Comments' component={Comments}
+                    options={{
+                        header: () => (
+                            <Header title="Comentários" />
+                        )
+                    }} />
+                <Stack.Screen name='Post' component={Post}
+                    options={{
+                        header: () => (
+                            <Header title="Publicação" />
+                        )
+                    }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

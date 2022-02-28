@@ -106,7 +106,6 @@ export default function Posts({ navigation }) {
                             <Divider />
                             <View style={styles.imageView}>
                                 <Image
-
                                     style={styles.image}
                                     source={{ uri: postData.img }}
                                 />
@@ -162,7 +161,7 @@ const styles = StyleSheet.create({
         resizeMode: "cover"
     },
     imageView: {
-        aspectRatio: 3 / 2,
+        aspectRatio: 16 / 9,
     },
     icon: {
         width: 40,

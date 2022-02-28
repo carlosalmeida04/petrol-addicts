@@ -86,7 +86,9 @@ export default function Comments({ route, navigation }) {
                                     />
                                     <Text category="p1" style={{ marginStart: "1%", fontWeight: "bold", }}>{comment.name}</Text>
                                 </TouchableOpacity>
-                                <Text category="p2" style={{ marginStart: "1%" }}>{comment.comment}</Text>
+                                <TouchableOpacity >
+                                    <Text category="p2" numberOfLines={1} style={{ marginStart: "1%", flexShrink: 1 }}>{comment.comment}</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     )) : <Loading />}

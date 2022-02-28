@@ -9,8 +9,7 @@ export default function Post({ route, navigation }) {
     const params = route.params
     const win = Dimensions.get("window")
     const ratio = win.width / 541
-
-    console.log(params)
+    
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
             <View style={styles.postView}>
