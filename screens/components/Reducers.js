@@ -1,26 +1,43 @@
 import {
     doc, getDocs, db, collection,
-    setDoc, Timestamp,
+    setDoc, Timestamp, getDoc,
     query, orderBy, deleteDoc, updateDoc, increment,
 } from "../../firebase/firebasehandler"
 
 
-export const setLike = async (postId, uid) => {
-    const setLikeColl = doc(db, "posts", postId, "likes", uid)
-    const postRef = doc(db, "posts", postId)
-    await updateDoc(postRef, {  likes: increment(1)   })
-
-    await setDoc(setLikeColl, {
-        likedAt: Timestamp.fromDate(new Date()),
-        liked: true
-    })
+export const getLikeById = async (postId, uid) => {
+    try {
+        const likeDoc = doc(db, "posts", postId, "likes", uid)
+        const likeSnap = await getDoc(likeDoc)
+        let haslike = true
+        if (!likeSnap.exists()) {
+            haslike = false
+        }
+        return haslike
+    } catch (e) {
+        console.log(e)
+    }
 }
-export const removeLike = async (postId, uid) => {
-    const likeColl = doc(db, "posts", postId, "likes", uid)
 
-    const postRef = doc(db, "posts", postId)
-    await updateDoc(postRef, {
-        likes: increment(-1)
-    })
-    await deleteDoc(likeColl)
+export const updateLike = async (postId, uid, state) => {
+    try {
+
+        if (state) {
+            const likeDoc = doc(db, "posts", postId, "likes", uid)
+            const postRef = doc(db, "posts", postId)
+            await updateDoc(postRef, {
+                likes: increment(-1)
+            })
+            await deleteDoc(likeDoc)
+        } else {
+            const setLikeDoc = doc(db, "posts", postId, "likes", uid)
+            const postRef = doc(db, "posts", postId)
+            await updateDoc(postRef, { likes: increment(1) })
+
+            await setDoc(setLikeDoc, {})
+        }
+
+    } catch (e) {
+        console.log(e)
+    }
 }
