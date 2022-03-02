@@ -1,9 +1,9 @@
-import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, Image } from 'react-native'
+import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy } from "../../firebase/firebasehandler"
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { Button, Input, Divider, Text } from "@ui-kitten/components"
+import { Button, Input, Divider, Text, Icon } from "@ui-kitten/components"
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
@@ -67,60 +67,56 @@ export default function Comments({ route, navigation }) {
     /*
         *  Important LIMITAR COMENTARIOS A 80 comentarios!!
     */
+
+    const InputTextLenght = () => (
+        <Text category="c1">{comment.length}/80</Text>
+    )
     return (
         <>
             <ScrollView
                 style={{ backgroundColor: "#fff" }}
                 contentContainerStyle={{ flexGrow: 1 }} >
-                {/* {loaded ? comments.length === 0 ?
+                {loaded ? comments.length === 0 ?
                     <View style={styles.center}>
                         <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
                     </View>
                     :
-                    comments.map((comment) => (
-                        <View key={comment.id} style={styles.commentView}>
-                            <View style={styles.row}>
-                                <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: comment.uid, title: comment.name })}>
-                                    <Image
-                                        style={styles.img}
-                                        source={{
-                                            uri: `https://avatars.dicebear.com/api/personas/${comment.name}.png`
-                                        }}
-                                    />
-                                    <Text category="p1" style={{ marginStart: "1%", fontWeight: "bold", }}>{comment.name}</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity >
-                                    <Text category="p2" numberOfLines={1} style={{ marginStart: "1%", flexShrink: 1 }}>{comment.comment}</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    )) : <Loading />} */}
-                <Comment />
+                    <FlatList
+                        data={comments}
+                        renderItem={({ item }) => <Comment id={item.id} name={item.name} uid={item.uid} comment={item.comment} />}
+                        keyExtractor={(item) => item.id}
+                        key={({ item }) => item.id}
+                    />
+                    :
+                    <Loading />
+                }
             </ScrollView>
-            <Divider />
+
             <SafeAreaView style={{ backgroundColor: "#fff", }}>
+                <View style={styles.container}>
+                    <Divider />
+                </View>
                 <View style={styles.inputView}>
                     <Input
-                        size="medium"
+                        size="large"
                         style={styles.input}
                         onChangeText={text => setComment(text)}
                         placeholder='Comentario'
                         value={comment}
-                        status="basic"
+                        maxLength={80}
+                        accessoryRight={InputTextLenght}
                     />
-                    <Button
+                    <TouchableOpacity
                         onPress={() => {
                             makeComment().then(() => {
                                 setComment("")
                                 setLoaded(false)
                             })
                         }}
-                        size="medium"
-                        appearance="ghost"
-                        status="basic"
+                        style={styles.button}
                     >
-                        Comentar
-                    </Button>
+                        <Icon name="paper-plane-outline" style={{ height: 25, width: 25 }} fill="black" />
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </>
@@ -132,31 +128,20 @@ export default function Comments({ route, navigation }) {
 const styles = StyleSheet.create({
 
     input: {
-        width: "80%"
+        width: "85%"
     },
     inputView: {
         flexDirection: "row",
-        marginEnd: "7%",
+        marginEnd: "2%",
         marginStart: "2%"
     },
-    center: {
+    button: {
         flex: 1,
-        alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center"
     },
-    img: {
-        width: 40,
-        height: 40,
-        borderRadius: 100
-    },
-    row: {
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    commentView: {
-        marginStart: "2%",
-        marginEnd: "2%",
-        width: "96%",
-        marginBottom: "2%"
+    container: {
+        marginStart: "4%",
+        marginEnd: "4%"
     }
 })

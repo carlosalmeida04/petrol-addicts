@@ -1,41 +1,56 @@
 import React from 'react'
 import { StyleSheet, TouchableOpacity, Image, View } from "react-native"
-import { Layout, Text } from "@ui-kitten/components"
 
-export default function Comment() {
+import { Layout, Text, Divider } from "@ui-kitten/components"
+import { useNavigation } from "@react-navigation/native"
 
-    const text = "Lorem ipsum dolor sit amet, asdsadsadsadsadsad2yu1g321t673t21v13f21sadadsasadsad"
-    console.log(text.length)
+export default function Comment({ id, name, comment, uid }) {
+
+    const navigation = useNavigation()
     return (
-        <Layout>
-            <View style={styles.row}>
-                <TouchableOpacity style={[styles.row, { marginStart: "1%" }]}>
+        <Layout level="1">
+            <View style={{ marginBottom: "2%" }} key={id}>
+                <TouchableOpacity style={styles.row}
+                    onPress={() => navigation.navigate("PublicProfile", { uid: uid, title: name })}>
                     <Image
                         style={styles.image}
                         source={{
-                            uri: "https://avatars.dicebear.com/api/personas/Carlos Almeida.png"
+                            uri: `https://avatars.dicebear.com/api/personas/${name}.png`
                         }}
                     />
-                    <Text category="p1" style={{ fontWeight: "bold" }}>Carlos Almeida</Text>
+                    <Text category="h6" style={{ fontWeight: "bold", marginStart: "1%" }}>{name}</Text>
                 </TouchableOpacity>
-                <View style={styles.text}>
-                    <Text category="p2" style={{ marginTop: "0.5%" }}>{text}</Text>
-                </View>
 
+                <View style={styles.comment}>
+                    <Text category="p2" style={{ marginTop: "1%" }} numberOfLines={4}>{comment}</Text>
+                </View>
+            </View>
+            <View style={styles.container}>
+                <Divider />
             </View>
         </Layout>
     )
 }
 const styles = StyleSheet.create({
     row: {
-        flexDirection: "row"
+        flexDirection: "row",
+        alignItems: "center",
+        height: 45,
+        marginStart: "4%",
+        marginEnd: "4%"
     },
     image: {
         borderRadius: 100,
-        height: 30,
-        width: 30,
+        height: 35,
+        width: 35,
     },
-    text: {
-        flexShrink: 1
+    comment: {
+        flexShrink: 1,
+        marginStart: "5%",
+        marginEnd: "5%",
+    },
+    container: {
+        marginStart: "4%",
+        marginEnd: "4%"
     }
 })
