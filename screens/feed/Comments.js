@@ -9,6 +9,7 @@ import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 
 import Loading from '../Loading'
+import Comment from '../components/Comment'
 
 export default function Comments({ route, navigation }) {
 
@@ -63,13 +64,15 @@ export default function Comments({ route, navigation }) {
         })
     }, [loaded])
 
-
+    /*
+        *  Important LIMITAR COMENTARIOS A 80 comentarios!!
+    */
     return (
         <>
             <ScrollView
                 style={{ backgroundColor: "#fff" }}
                 contentContainerStyle={{ flexGrow: 1 }} >
-                {loaded ? comments.length === 0 ?
+                {/* {loaded ? comments.length === 0 ?
                     <View style={styles.center}>
                         <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
                     </View>
@@ -91,7 +94,8 @@ export default function Comments({ route, navigation }) {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    )) : <Loading />}
+                    )) : <Loading />} */}
+                <Comment />
             </ScrollView>
             <Divider />
             <SafeAreaView style={{ backgroundColor: "#fff", }}>

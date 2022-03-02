@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Image, View, TextInput, TouchableOpacity, Text, Platform, StyleSheet, Alert, KeyboardAvoidingView } from 'react-native'
+import { Image, View, TextInput, TouchableOpacity, Text, Platform, StyleSheet, Alert, KeyboardAvoidingView, StatusBar, SafeAreaView } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Ionicons from "@expo/vector-icons/Ionicons"
@@ -29,10 +29,8 @@ export default function Create() {
     const [name, setName] = useState("")
 
 
-    if (Platform.OS === "web") {
-        headerMarginTop = 0
-    } else {
-        headerMarginTop = 12
+    if (Platform.OS !== "ios") {
+        headerMarginTop = StatusBar.currentHeight
     }
 
     async function getName() {
@@ -145,8 +143,8 @@ export default function Create() {
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : false} style={{ backgroundColor: "#fff" }}>
-            <View style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
-                <View style={{ flexDirection: "row", marginTop: `${headerMarginTop}%`, marginEnd: "2.5%", marginStart: "2.5%", alignItems: "center" }}>
+            <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
+                <View style={{ flexDirection: "row", marginTop: headerMarginTop, marginEnd: "2.5%", marginStart: "2.5%", alignItems: "center" }}>
                     <Text style={{ fontSize: 19, fontWeight: "500" }} >Criar Publicação</Text>
 
                     <View style={{ flexDirection: "row", alignItems: "center", marginStart: "auto" }}>
@@ -187,7 +185,7 @@ export default function Create() {
                         />
                     </>
                 }
-            </View >
+            </SafeAreaView >
         </KeyboardAvoidingView>
 
     )
