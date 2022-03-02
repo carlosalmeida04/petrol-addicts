@@ -1,7 +1,7 @@
 import {
-    doc, getDocs, db, collection,
-    setDoc, Timestamp, getDoc,
-    query, orderBy, deleteDoc, updateDoc, increment,
+    doc, db,
+    setDoc, getDoc,
+    deleteDoc, updateDoc, increment,
 } from "../../firebase/firebasehandler"
 
 
@@ -21,13 +21,10 @@ export const getLikeById = async (postId, uid) => {
 
 export const updateLike = async (postId, uid, state) => {
     try {
-
         if (state) {
             const likeDoc = doc(db, "posts", postId, "likes", uid)
             const postRef = doc(db, "posts", postId)
-            await updateDoc(postRef, {
-                likes: increment(-1)
-            })
+            await updateDoc(postRef, { likes: increment(-1) })
             await deleteDoc(likeDoc)
         } else {
             const setLikeDoc = doc(db, "posts", postId, "likes", uid)
@@ -36,7 +33,6 @@ export const updateLike = async (postId, uid, state) => {
 
             await setDoc(setLikeDoc, {})
         }
-
     } catch (e) {
         console.log(e)
     }

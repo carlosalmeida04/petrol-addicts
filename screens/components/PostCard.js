@@ -10,7 +10,7 @@ import "moment/locale/pt"
 
 const win = Dimensions.get("window")
 
-export default function PostsCard({ name, desc, img, uid, id, likes, postedAt }) {
+export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
     const navigation = useNavigation()
@@ -39,10 +39,13 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt })
                 <View style={styles.poster}>
                     <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: uid, title: name })}>
                         <Image
+                            style={{
+                                borderRadius: 100
+                            }}
                             source={{
-                                height: 40,
-                                width: 40,
-                                uri: `https://avatars.dicebear.com/api/personas/${name}.png`
+                                height: 35,
+                                width: 35,
+                                uri: `https://avatars.dicebear.com/api/initials/${name}.png`
                             }}
                         />
                         <Text style={styles.textB} category="s1">{name}</Text>
@@ -74,14 +77,14 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt })
                         />
                     </TouchableOpacity>
                 </View>
-                <Text style={{ marginStart: "2%" }} category="label">{currentLikeState.counter} gostos</Text>
+                <Text style={{ marginStart: "2%", fontSize: 10 }}>{currentLikeState.counter} gostos & {comments} comentários</Text>
                 <View style={styles.row}>
                     <Text style={styles.textB} category="s1">{name}</Text>
                     <View style={styles.text}>
                         <Text category="c1" >{desc}</Text>
                     </View>
                 </View>
-                <Text style={{ marginStart: "2%", fontSize: 10 }} >{moment(postedAt.toDate()).fromNow()}</Text>
+                <Text style={{ marginStart: "2%", fontSize: 10 }}>{moment(postedAt.toDate()).fromNow()}</Text>
             </View>
         </Layout >
     )

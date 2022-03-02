@@ -73,7 +73,7 @@ export default function Posts() {
                     :
                     <FlatList
                         data={posts}
-                        renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} />}
+                        renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} comments={item.comments} />}
                         keyExtractor={(item) => item.id}
                         key={({ item }) => item.id}
                     />

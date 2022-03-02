@@ -1,9 +1,9 @@
-import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, Image, FlatList } from 'react-native'
-import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy } from "../../firebase/firebasehandler"
+import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy, updateDoc, increment } from "../../firebase/firebasehandler"
 import React, { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import { Button, Input, Divider, Text, Icon } from "@ui-kitten/components"
+import { Input, Divider, Text, Icon } from "@ui-kitten/components"
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid'
 import Loading from '../Loading'
 import Comment from '../components/Comment'
 
-export default function Comments({ route, navigation }) {
+export default function Comments({ route }) {
 
 
     const [comment, setComment] = useState("")
@@ -20,17 +20,24 @@ export default function Comments({ route, navigation }) {
     const [comments, setComments] = useState([])
     const postId = route.params.postId
 
+    const InputTextLenght = () => (
+        <Text category="c1">{comment.length}/80</Text>
+    )
 
     async function makeComment() {
         try {
             const commentId = uuidv4()
             const addCommentColl = doc(db, "posts", postId, "comments", commentId)
+            const postRef = doc(db, "posts", postId)
+
             await setDoc(addCommentColl, {
                 comment: comment,
                 uid: auth.currentUser.uid,
                 name: name,
                 createdAt: Timestamp.fromDate(new Date())
             })
+
+            await updateDoc(postRef, { comments: increment(1) })
         } catch (e) {
             console.log(e)
         }
@@ -64,13 +71,9 @@ export default function Comments({ route, navigation }) {
         })
     }, [loaded])
 
-    /*
-        *  Important LIMITAR COMENTARIOS A 80 comentarios!!
-    */
 
-    const InputTextLenght = () => (
-        <Text category="c1">{comment.length}/80</Text>
-    )
+
+
     return (
         <>
             <ScrollView
