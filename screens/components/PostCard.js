@@ -23,13 +23,13 @@ export default function PostsCard({ name, desc, img, uid, id, likes }) {
             })
         })
     }, [])
-    
+
     function handleUpdateLike() {
         setCurrentLikeState({
             state: !currentLikeState.state,
             counter: currentLikeState.counter + (currentLikeState.state ? -1 : 1)
         })
-        updateLike(id, uid, currentLikeState.state)
+        updateLike(id, auth.currentUser.uid, currentLikeState.state)
     }
 
 

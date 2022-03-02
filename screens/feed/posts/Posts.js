@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { View, ScrollView, RefreshControl, StyleSheet, FlatList } from 'react-native'
 import { Layout, Text } from '@ui-kitten/components'
-import { getDocs, db, collection, query, orderBy, } from "../../../firebase/firebasehandler"
+import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
 
 import Loading from "../../Loading"
 import PostsCard from '../../components/PostCard'

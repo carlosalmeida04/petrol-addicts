@@ -43,7 +43,8 @@ export default function Perfil({ navigation }) {
                     desc: doc.data().desc,
                     car: doc.data().car,
                     img: doc.data().downloadUrl,
-                    uid: doc.data().uid
+                    uid: doc.data().uid,
+                    likes: doc.data().likes
                 })
             })
             return posts
@@ -104,7 +105,8 @@ export default function Perfil({ navigation }) {
                                             name: posts.name,
                                             desc: posts.desc,
                                             car: posts.car,
-                                            uid: posts.uid
+                                            uid: posts.uid,
+                                            likes: posts.likes
                                         })
                                     }}>
                                         <Image

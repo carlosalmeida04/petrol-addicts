@@ -1,15 +1,37 @@
 import { View, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
-
+import { getLikeById, updateLike } from "../../components/Reducers"
+import { auth } from '../../../firebase/firebasehandler'
 
 export default function Post({ route, navigation }) {
 
+
+
     const params = route.params
+    const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: params.likes })
     const win = Dimensions.get("window")
     const ratio = win.width / 541
-    
+
+
+    useEffect(() => {
+        getLikeById(params.id, auth.currentUser.uid).then((res) => {
+            setCurrentLikeState({
+                ...currentLikeState,
+                state: res
+            })
+        })
+    }, [])
+
+    function handleUpdateLike() {
+        setCurrentLikeState({
+            state: !currentLikeState.state,
+            counter: currentLikeState.counter + (currentLikeState.state ? -1 : 1)
+        })
+        updateLike(params.id, auth.currentUser.uid, currentLikeState.state)
+    }
+
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
             <View style={styles.postView}>
@@ -35,13 +57,14 @@ export default function Post({ route, navigation }) {
                 </View>
                 <Divider />
                 <View style={styles.row}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleUpdateLike()} >
                         <Icon
                             style={styles.icon}
-                            fill='black'
-                            name='heart-outline'
+                            fill={currentLikeState.state ? "red" : "black"}
+                            name={currentLikeState.state ? "heart" : "heart-outline"}
                         />
                     </TouchableOpacity>
+
                     <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: params.id })}>
                         <Icon
                             style={styles.icon}
@@ -50,6 +73,7 @@ export default function Post({ route, navigation }) {
                         />
                     </TouchableOpacity>
                 </View>
+                <Text style={{ marginStart: "2%" }} category="c1">{currentLikeState.counter} gostos</Text>
                 <View style={styles.row}>
                     <Text style={styles.textB} category="s1">{params.name}</Text>
                     <View style={styles.text}>
