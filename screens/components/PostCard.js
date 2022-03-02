@@ -5,12 +5,12 @@ import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 import { useNavigation } from "@react-navigation/native"
 import { getLikeById, updateLike } from "./Reducers"
 import { auth } from '../../firebase/firebasehandler'
-
+import moment from 'moment';
+import "moment/locale/pt"
 
 const win = Dimensions.get("window")
 
-
-export default function PostsCard({ name, desc, img, uid, id, likes }) {
+export default function PostsCard({ name, desc, img, uid, id, likes, postedAt }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
     const navigation = useNavigation()
@@ -74,13 +74,14 @@ export default function PostsCard({ name, desc, img, uid, id, likes }) {
                         />
                     </TouchableOpacity>
                 </View>
-                <Text style={{ marginStart: "2%" }} category="c1">{currentLikeState.counter} gostos</Text>
+                <Text style={{ marginStart: "2%" }} category="label">{currentLikeState.counter} gostos</Text>
                 <View style={styles.row}>
                     <Text style={styles.textB} category="s1">{name}</Text>
                     <View style={styles.text}>
                         <Text category="c1" >{desc}</Text>
                     </View>
                 </View>
+                <Text style={{ marginStart: "2%", fontSize: 10 }} >{moment(postedAt.toDate()).fromNow()}</Text>
             </View>
         </Layout >
     )

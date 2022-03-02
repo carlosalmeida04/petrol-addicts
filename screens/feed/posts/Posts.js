@@ -31,7 +31,8 @@ export default function Posts() {
                         img: doc.data().downloadUrl,
                         uid: doc.data().uid,
                         likes: doc.data().likes,
-                        comments: doc.data().comments
+                        comments: doc.data().comments,
+                        postedAt: doc.data().postedAt
                     })
                 }
             )
@@ -72,7 +73,7 @@ export default function Posts() {
                     :
                     <FlatList
                         data={posts}
-                        renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} />}
+                        renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} />}
                         keyExtractor={(item) => item.id}
                         key={({ item }) => item.id}
                     />

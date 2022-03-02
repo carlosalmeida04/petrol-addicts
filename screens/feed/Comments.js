@@ -143,5 +143,10 @@ const styles = StyleSheet.create({
     container: {
         marginStart: "4%",
         marginEnd: "4%"
+    },
+    center: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
     }
 })
