@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react'
 import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 import { getLikeById, updateLike } from "../../components/Reducers"
 import { auth } from '../../../firebase/firebasehandler'
+import moment from 'moment';
+import "moment/locale/pt"
+
 
 export default function Post({ route, navigation }) {
 
@@ -83,6 +86,7 @@ export default function Post({ route, navigation }) {
                         <Text category="c1" >{params.desc}</Text>
                     </View>
                 </View>
+                <Text style={{ marginStart: "2%", fontSize: 10 }}>{moment(params.postedAt.toDate()).fromNow()}</Text>
             </View>
         </Layout >
 
