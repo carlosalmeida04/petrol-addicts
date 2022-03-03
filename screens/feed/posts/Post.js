@@ -38,10 +38,13 @@ export default function Post({ route, navigation }) {
                 <View style={styles.poster}>
                     <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: params.name })}>
                         <Image
+                            style={{
+                                borderRadius: 100
+                            }}
                             source={{
                                 height: 40,
                                 width: 40,
-                                uri: `https://avatars.dicebear.com/api/personas/${params.name}.png`
+                                uri: `https://avatars.dicebear.com/api/initials/${params.name}.png`
                             }}
                         />
                         <Text style={styles.textB} category="s1">{params.name}</Text>
@@ -73,7 +76,7 @@ export default function Post({ route, navigation }) {
                         />
                     </TouchableOpacity>
                 </View>
-                <Text style={{ marginStart: "2%" }} category="c1">{currentLikeState.counter} gostos</Text>
+                <Text style={{ marginStart: "2%" }} category="c1">{currentLikeState.counter} gostos & {params.comments} comentários</Text>
                 <View style={styles.row}>
                     <Text style={styles.textB} category="s1">{params.name}</Text>
                     <View style={styles.text}>

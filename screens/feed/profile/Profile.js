@@ -44,7 +44,9 @@ export default function Perfil({ navigation }) {
                     car: doc.data().car,
                     img: doc.data().downloadUrl,
                     uid: doc.data().uid,
-                    likes: doc.data().likes
+                    likes: doc.data().likes,
+                    comments: doc.data().comments,
+                    postedAt: doc.data().postedAt,
                 })
             })
             return posts
@@ -78,7 +80,7 @@ export default function Perfil({ navigation }) {
                             source={{
                                 width: 100,
                                 height: 100,
-                                uri: `https://avatars.dicebear.com/api/personas/${userInfo.nome}.png`
+                                uri: `https://avatars.dicebear.com/api/initials/${userInfo.nome}.png`
                             }}
                         />
 
@@ -106,7 +108,9 @@ export default function Perfil({ navigation }) {
                                             desc: posts.desc,
                                             car: posts.car,
                                             uid: posts.uid,
-                                            likes: posts.likes
+                                            likes: posts.likes,
+                                            postedAt: posts.postedAt,
+                                            comments: posts.comments
                                         })
                                     }}>
                                         <Image

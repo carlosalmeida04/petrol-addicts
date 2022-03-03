@@ -15,7 +15,7 @@ export default function Comment({ id, name, comment, uid }) {
                     <Image
                         style={styles.image}
                         source={{
-                            uri: `https://avatars.dicebear.com/api/personas/${name}.png`
+                            uri: `https://avatars.dicebear.com/api/initials/${name}.png`
                         }}
                     />
                     <Text category="h6" style={{ fontWeight: "bold", marginStart: "1%" }}>{name}</Text>

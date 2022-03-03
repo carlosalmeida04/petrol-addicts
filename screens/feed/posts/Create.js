@@ -175,6 +175,7 @@ export default function Create() {
                     <>
                         <TextInput
                             style={styles.input}
+                            
                             placeholder='Descrição'
                             onChangeText={text => setDesc(text)}
                         />

@@ -1,19 +1,17 @@
 import React, { useState, useCallback } from 'react'
-import { TouchableOpacity, Text, Image, View, SafeAreaView, ScrollView, Dimensions } from 'react-native'
+import { TouchableOpacity, Image, View, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
 
 import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../../firebase/firebasehandler"
-
 import { useFocusEffect } from '@react-navigation/native'
-import Ionicons from "@expo/vector-icons/Ionicons"
-
+import { Icon, Text, Divider } from '@ui-kitten/components'
 
 import Loading from '../../Loading'
 
-const win = Dimensions.get("window")
 
 export default function PerfilPublico({ route, navigation }) {
 
     const params = route.params
+
 
     const [userInfo, setUserInfo] = useState({})
     const [posts, setPosts] = useState([])
@@ -44,7 +42,9 @@ export default function PerfilPublico({ route, navigation }) {
                     car: doc.data().car,
                     img: doc.data().downloadUrl,
                     uid: doc.data().uid,
-                    likes: doc.data().likes
+                    likes: doc.data().likes,
+                    comments: doc.data().comments,
+                    postedAt: doc.data().postedAt,
                 })
             })
             return posts
@@ -61,73 +61,80 @@ export default function PerfilPublico({ route, navigation }) {
                     setLoaded(true)
                 })
             })
-            return () => {
-                setLoaded(false)
-                setUserInfo({})
-                setPosts([])
-            }
+            // return () => {
+            //     setLoaded(false)
+            //     setUserInfo({})
+            //     setPosts([])
+            // }
         }, [])
     )
 
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-            {loaded ? (
-                <>
+            {loaded ?
+                <View>
                     <View style={{ marginStart: "2.5%", width: "95%", flexDirection: "row", alignItems: "center" }}>
 
                         <Image style={{ marginTop: "2%", borderRadius: 100, }}
                             source={{
                                 width: 100,
                                 height: 100,
-
-                                uri: `https://avatars.dicebear.com/api/personas/${userInfo.nome}.png`
+                                uri: `https://avatars.dicebear.com/api/initials/${userInfo.nome}.png`
                             }}
                         />
 
                         <View style={{ flexDirection: "column", marginStart: "2%", flexShrink: 1 }}>
                             <Text style={{ fontWeight: "bold" }}>{userInfo.nome}</Text>
-                            {
-                                /* MAXIMO 120 CARACTERES */
-                            }
                             <Text>{userInfo.bio}</Text>
                         </View>
-                    </View>
 
-
-                    <Ionicons name='apps-outline' style={{ textAlign: "center" }} size={30} />
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: "1%" }}>
-                        <View style={{ flex: 1, height: 1, backgroundColor: '#dbdbdb' }} />
                     </View>
-                    <ScrollView>
-                        <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                            {
-                                posts.map(posts => (
-                                    <View key={posts.id} style={{ height: 130, width: win.width / 3 }}>
-                                        <TouchableOpacity onPress={() => navigation.navigate("Post", {
+                    <View style={{ alignItems: "center" }}>
+                        <Icon name="grid-outline" fill="black" style={{ height: 30, width: 30 }} />
+                    </View>
+                    <Divider />
+                    <ScrollView
+                        contentContainerStyle={{ flexGrow: 1 }}
+                    >
+                        <View style={styles.postsView}>
+                            {posts.map(posts => (
+                                <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                    <TouchableOpacity onPress={() => {
+                                        navigation.navigate("Post", {
                                             id: posts.id,
                                             img: posts.img,
                                             name: posts.name,
                                             desc: posts.desc,
                                             car: posts.car,
                                             uid: posts.uid,
-                                            likes: posts.likes
-                                        })}>
-                                            <Image
-                                                style={{ resizeMode: "cover" }}
-                                                source={{
-                                                    height: "100%",
-                                                    width: "100%",
-                                                    uri: posts.img
-                                                }}
-                                            />
-                                        </TouchableOpacity>
-                                    </View>
-                                ))
-                            }
+                                            likes: posts.likes,
+                                            postedAt: posts.postedAt,
+                                            comments: posts.comments
+                                        })
+                                    }}>
+                                        <Image
+                                            style={{ resizeMode: "cover" }}
+                                            source={{
+                                                height: "100%",
+                                                width: "100%",
+                                                uri: posts.img
+                                            }}
+                                        />
+                                    </TouchableOpacity>
+                                </View>
+                            ))}
                         </View>
                     </ScrollView>
-                </>
-            ) : <Loading />}
+                </View > : <Loading />}
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create({
+    postsView: {
+        flex: 1,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        alignItems: 'flex-start'
+    }
+})
