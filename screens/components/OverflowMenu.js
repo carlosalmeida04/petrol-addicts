@@ -14,7 +14,7 @@ export default function OverflowMenuButton({ postId }) {
         </TouchableOpacity>
     )
 
-    const handeDeletPost = () => {
+    const handeDeletePost = () => {
         Alert.alert("Aviso", "Tens a certeza que queres apagar esta publicação?",
             [
                 {
@@ -41,7 +41,7 @@ export default function OverflowMenuButton({ postId }) {
                 onBackdropPress={() => setVisible(false)}>
                 <MenuItem title='Editar' accessoryRight={<Icon name="edit-outline" fill="black" style={{ width: 20, height: 20 }} />} />
                 <Divider />
-                <MenuItem title='Apagar' onPress={handeDeletPost} accessoryRight={<Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />} />
+                <MenuItem title='Apagar' onPress={handeDeletePost} accessoryRight={<Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />} />
             </OverflowMenu>
         </View>
     )
