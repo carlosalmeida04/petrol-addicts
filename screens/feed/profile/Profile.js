@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { TouchableOpacity, Image, View, SafeAreaView, ScrollView } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
-import { Icon, Text, Divider } from '@ui-kitten/components'
-
 import { db, getDoc, doc, auth, query, collection, where, getDocs, orderBy } from "../../../firebase/firebasehandler"
+import { TouchableOpacity, Image, View, SafeAreaView, ScrollView } from 'react-native'
+import { Icon, Text, Divider } from '@ui-kitten/components'
+import React, { useEffect, useState } from 'react'
 
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../../Loading'
 
 
@@ -18,7 +17,6 @@ export default function Perfil({ navigation }) {
 
 
     async function getUserInfo() {
-
         try {
             const usersDocSnap = await getDoc(doc(db, "users", auth.currentUser.uid))
             usersDocSnap.exists() ?
@@ -67,9 +65,6 @@ export default function Perfil({ navigation }) {
         })
     }, [])
 
-    {
-        /* MAXIMO 120 CARACTERES */
-    }
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
             {loaded ?

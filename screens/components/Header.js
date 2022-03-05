@@ -1,13 +1,13 @@
 import React from 'react'
 import { Icon, TopNavigation, Layout, TopNavigationAction } from '@ui-kitten/components'
-import { Platform, SafeAreaView, StatusBar } from "react-native"
-
+import {  SafeAreaView, StatusBar } from "react-native"
 
 import { useNavigation } from "@react-navigation/native"
 
 const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
 )
+
 export default function Header({ title, subtitle }) {
 
     const navigation = useNavigation()

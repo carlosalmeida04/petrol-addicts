@@ -1,7 +1,7 @@
 import React from "react"
 import { View, Image } from "react-native"
 
-import { Button, Layout } from '@ui-kitten/components';
+import { Button, Layout } from '@ui-kitten/components'
 
 
 import styles from "../../styles/main"

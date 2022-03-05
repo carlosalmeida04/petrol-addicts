@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { createUserWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
 import { TouchableWithoutFeedback, Platform, Alert, KeyboardAvoidingView, View } from 'react-native'
+import { Button, Text, Input, Icon } from '@ui-kitten/components'
+import { doc, setDoc, db } from "../../firebase/firebasehandler"
+import React, { useState, useEffect } from 'react'
+
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-import { createUserWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
-import { doc, setDoc, db } from "../../firebase/firebasehandler"
-
-import { Button, Text, Input, Icon } from '@ui-kitten/components';
-
-
 import styles from "../../styles/main"
 
 

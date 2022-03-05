@@ -1,9 +1,9 @@
-import React from 'react'
-import { Alert, SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Alert, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { auth, signOut } from "../../../firebase/firebasehandler"
 
+import React from 'react'
 import Ionicons from "@expo/vector-icons/Ionicons"
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Settings({ navigation }) {
 

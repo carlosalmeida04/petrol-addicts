@@ -1,15 +1,15 @@
 import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy, updateDoc, increment } from "../../firebase/firebasehandler"
-import React, { useEffect, useState } from 'react'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-
 import { Input, Divider, Text, Icon } from "@ui-kitten/components"
+import React, { useEffect, useState } from 'react'
+
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import Loading from '../Loading'
+import Comment from '../components/Comment'
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 
-import Loading from '../Loading'
-import Comment from '../components/Comment'
 
 export default function Comments({ route }) {
 

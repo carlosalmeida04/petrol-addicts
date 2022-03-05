@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react'
 import { TouchableOpacity, Image, View, SafeAreaView, ScrollView, StyleSheet } from 'react-native'
-
 import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../../firebase/firebasehandler"
 import { useFocusEffect } from '@react-navigation/native'
 import { Icon, Text, Divider } from '@ui-kitten/components'

@@ -7,27 +7,26 @@ import { getLikeById, updateLike } from "./Reducers"
 import { auth } from '../../firebase/firebasehandler'
 
 import OverflowMenuButton from './OverflowMenu'
-
 import moment from 'moment';
+
 import "moment/locale/pt"
 
 
 export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
-
     const [aspectRatio, setAspectRatio] = useState({ apr: 0 })
     const navigation = useNavigation()
 
 
     useEffect(() => {
-
         Image.getSize(img, (srcWith, srcHeight) => {
             setAspectRatio({
                 ...aspectRatio,
                 apr: (srcWith / srcHeight)
             })
         })
+
         getLikeById(id, auth.currentUser.uid).then((res) => {
             setCurrentLikeState({
                 ...currentLikeState,
@@ -44,11 +43,7 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
         updateLike(id, auth.currentUser.uid, currentLikeState.state)
     }
 
-    const RenderButton = () => (
-        <TouchableOpacity onPress={() => setVisible(true)}>
-            <Icon name={"more-vertical-outline"} fill="black" style={{ width: 20, height: 20 }} />
-        </TouchableOpacity>
-    )
+
     return (
         <Layout level={"1"}>
             <View style={styles.postView} key={id}>
@@ -103,10 +98,6 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                 </View>
                 <Text style={{ marginStart: "2%", fontSize: 10 }}>{moment(postedAt.toDate()).fromNow()}</Text>
             </View>
-
-
-
-
         </Layout >
     )
 }

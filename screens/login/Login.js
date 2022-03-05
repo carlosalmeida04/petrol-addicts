@@ -1,12 +1,10 @@
+import { View, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native'
+import { signInWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
+import { Button, Text, Input, Icon } from '@ui-kitten/components'
 import React, { useEffect, useState } from 'react'
 
-import { View, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
-import { signInWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
 import styles from "../../styles/main"
-
-import { Button, Text, Input, Icon } from '@ui-kitten/components';
 import main from '../../styles/main'
 
 export default function Login({ navigation }) {

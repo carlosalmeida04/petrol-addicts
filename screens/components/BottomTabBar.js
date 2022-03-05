@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { SafeAreaView, S } from "react-native";
+import React from "react"
+import { SafeAreaView } from "react-native";
 import { BottomNavigation, BottomNavigationTab, Icon } from '@ui-kitten/components';
 
 export default function BottomTabBar({ navigation, state }) {
