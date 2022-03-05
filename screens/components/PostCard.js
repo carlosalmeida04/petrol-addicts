@@ -1,10 +1,13 @@
 import React, { useEffect, useState, } from 'react'
-import { View, Image, TouchableOpacity, StyleSheet, Dimensions } from 'react-native'
-import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
+import { View, Image, TouchableOpacity, StyleSheet, } from 'react-native'
+import { Icon, Layout, Text, Divider, } from '@ui-kitten/components'
 
 import { useNavigation } from "@react-navigation/native"
 import { getLikeById, updateLike } from "./Reducers"
 import { auth } from '../../firebase/firebasehandler'
+
+import OverflowMenuButton from './OverflowMenu'
+
 import moment from 'moment';
 import "moment/locale/pt"
 
@@ -12,11 +15,14 @@ import "moment/locale/pt"
 export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
+
     const [aspectRatio, setAspectRatio] = useState({ apr: 0 })
     const navigation = useNavigation()
 
-    let h
+
     useEffect(() => {
+        if (uid === auth.currentUser.uid)
+            console.log("User post: " + id)
 
         Image.getSize(img, (srcWith, srcHeight) => {
             setAspectRatio({
@@ -40,11 +46,15 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
         updateLike(id, auth.currentUser.uid, currentLikeState.state)
     }
 
-
+    const RenderButton = () => (
+        <TouchableOpacity onPress={() => setVisible(true)}>
+            <Icon name={"more-vertical-outline"} fill="black" style={{ width: 20, height: 20 }} />
+        </TouchableOpacity>
+    )
     return (
         <Layout level={"1"}>
             <View style={styles.postView} key={id}>
-                <View style={styles.poster}>
+                <View style={[styles.poster, { flexDirection: "row", flex: 1 }]}>
                     <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: uid, title: name })}>
                         <Image
                             style={{
@@ -56,8 +66,9 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                                 uri: `https://avatars.dicebear.com/api/initials/${name}.png`
                             }}
                         />
-                        <Text style={styles.textB} category="s1">{name}</Text>
+                        <Text style={[styles.textB, { marginStart: "3%" }]} category="s1">{name}</Text>
                     </TouchableOpacity>
+                    {uid === auth.currentUser.uid ? <OverflowMenuButton /> : false}
                 </View>
                 <Divider />
                 <View >
@@ -94,10 +105,13 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                 </View>
                 <Text style={{ marginStart: "2%", fontSize: 10 }}>{moment(postedAt.toDate()).fromNow()}</Text>
             </View>
+
+
+
+
         </Layout >
     )
 }
-
 const styles = StyleSheet.create({
     poster: {
         fontWeight: "bold",
@@ -135,5 +149,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center"
-    }
+    },
+
 })

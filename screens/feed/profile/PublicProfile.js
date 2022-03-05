@@ -61,11 +61,6 @@ export default function PerfilPublico({ route, navigation }) {
                     setLoaded(true)
                 })
             })
-            // return () => {
-            //     setLoaded(false)
-            //     setUserInfo({})
-            //     setPosts([])
-            // }
         }, [])
     )
 
