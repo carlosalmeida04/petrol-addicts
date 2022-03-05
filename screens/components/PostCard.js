@@ -8,14 +8,22 @@ import { auth } from '../../firebase/firebasehandler'
 import moment from 'moment';
 import "moment/locale/pt"
 
-const win = Dimensions.get("window")
 
 export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
+    const [aspectRatio, setAspectRatio] = useState({ apr: 0 })
     const navigation = useNavigation()
 
+    let h
     useEffect(() => {
+
+        Image.getSize(img, (srcWith, srcHeight) => {
+            setAspectRatio({
+                ...aspectRatio,
+                apr: (srcWith / srcHeight)
+            })
+        })
         getLikeById(id, auth.currentUser.uid).then((res) => {
             setCurrentLikeState({
                 ...currentLikeState,
@@ -52,9 +60,9 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                     </TouchableOpacity>
                 </View>
                 <Divider />
-                <View style={styles.imageView}>
+                <View >
                     <Image
-                        style={styles.image}
+                        style={[styles.image, { aspectRatio: aspectRatio.apr }]}
                         source={{ uri: img }}
                     />
                 </View>
@@ -104,12 +112,8 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        width: win.width,
-        height: null,
-        resizeMode: "cover"
-    },
-    imageView: {
-        aspectRatio: 16 / 9,
+        width: undefined,
+        height: undefined,
     },
     icon: {
         width: 40,
