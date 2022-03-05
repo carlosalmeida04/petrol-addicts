@@ -21,8 +21,6 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
 
 
     useEffect(() => {
-        if (uid === auth.currentUser.uid)
-            console.log("User post: " + id)
 
         Image.getSize(img, (srcWith, srcHeight) => {
             setAspectRatio({
@@ -68,7 +66,7 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                         />
                         <Text style={[styles.textB, { marginStart: "3%" }]} category="s1">{name}</Text>
                     </TouchableOpacity>
-                    {uid === auth.currentUser.uid ? <OverflowMenuButton /> : false}
+                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={id} /> : false}
                 </View>
                 <Divider />
                 <View >

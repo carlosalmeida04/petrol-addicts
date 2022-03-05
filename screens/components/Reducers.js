@@ -1,3 +1,4 @@
+
 import {
     doc, db,
     setDoc, getDoc,
@@ -30,10 +31,17 @@ export const updateLike = async (postId, uid, state) => {
             const setLikeDoc = doc(db, "posts", postId, "likes", uid)
             const postRef = doc(db, "posts", postId)
             await updateDoc(postRef, { likes: increment(1) })
-
             await setDoc(setLikeDoc, {})
         }
     } catch (e) {
         console.log(e)
+    }
+}
+
+export const deletePost = async (postId) => {
+    try {
+        await deleteDoc(doc(db, "posts", postId))
+    } catch (error) {
+        console.log(error)
     }
 }
