@@ -1,3 +1,4 @@
+import { Alert } from "react-native"
 import {
     doc, db,
     setDoc, getDoc,
@@ -40,6 +41,7 @@ export const updateLike = async (postId, uid, state) => {
 export const deletePost = async (postId) => {
     try {
         await deleteDoc(doc(db, "posts", postId))
+        Alert.alert("Sucesso", "Publicação apagada com sucesso!")
     } catch (error) {
         console.log(error)
     }

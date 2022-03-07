@@ -104,7 +104,7 @@ export default function Comments({ route }) {
                         size="large"
                         style={styles.input}
                         onChangeText={text => setComment(text)}
-                        placeholder='Comentario'
+                        placeholder='Comentário'
                         value={comment}
                         maxLength={80}
                         accessoryRight={InputTextLenght}
