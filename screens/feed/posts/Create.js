@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, TextInput, KeyboardAvoidingView, StatusBar, SafeAreaView } from 'react-native'
+import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, SafeAreaView, StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import * as ImagePicker from 'expo-image-picker'
 
-import { Text, Divider } from "@ui-kitten/components"
-import Ionicons from "@expo/vector-icons/Ionicons"
+import { Text, Divider, Icon, Input } from "@ui-kitten/components"
+
+import { getName } from "../../components/Reducers"
+
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
@@ -23,28 +25,18 @@ import {
 
 export default function Create() {
 
-    let headerMarginTop
+
     const [image, setImage] = useState(null)
     const [imagePicked, setImagePicked] = useState(false)
     const [uploadProgress, setUploadProgress] = useState(50)
+    const [aspectRatio, setAspectRatio] = useState(0)
     const [desc, setDesc] = useState("")
     const [carro, setCarro] = useState("")
     const [name, setName] = useState("")
-    const [opened, setOpened] = useState(false)
-    const navigatin = useNavigation()
 
 
-    if (Platform.OS !== "ios") {
-        headerMarginTop = StatusBar.currentHeight
-    }
 
-    async function getName() {
-        try {
-            return await AsyncStorage.getItem("name")
-        } catch (e) {
-            console.log(e)
-        }
-    }
+
     async function pickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -55,11 +47,13 @@ export default function Create() {
             const imgUri = result.uri
             setImage(imgUri)
             setImagePicked(true)
+            Image.getSize(imgUri, (srcWith, srcHeight) => {
+                setAspectRatio(srcWith / srcHeight)
+            })
         }
     }
 
-    async function createPost(downlodUrl) {
-        getName().then((nome) => { setName(nome) })
+    async function createPost(downlodUrl, filename) {
         const postId = uuidv4()
         try {
             const post = await setDoc(doc(db, "posts", postId), {
@@ -70,7 +64,8 @@ export default function Create() {
                 car: carro,
                 comments: 0,
                 likes: 0,
-                downloadUrl: downlodUrl
+                downloadUrl: downlodUrl,
+                fileName: filename
             })
             return post
         } catch (e) {
@@ -98,7 +93,7 @@ export default function Create() {
                 contentType: 'image/jpeg'
             }
 
-            const storageRef = ref(storage, `posts/${postFolderRef}/${filename}`)
+            const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postFolderRef}/${filename}`)
             const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
 
             uploadTask.on("state_changed",
@@ -120,7 +115,7 @@ export default function Create() {
                 },
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-                        createPost(downloadUrl).then(() => {
+                        createPost(downloadUrl, filename).then(() => {
                             setImage(null)
                             setImagePicked(false)
                             setUploadProgress(0)
@@ -144,7 +139,7 @@ export default function Create() {
     useFocusEffect(
         useCallback(() => {
             const pick = pickImage()
-
+            getName().then((nome) => setName(nome))
             return pick, setImage(false), setImagePicked(false)
         }, [])
     )
@@ -159,23 +154,28 @@ export default function Create() {
                         style={{ marginStart: "auto", position: "relative", }}>
                         <Ionicons name='close-outline' size={30} />
                 </TouchableOpacity>}*/}
-                {image && <Image source={{ uri: image }} style={styles.image} />}
+                {image &&
+                    <View style={styles.imageView}>
+                        <Image source={{ uri: image }} style={{ aspectRatio: aspectRatio }} />
+                    </View>}
 
-                {/*{imagePicked &&
-                    <>
-                        <TextInput
+                {imagePicked &&
+                    <View>
+                        <Input
                             style={styles.input}
-
+                            multiline={true}
                             placeholder='Descrição'
                             onChangeText={text => setDesc(text)}
+                            size={"large"}
                         />
-                        <TextInput
+                        <Input
                             style={styles.input}
                             placeholder='Carro e modelo'
                             onChangeText={text => setCarro(text)}
+                            size={"large"}
                         />
-                    </>
-                } */}
+                    </View>
+                }
             </SafeAreaView >
         </KeyboardAvoidingView>
 
@@ -185,25 +185,15 @@ export default function Create() {
 
 const styles = StyleSheet.create({
     input: {
-        borderColor: "#eeeeee",
-        borderBottomWidth: 1,
-        borderRadius: 5,
-        height: 40,
         width: "100%",
-        paddingStart: 10
-    },
-    image: {
-        flex: 1,
-        width: undefined,
-        height: undefined,
-        resizeMode: "contain",
-        position: "relative",
-        top: "-4.5%",
-        zIndex: - 1
+        marginBottom: "2%"
     },
     buttonView: {
         flexDirection: "row",
         alignItems: "center",
         marginStart: "auto"
+    },
+    imageView: {
+        marginTop: StatusBar.currentHeight
     }
 })

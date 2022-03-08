@@ -12,7 +12,7 @@ export default function BottomTabBar({ navigation, state }) {
                 onSelect={index => navigation.navigate(state.routeNames[index])}
             >
                 <BottomNavigationTab icon={<Icon name={"home-outline"} />} />
-                <BottomNavigationTab icon={<Icon name={"plus-square-outline"} />} />
+                {/* <BottomNavigationTab icon={<Icon name={"plus-square-outline"} />} /> */}
                 <BottomNavigationTab icon={<Icon name={"person-outline"} />} />
 
             </BottomNavigation>

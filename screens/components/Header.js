@@ -27,7 +27,6 @@ export default function Header({ title, subtitle }) {
                     accessoryLeft={renderBackAction}
                 />
             </SafeAreaView>
-
         </Layout>
 
     )

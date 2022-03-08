@@ -1,5 +1,5 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 import { Icon } from "@ui-kitten/components"
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -9,6 +9,7 @@ import Create from './posts/Create'
 import Posts from './posts/Posts'
 
 import BottomTabBar from '../components/BottomTabBar'
+
 const Tab = createBottomTabNavigator()
 
 export default function Main({ navigation }) {
@@ -26,18 +27,23 @@ export default function Main({ navigation }) {
                 options={{
                     title: "Feed",
                     headerRight: () => (
-                        <TouchableOpacity style={{ marginRight: "2%" }}>
-                            <Icon name="search-outline" fill="black" style={{ height: 30, width: 30 }} />
-                        </TouchableOpacity>
+                        <View style={{ flexDirection: "row" }}>
+                            <TouchableOpacity style={{ marginRight: "2%" }}>
+                                <Icon name="search-outline" fill="black" style={{ height: 30, width: 30 }} />
+                            </TouchableOpacity>
+                            <TouchableOpacity style={{ marginRight: "2%" }}>
+                                <Icon name="plus-circle-outline" fill="black" style={{ height: 30, width: 30 }} />
+                            </TouchableOpacity>
+                        </View>
                     )
                 }}
                 component={Posts}
             />
-            <Tab.Screen
+            {/* <Tab.Screen
                 name='Create Post'
                 options={{ title: "Criar Publicação", headerShown: false }}
                 component={Create}
-            />
+            /> */}
             <Tab.Screen
                 name='Profile'
                 options={{
