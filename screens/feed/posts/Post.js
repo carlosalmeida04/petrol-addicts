@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react'
 
 import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 import { getLikeById, updateLike } from "../../components/Reducers"
+
 import { auth } from '../../../firebase/firebasehandler'
 import moment from 'moment';
 import "moment/locale/pt"
@@ -24,6 +25,7 @@ export default function Post({ route, navigation }) {
                 apr: (srcWith / srcHeight)
             })
         })
+
         getLikeById(params.id, auth.currentUser.uid).then((res) => {
             setCurrentLikeState({
                 ...currentLikeState,

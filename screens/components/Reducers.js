@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Alert } from "react-native"
 import {
     doc, db,
@@ -44,5 +45,13 @@ export const deletePost = async (postId) => {
         Alert.alert("Sucesso", "Publicação apagada com sucesso!")
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const getName = async () => {
+    try {
+        return await AsyncStorage.getItem("name")
+    } catch (e) {
+        console.log(e)
     }
 }

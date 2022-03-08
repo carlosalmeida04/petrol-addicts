@@ -11,7 +11,6 @@ export default function PerfilPublico({ route, navigation }) {
 
     const params = route.params
 
-
     const [userInfo, setUserInfo] = useState({})
     const [posts, setPosts] = useState([])
     const [loaded, setLoaded] = useState(false)

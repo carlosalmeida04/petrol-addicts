@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { Image, View, TextInput, TouchableOpacity, Text, Platform, StyleSheet, Alert, KeyboardAvoidingView, StatusBar, SafeAreaView } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, TextInput, KeyboardAvoidingView, StatusBar, SafeAreaView } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import Ionicons from "@expo/vector-icons/Ionicons"
+import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import * as ImagePicker from 'expo-image-picker'
+
+import { Text, Divider } from "@ui-kitten/components"
+import Ionicons from "@expo/vector-icons/Ionicons"
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
@@ -23,10 +26,12 @@ export default function Create() {
     let headerMarginTop
     const [image, setImage] = useState(null)
     const [imagePicked, setImagePicked] = useState(false)
-    const [uploadProgress, setUploadProgress] = useState(0)
+    const [uploadProgress, setUploadProgress] = useState(50)
     const [desc, setDesc] = useState("")
     const [carro, setCarro] = useState("")
     const [name, setName] = useState("")
+    const [opened, setOpened] = useState(false)
+    const navigatin = useNavigation()
 
 
     if (Platform.OS !== "ios") {
@@ -136,41 +141,27 @@ export default function Create() {
         setImage(null)
     }
 
-    useEffect(() => {
-        getName().then((nome) => setName(nome))
-    }, [])
+    useFocusEffect(
+        useCallback(() => {
+            const pick = pickImage()
+
+            return pick, setImage(false), setImagePicked(false)
+        }, [])
+    )
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : false} style={{ backgroundColor: "#fff" }}>
             <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
-                <View style={{ flexDirection: "row", marginTop: headerMarginTop, marginEnd: "2.5%", marginStart: "2.5%", alignItems: "center" }}>
-                    <Text style={{ fontSize: 19, fontWeight: "500" }} >Criar Publicação</Text>
-
-                    <View style={{ flexDirection: "row", alignItems: "center", marginStart: "auto" }}>
-                        {imagePicked ?
-                            <TouchableOpacity onPress={uploadImage} style={{ height: 35, justifyContent: "center" }}>
-                                <Text style={{ color: "#F5A962" }}>Publicar</Text>
-                            </TouchableOpacity>
-                            :
-                            <TouchableOpacity onPress={pickImage} style={{ height: 35, justifyContent: "center" }}>
-                                <Text style={{ color: "black" }}>Escolher Imagem</Text>
-                            </TouchableOpacity>
-                        }
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: "3%" }}>
-                    <View style={{ flex: 1, height: 0.7, backgroundColor: '#dbdbdb' }} />
-                </View>
-                <View style={{ backgroundColor: "#F5A962", width: `${uploadProgress}%`, height: 1 }} />
-                {imagePicked &&
+                <View style={{ backgroundColor: "#3366FF", width: `${uploadProgress}%`, height: 1 }} />
+                {/* {imagePicked &&
                     <TouchableOpacity
                         onPress={removeImage}
                         style={{ marginStart: "auto", position: "relative", }}>
                         <Ionicons name='close-outline' size={30} />
-                    </TouchableOpacity>}
+                </TouchableOpacity>}*/}
                 {image && <Image source={{ uri: image }} style={styles.image} />}
 
-                {imagePicked &&
+                {/*{imagePicked &&
                     <>
                         <TextInput
                             style={styles.input}
@@ -184,7 +175,7 @@ export default function Create() {
                             onChangeText={text => setCarro(text)}
                         />
                     </>
-                }
+                } */}
             </SafeAreaView >
         </KeyboardAvoidingView>
 
@@ -209,5 +200,10 @@ const styles = StyleSheet.create({
         position: "relative",
         top: "-4.5%",
         zIndex: - 1
+    },
+    buttonView: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginStart: "auto"
     }
 })
