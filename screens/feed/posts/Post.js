@@ -98,7 +98,6 @@ export default function Post({ route, navigation }) {
                 </View>
             </ScrollView>
         </Layout >
-
     )
 }
 
