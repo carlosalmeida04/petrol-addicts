@@ -44,7 +44,7 @@ export default function Post({ route, navigation }) {
 
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
-            <ScrollView scrollEnabled={false}>
+            <ScrollView >
                 <View style={styles.postView}>
                     <View style={styles.poster}>
                         <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: params.name })}>
@@ -84,6 +84,7 @@ export default function Post({ route, navigation }) {
                                 fill='black'
                                 name='message-square-outline'
                             />
+
                         </TouchableOpacity>
                     </View>
                     <Text style={{ marginStart: "2%" }} category="c1">{currentLikeState.counter} gostos & {params.comments} comentários</Text>

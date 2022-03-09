@@ -6,6 +6,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import * as ImagePicker from 'expo-image-picker'
 
 import { Text, Divider, Icon, Input, Button } from "@ui-kitten/components"
+import Header from "../../components/Header"
 
 import { getName } from "../../components/Reducers"
 
@@ -25,7 +26,7 @@ import {
 
 
 
-export default function Create() {
+export default function Create({ navigation }) {
 
 
     const [image, setImage] = useState(null)
@@ -78,7 +79,7 @@ export default function Create() {
     async function uploadImage() {
 
         if (desc === "" || carro === "") {
-            Alert.alert("Informação", "Tem de introduzir uma descrição e o carro que quer publicar.")
+            Alert.alert("Informação", "Tens de introduzir uma descrição e declarar o carro a publicar.")
         } else {
             let filename = image.substring(image.lastIndexOf("/") + 1)
 
@@ -126,6 +127,7 @@ export default function Create() {
                             blob.close()
                             imgUri = null
                             Alert.alert("Sucesso", "Publicado com sucesso!")
+                            navigation.goBack()
                         }).catch(alert)
                     })
                 })
@@ -148,12 +150,18 @@ export default function Create() {
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : false} style={{ backgroundColor: "#fff" }}>
+            <Header title={"Criar publicação"} buttonOnPress={uploadImage} />
             <ScrollView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
                 <View style={{ backgroundColor: "#3366FF", width: `${uploadProgress}%`, height: 1 }} />
 
                 {image &&
-                    <View style={styles.image}>
-                        <Image source={{ uri: image }} style={{ aspectRatio: aspectRatio }} />
+                    <View style={styles.image} >
+                        <TouchableOpacity onPress={() => {
+                            removeImage()
+                            pickImage()
+                        }}>
+                            <Image source={{ uri: image }} style={{ aspectRatio: aspectRatio }} />
+                        </TouchableOpacity>
                     </View>}
 
                 {imagePicked &&
@@ -170,14 +178,6 @@ export default function Create() {
                             onChangeText={text => setCarro(text)}
                             size={"large"}
                         />
-                        {/* <View style={styles.buttonView}>
-                            <TouchableOpacity onPress={removeImage} style={{ width: "10%" }}>
-                                <Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />
-                            </TouchableOpacity>
-                            <Button style={{ width: "90%", marginStart: "2.5%" }} onPress={uploadImage}>
-                                Publicar
-                            </Button>
-                        </View> */}
                     </KeyboardAvoidingView>
                 }
             </ScrollView >

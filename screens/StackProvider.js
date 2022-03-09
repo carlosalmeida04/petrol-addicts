@@ -97,15 +97,7 @@ export default function StackProvider() {
                             <Header title="Publicação" />
                         )
                     }} />
-                <Stack.Screen
-                    name='Create'
-                    component={Create}
-                    options={{
-                        header: () => (
-                            <Header title="Criar publicação" />
-                        )
-                    }}
-                />
+                <Stack.Screen name='Create' component={Create} options={{ headerShown: false }} />
             </Stack.Navigator>
         </NavigationContainer>
     )

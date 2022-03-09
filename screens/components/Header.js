@@ -8,7 +8,7 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
 )
 
-export default function Header({ title, subtitle }) {
+export default function Header({ title, subtitle, buttonOnPress }) {
 
     const navigation = useNavigation()
 
@@ -16,13 +16,12 @@ export default function Header({ title, subtitle }) {
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
     )
     const uploadImage = () => (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={buttonOnPress}>
             <Text style={{ fontWeight: "bold", color: "#3366FF" }} category="p2">Publicar</Text>
         </TouchableOpacity>
     )
 
     return (
-
         <Layout level='1' style={{ marginTop: StatusBar.currentHeight }}>
             <SafeAreaView >
                 <TopNavigation
