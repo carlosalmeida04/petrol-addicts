@@ -102,7 +102,7 @@ export default function StackProvider() {
                     component={Create}
                     options={{
                         header: () => (
-                            <Header title="Criar publicação"/>
+                            <Header title="Criar publicação" />
                         )
                     }}
                 />

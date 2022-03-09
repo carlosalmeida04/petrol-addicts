@@ -1,6 +1,6 @@
 import React from 'react'
-import { Icon, TopNavigation, Layout, TopNavigationAction } from '@ui-kitten/components'
-import {  SafeAreaView, StatusBar } from "react-native"
+import { Icon, TopNavigation, Layout, TopNavigationAction, Text } from '@ui-kitten/components'
+import { SafeAreaView, StatusBar, TouchableOpacity } from "react-native"
 
 import { useNavigation } from "@react-navigation/native"
 
@@ -15,6 +15,11 @@ export default function Header({ title, subtitle }) {
     const renderBackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
     )
+    const uploadImage = () => (
+        <TouchableOpacity>
+            <Text style={{ fontWeight: "bold", color: "#3366FF" }} category="p2">Publicar</Text>
+        </TouchableOpacity>
+    )
 
     return (
 
@@ -25,6 +30,7 @@ export default function Header({ title, subtitle }) {
                     title={title}
                     subtitle={subtitle}
                     accessoryLeft={renderBackAction}
+                    accessoryRight={title === "Criar publicação" ? uploadImage : false}
                 />
             </SafeAreaView>
         </Layout>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, SafeAreaView, StatusBar } from 'react-native'
+import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView, StatusBar } from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { useNavigation, useFocusEffect } from "@react-navigation/native"
@@ -20,6 +20,7 @@ import {
     setDoc, db,
     Timestamp,
 } from '../../../firebase/firebasehandler';
+
 
 
 
@@ -147,7 +148,7 @@ export default function Create() {
 
     return (
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : false} style={{ backgroundColor: "#fff" }}>
-            <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
+            <ScrollView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
                 <View style={{ backgroundColor: "#3366FF", width: `${uploadProgress}%`, height: 1 }} />
 
                 {image &&
@@ -169,17 +170,17 @@ export default function Create() {
                             onChangeText={text => setCarro(text)}
                             size={"large"}
                         />
-                        <View style={styles.buttonView}>
+                        {/* <View style={styles.buttonView}>
                             <TouchableOpacity onPress={removeImage} style={{ width: "10%" }}>
                                 <Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />
                             </TouchableOpacity>
                             <Button style={{ width: "90%", marginStart: "2.5%" }} onPress={uploadImage}>
                                 Publicar
                             </Button>
-                        </View>
+                        </View> */}
                     </KeyboardAvoidingView>
                 }
-            </SafeAreaView >
+            </ScrollView >
         </KeyboardAvoidingView>
 
     )
