@@ -18,6 +18,7 @@ import Comments from './feed/Comments'
 import Register from './login/Register'
 import Login from './login/Login'
 import Header from "./components/Header"
+import Create from './feed/posts/Create'
 
 const Stack = createNativeStackNavigator()
 
@@ -96,6 +97,15 @@ export default function StackProvider() {
                             <Header title="Publicação" />
                         )
                     }} />
+                <Stack.Screen
+                    name='Create'
+                    component={Create}
+                    options={{
+                        header: () => (
+                            <Header title="Criar publicação"/>
+                        )
+                    }}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     )

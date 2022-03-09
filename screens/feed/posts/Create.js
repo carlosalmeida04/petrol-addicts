@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation, useFocusEffect } from "@react-navigation/native"
 import * as ImagePicker from 'expo-image-picker'
 
-import { Text, Divider, Icon, Input } from "@ui-kitten/components"
+import { Text, Divider, Icon, Input, Button } from "@ui-kitten/components"
 
 import { getName } from "../../components/Reducers"
 
@@ -23,12 +23,13 @@ import {
 
 
 
+
 export default function Create() {
 
 
     const [image, setImage] = useState(null)
     const [imagePicked, setImagePicked] = useState(false)
-    const [uploadProgress, setUploadProgress] = useState(50)
+    const [uploadProgress, setUploadProgress] = useState(0)
     const [aspectRatio, setAspectRatio] = useState(0)
     const [desc, setDesc] = useState("")
     const [carro, setCarro] = useState("")
@@ -148,22 +149,16 @@ export default function Create() {
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : false} style={{ backgroundColor: "#fff" }}>
             <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
                 <View style={{ backgroundColor: "#3366FF", width: `${uploadProgress}%`, height: 1 }} />
-                {/* {imagePicked &&
-                    <TouchableOpacity
-                        onPress={removeImage}
-                        style={{ marginStart: "auto", position: "relative", }}>
-                        <Ionicons name='close-outline' size={30} />
-                </TouchableOpacity>}*/}
+
                 {image &&
-                    <View style={styles.imageView}>
+                    <View style={styles.image}>
                         <Image source={{ uri: image }} style={{ aspectRatio: aspectRatio }} />
                     </View>}
 
                 {imagePicked &&
-                    <View>
+                    <KeyboardAvoidingView style={{ width: "95%", marginEnd: "2.5%", marginStart: "2.5%" }} behavior={Platform.OS === "ios" ? "padding" : false}>
                         <Input
                             style={styles.input}
-                            multiline={true}
                             placeholder='Descrição'
                             onChangeText={text => setDesc(text)}
                             size={"large"}
@@ -174,7 +169,15 @@ export default function Create() {
                             onChangeText={text => setCarro(text)}
                             size={"large"}
                         />
-                    </View>
+                        <View style={styles.buttonView}>
+                            <TouchableOpacity onPress={removeImage} style={{ width: "10%" }}>
+                                <Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />
+                            </TouchableOpacity>
+                            <Button style={{ width: "90%", marginStart: "2.5%" }} onPress={uploadImage}>
+                                Publicar
+                            </Button>
+                        </View>
+                    </KeyboardAvoidingView>
                 }
             </SafeAreaView >
         </KeyboardAvoidingView>
@@ -190,10 +193,14 @@ const styles = StyleSheet.create({
     },
     buttonView: {
         flexDirection: "row",
+        width: "95%",
+        marginStart: "2.5%",
+        marginEnd: "2.5%",
         alignItems: "center",
-        marginStart: "auto"
     },
-    imageView: {
-        marginTop: StatusBar.currentHeight
+    image: {
+        width: "100%",
+        height: undefined,
+        marginBottom: "2%"
     }
 })

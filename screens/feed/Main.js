@@ -29,10 +29,10 @@ export default function Main({ navigation }) {
                     headerRight: () => (
                         <View style={{ flexDirection: "row" }}>
                             <TouchableOpacity style={{ marginRight: "2%" }}>
-                                <Icon name="search-outline" fill="black" style={{ height: 30, width: 30 }} />
+                                <Icon name="search-outline" fill="black" style={{ height: 25, width: 25 }} />
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ marginRight: "2%" }}>
-                                <Icon name="plus-circle-outline" fill="black" style={{ height: 30, width: 30 }} />
+                            <TouchableOpacity style={{ marginRight: "2%" }} onPress={() => navigation.navigate("Create")}>
+                                <Icon name="plus-circle-outline" fill="black" style={{ height: 25, width: 25 }} />
                             </TouchableOpacity>
                         </View>
                     )
