@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { View, ScrollView, RefreshControl, StyleSheet, FlatList } from 'react-native'
+import { View, RefreshControl, StyleSheet, FlatList, ScrollView } from 'react-native'
 import { Layout, Text } from '@ui-kitten/components'
 import { getDocs, db, collection, query, orderBy, limit } from "../../../firebase/firebasehandler"
 
 import Loading from "../../Loading"
 import PostsCard from '../../components/PostCard'
 
-export default function Posts({ route }) {
+export default function Posts() {
 
 
     const [posts, setPosts] = useState([])
@@ -62,9 +62,14 @@ export default function Posts({ route }) {
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
             {loaded ? posts.length === 0 ?
-                <View style={styles.center}>
-                    <Text>Ainda não temos publicações! :(</Text>
-                </View>
+                <ScrollView
+                    refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+                    contentContainerStyle={{ flexGrow: 1 }}
+                >
+                    <View style={styles.center}>
+                        <Text>Ainda não temos publicações! :(</Text>
+                    </View>
+                </ScrollView>
                 :
                 <FlatList
                     showsVerticalScrollIndicator={false}
