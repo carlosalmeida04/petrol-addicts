@@ -1,14 +1,17 @@
-import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList } from 'react-native'
+import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList, Alert } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy, updateDoc, increment } from "../../firebase/firebasehandler"
 import { Input, Divider, Text, Icon } from "@ui-kitten/components"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../Loading'
 import Comment from '../components/Comment'
 
+import { throttle } from "throttle-debounce"
+
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
+
 
 
 export default function Comments({ route }) {
@@ -25,21 +28,26 @@ export default function Comments({ route }) {
     )
 
     async function makeComment() {
-        try {
-            const commentId = uuidv4()
-            const addCommentColl = doc(db, "posts", postId, "comments", commentId)
-            const postRef = doc(db, "posts", postId)
 
-            await setDoc(addCommentColl, {
-                comment: comment,
-                uid: auth.currentUser.uid,
-                name: name,
-                createdAt: Timestamp.fromDate(new Date())
-            })
+        if (comment === "") {
+            Alert.alert("Informação", "Tens de escrever um comentário primeiro.")
+        } else {
+            try {
+                const commentId = uuidv4()
+                const addCommentColl = doc(db, "posts", postId, "comments", commentId)
+                const postRef = doc(db, "posts", postId)
 
-            await updateDoc(postRef, { comments: increment(1) })
-        } catch (e) {
-            console.log(e)
+                await setDoc(addCommentColl, {
+                    comment: comment,
+                    uid: auth.currentUser.uid,
+                    name: name,
+                    createdAt: Timestamp.fromDate(new Date())
+                })
+
+                await updateDoc(postRef, { comments: increment(1) })
+            } catch (e) {
+                console.log(e)
+            }
         }
 
     }
