@@ -1,11 +1,13 @@
 import React from 'react'
-import { Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native'
+
+import { Text } from "@ui-kitten/components"
 
 export default function Search() {
     return (
-        <View style={{ backgroundColor: "#fff" }}>
+        <SafeAreaView style={{ backgroundColor: "#fff" }}>
             <Text>Search!</Text>
-        </View>
+        </SafeAreaView>
     )
 }
 

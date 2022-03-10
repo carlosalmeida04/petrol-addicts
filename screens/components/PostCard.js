@@ -1,4 +1,4 @@
-import React, { useEffect, useState, } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { View, Image, TouchableOpacity, StyleSheet, } from 'react-native'
 import { Icon, Layout, Text, Divider, } from '@ui-kitten/components'
 
@@ -7,8 +7,9 @@ import { getLikeById, updateLike } from "./Reducers"
 import { auth } from '../../firebase/firebasehandler'
 
 import OverflowMenuButton from './OverflowMenu'
-import moment from 'moment';
 
+import { throttle } from "throttle-debounce"
+import moment from 'moment';
 import "moment/locale/pt"
 
 
@@ -34,14 +35,19 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
             })
         })
     }, [])
-
-    function handleUpdateLike() {
-        setCurrentLikeState({
-            state: !currentLikeState.state,
-            counter: currentLikeState.counter + (currentLikeState.state ? -1 : 1)
-        })
-        updateLike(id, auth.currentUser.uid, currentLikeState.state)
-    }
+    const handleUpdateLike = useMemo(
+        () =>
+            throttle(2000, true, (currentLikeStateInst) => {
+                setCurrentLikeState({
+                    state: !currentLikeStateInst.state,
+                    counter:
+                        currentLikeStateInst.counter +
+                        (currentLikeStateInst.state ? -1 : 1),
+                });
+                updateLike(id, auth.currentUser.uid, currentLikeStateInst.state);
+            }),
+        []
+    );
 
 
     return (
@@ -73,7 +79,7 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                 <Divider />
                 <View style={styles.row}>
 
-                    <TouchableOpacity onPress={() => handleUpdateLike()} >
+                    <TouchableOpacity onPress={() => handleUpdateLike(currentLikeState)} >
                         <Icon
                             style={styles.icon}
                             fill={currentLikeState.state ? "red" : "black"}

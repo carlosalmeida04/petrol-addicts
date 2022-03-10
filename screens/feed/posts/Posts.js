@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { View, ScrollView, RefreshControl, StyleSheet, FlatList } from 'react-native'
 import { Layout, Text } from '@ui-kitten/components'
-import { getDocs, db, collection, query, orderBy } from "../../../firebase/firebasehandler"
+import { getDocs, db, collection, query, orderBy, limit } from "../../../firebase/firebasehandler"
 
 import Loading from "../../Loading"
 import PostsCard from '../../components/PostCard'
 
-export default function Posts() {
+export default function Posts({ route }) {
 
 
     const [posts, setPosts] = useState([])
@@ -17,7 +17,7 @@ export default function Posts() {
     async function getPosts() {
         try {
             const postsRef = collection(db, "posts")
-            const postsQuery = query(postsRef, orderBy("postedAt", "desc"))
+            const postsQuery = query(postsRef, orderBy("postedAt", "desc"), limit(20))
             const postsSnapshot = await getDocs(postsQuery)
             const posts = []
 
@@ -58,27 +58,23 @@ export default function Posts() {
         })
     }, [])
 
+
     return (
-        <Layout level={"1"}>
-            <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{ backgroundColor: "#fff", height: "100%" }}
-                refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
-                contentContainerStyle={{ flexGrow: 1 }}
-            >
-                {loaded ? posts.length === 0 ?
-                    <View style={styles.center}>
-                        <Text>Ainda não temos publicações! :(</Text>
-                    </View>
-                    :
-                    <FlatList
-                        data={posts}
-                        renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} comments={item.comments} />}
-                        keyExtractor={(item) => item.id}
-                        key={({ item }) => item.id}
-                    />
-                    : <Loading />}
-            </ScrollView>
+        <Layout level={"1"} style={{ height: "100%" }}>
+            {loaded ? posts.length === 0 ?
+                <View style={styles.center}>
+                    <Text>Ainda não temos publicações! :(</Text>
+                </View>
+                :
+                <FlatList
+                    showsVerticalScrollIndicator={false}
+                    initialNumToRender={20}
+                    refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+                    data={posts}
+                    renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} comments={item.comments} />}
+                    keyExtractor={(item) => item.id}
+                    key={({ item }) => item.id}
+                /> : <Loading />}
         </Layout >
     )
 }
@@ -87,6 +83,6 @@ const styles = StyleSheet.create({
     center: {
         flex: 1,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     }
 })

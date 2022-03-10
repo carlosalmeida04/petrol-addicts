@@ -1,15 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView, StatusBar } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import React, { useState, useCallback } from 'react'
+import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView } from 'react-native'
 
-import { useNavigation, useFocusEffect } from "@react-navigation/native"
-import * as ImagePicker from 'expo-image-picker'
-
-import { Text, Divider, Icon, Input, Button } from "@ui-kitten/components"
-import Header from "../../components/Header"
-
+import { useFocusEffect } from "@react-navigation/native"
 import { getName } from "../../components/Reducers"
+import { Input } from "@ui-kitten/components"
 
+import Header from "../../components/Header"
+import * as ImagePicker from 'expo-image-picker'
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
@@ -23,9 +20,6 @@ import {
 } from '../../../firebase/firebasehandler';
 
 
-
-
-
 export default function Create({ navigation }) {
 
 
@@ -37,15 +31,13 @@ export default function Create({ navigation }) {
     const [carro, setCarro] = useState("")
     const [name, setName] = useState("")
 
-
-
-
     async function pickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             quality: 1,
         })
+
         if (!result.cancelled) {
             const imgUri = result.uri
             setImage(imgUri)
@@ -127,12 +119,11 @@ export default function Create({ navigation }) {
                             blob.close()
                             imgUri = null
                             Alert.alert("Sucesso", "Publicado com sucesso!")
-                            navigation.goBack()
+                            navigation.goBack({ refresh: true   })
                         }).catch(alert)
                     })
                 })
         }
-
     }
 
     function removeImage() {
@@ -153,7 +144,6 @@ export default function Create({ navigation }) {
             <Header title={"Criar publicação"} buttonOnPress={uploadImage} />
             <ScrollView style={{ backgroundColor: "#fff", height: "100%" }} scrollEnabled={true} >
                 <View style={{ backgroundColor: "#3366FF", width: `${uploadProgress}%`, height: 1 }} />
-
                 {image &&
                     <View style={styles.image} >
                         <TouchableOpacity onPress={() => {

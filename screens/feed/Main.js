@@ -5,7 +5,7 @@ import { Icon } from "@ui-kitten/components"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Perfil from './profile/Profile'
-import Create from './posts/Create'
+import Search from './Search'
 import Posts from './posts/Posts'
 
 import BottomTabBar from '../components/BottomTabBar'
@@ -27,23 +27,18 @@ export default function Main({ navigation }) {
                 options={{
                     title: "Feed",
                     headerRight: () => (
-                        <View style={{ flexDirection: "row" }}>
-                            <TouchableOpacity style={{ marginRight: "2%" }}>
-                                <Icon name="search-outline" fill="black" style={{ height: 25, width: 25 }} />
-                            </TouchableOpacity>
-                            <TouchableOpacity style={{ marginRight: "2%" }} onPress={() => navigation.navigate("Create")}>
-                                <Icon name="plus-circle-outline" fill="black" style={{ height: 25, width: 25 }} />
-                            </TouchableOpacity>
-                        </View>
+                        <TouchableOpacity style={{ marginRight: "2%" }} onPress={() => navigation.navigate("Create")}>
+                            <Icon name="plus-circle-outline" fill="black" style={{ height: 25, width: 25 }} />
+                        </TouchableOpacity>
                     )
                 }}
                 component={Posts}
             />
-            {/* <Tab.Screen
-                name='Create Post'
+            <Tab.Screen
+                name='Search'
                 options={{ title: "Criar Publicação", headerShown: false }}
-                component={Create}
-            /> */}
+                component={Search}
+            />
             <Tab.Screen
                 name='Profile'
                 options={{

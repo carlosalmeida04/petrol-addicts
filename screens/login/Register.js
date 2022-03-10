@@ -24,7 +24,6 @@ export default function Register({ navigation }) {
     useEffect(() => {
         const unsubsribe = onAuthStateChanged(auth, user => {
             if (user) {
-                console.log(user.uid)
                 navigation.replace("Main")
             }
         })
@@ -121,6 +120,8 @@ export default function Register({ navigation }) {
                 status="basic"
                 size="large"
                 label='O seu e-mail'
+                keyboardType="email-address"
+                autoCapitalize={false}
                 placeholder='email@exemplo.com'
                 value={email}
                 accessoryLeft={<Icon name={"email-outline"} />}
