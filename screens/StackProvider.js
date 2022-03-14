@@ -16,7 +16,7 @@ import Comments from './feed/Comments'
 import Register from './login/Register'
 import Login from './login/Login'
 import Header from "./components/Header"
-import Create from './feed/posts/Create'
+import Create from './feed/posts/create/Create'
 
 const Stack = createNativeStackNavigator()
 

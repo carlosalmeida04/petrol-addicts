@@ -2,10 +2,10 @@ import React, { useState, useCallback } from 'react'
 import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native'
 
 import { useFocusEffect } from "@react-navigation/native"
-import { getName } from "../../components/Reducers"
+import { getName } from "../../../components/Reducers"
 import { Input } from "@ui-kitten/components"
 
-import Header from "../../components/Header"
+import Header from "../../../components/Header"
 import * as ImagePicker from 'expo-image-picker'
 
 import 'react-native-get-random-values'
@@ -17,7 +17,7 @@ import {
     ref, auth, doc,
     setDoc, db,
     Timestamp,
-} from '../../../firebase/firebasehandler';
+} from '../../../../firebase/firebasehandler';
 
 
 export default function Create({ navigation }) {
@@ -45,6 +45,7 @@ export default function Create({ navigation }) {
             Image.getSize(imgUri, (srcWith, srcHeight) => {
                 setAspectRatio(srcWith / srcHeight)
             })
+
         }
     }
 
@@ -90,7 +91,6 @@ export default function Create({ navigation }) {
 
             const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postFolderRef}/${filename}`)
             const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
-
             uploadTask.on("state_changed",
                 (snapshot) => {
                     setUploadProgress(snapshot.bytesTransferred / snapshot.totalBytes * 100)
@@ -119,7 +119,7 @@ export default function Create({ navigation }) {
                             blob.close()
                             imgUri = null
                             Alert.alert("Sucesso", "Publicado com sucesso!")
-                            navigation.goBack({ refresh: true })
+                            navigation.goBack()
                         }).catch(alert)
                     })
                 })
@@ -152,8 +152,9 @@ export default function Create({ navigation }) {
                         }}>
                             <Image source={{ uri: image }} style={{ aspectRatio: aspectRatio }} />
                         </TouchableOpacity>
-                    </View>}
-
+                    </View>
+                }
+                
                 {imagePicked &&
                     <KeyboardAvoidingView style={{ width: "95%", marginEnd: "2.5%", marginStart: "2.5%" }} behavior={Platform.OS === "ios" ? "padding" : false}>
                         <Input
