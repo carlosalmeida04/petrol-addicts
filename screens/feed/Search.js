@@ -8,7 +8,7 @@ export default function Search() {
     return (
 
         <SafeAreaView style={{ backgroundColor: "#fff", flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Text>Pesquisar</Text >
+            <Text>Ecrã de pesquisa</Text >
         </SafeAreaView>
     )
 }

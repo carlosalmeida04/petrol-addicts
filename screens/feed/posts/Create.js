@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView } from 'react-native'
+import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native'
 
 import { useFocusEffect } from "@react-navigation/native"
 import { getName } from "../../components/Reducers"
@@ -119,7 +119,7 @@ export default function Create({ navigation }) {
                             blob.close()
                             imgUri = null
                             Alert.alert("Sucesso", "Publicado com sucesso!")
-                            navigation.goBack({ refresh: true   })
+                            navigation.goBack({ refresh: true })
                         }).catch(alert)
                     })
                 })
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: "100%",
+        width: Dimensions.get("screen").width,
         height: undefined,
         marginBottom: "2%"
     }

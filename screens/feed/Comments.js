@@ -1,13 +1,11 @@
 import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList, Alert } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy, updateDoc, increment } from "../../firebase/firebasehandler"
 import { Input, Divider, Text, Icon } from "@ui-kitten/components"
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../Loading'
 import Comment from '../components/Comment'
-
-import { throttle } from "throttle-debounce"
 
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
