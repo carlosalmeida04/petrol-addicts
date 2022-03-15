@@ -17,6 +17,8 @@ import Register from './login/Register'
 import Login from './login/Login'
 import Header from "./components/Header"
 import Create from './feed/posts/create/Create'
+import Overview from './feed/posts/create/pages/Overview'
+import CarInfo from './feed/posts/create/pages/CarInfo'
 
 const Stack = createNativeStackNavigator()
 
@@ -95,7 +97,11 @@ export default function StackProvider() {
                             <Header title="Publicação" />
                         )
                     }} />
-                <Stack.Screen name='Create' component={Create} options={{ headerShown: false }} />
+                <Stack.Group>
+                    <Stack.Screen name='Create' component={Create} options={{ headerShown: false }} />
+                    <Stack.Screen name="Overview" component={Overview} options={{ headerShown: false }} />
+                    <Stack.Screen name="CarInfo" component={CarInfo} options={{ headerShown: false }} />
+                </Stack.Group>
             </Stack.Navigator>
         </NavigationContainer>
     )

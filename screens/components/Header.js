@@ -8,16 +8,16 @@ const BackIcon = (props) => (
     <Icon {...props} name='arrow-back' />
 )
 
-export default function Header({ title, subtitle, buttonOnPress }) {
+export default function Header({ title, subtitle, buttonOnPress, buttonText }) {
 
     const navigation = useNavigation()
 
     const renderBackAction = () => (
         <TopNavigationAction icon={BackIcon} onPress={() => navigation.goBack()} />
     )
-    const uploadImage = () => (
+    const buttonRight = () => (
         <TouchableOpacity onPress={buttonOnPress}>
-            <Text style={{ fontWeight: "bold", color: "#3366FF" }} category="p2">Publicar</Text>
+            <Text style={{ fontWeight: "bold", color: "#3366FF" }} category="p2">{buttonText}</Text>
         </TouchableOpacity>
     )
 
@@ -29,7 +29,7 @@ export default function Header({ title, subtitle, buttonOnPress }) {
                     title={title}
                     subtitle={subtitle}
                     accessoryLeft={renderBackAction}
-                    accessoryRight={title === "Criar publicação" ? uploadImage : false}
+                    accessoryRight={title === "Criar publicação" || "Informações do carro" ? buttonRight : false}
                 />
             </SafeAreaView>
         </Layout>
