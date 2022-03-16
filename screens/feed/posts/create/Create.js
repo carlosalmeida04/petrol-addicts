@@ -139,7 +139,19 @@ export default function Create({ navigation }) {
             Alert.alert("Informação", "Tens de introduzir uma descrição.")
             return
         }
-        navigation.navigate("CarInfo", { car: carro })
+        Alert.alert("Informação", "Sabes as especificações do carro que estás a publicar?",
+            [
+                {
+                    onPress: () => navigation.navigate("CarInfo", { car: carro }),
+                    text: "Sim",
+                },
+                {
+                    onPress: () => navigation.navigate("Overview"),
+                    text: "Não"
+                }
+            ], { cancelable: false }
+        )
+
     }
 
     useFocusEffect(

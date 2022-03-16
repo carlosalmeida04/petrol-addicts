@@ -29,10 +29,9 @@ export default function Header({ title, subtitle, buttonOnPress, buttonText }) {
                     title={title}
                     subtitle={subtitle}
                     accessoryLeft={renderBackAction}
-                    accessoryRight={title === "Criar publicação" || "Informações do carro" ? buttonRight : false}
+                    accessoryRight={title === "Criar publicação" || "Informações do carro" || "Resumo" ? buttonRight : <></>}
                 />
             </SafeAreaView>
         </Layout>
-
     )
 }

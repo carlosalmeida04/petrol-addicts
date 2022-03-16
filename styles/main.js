@@ -34,7 +34,7 @@ export default StyleSheet.create({
         width: 300,
     },
     input: {
-        marginBottom: 10,
+        marginBottom: 15,
         width: "80%",
     },
     forgotPasswordText: {

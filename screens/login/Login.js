@@ -98,7 +98,7 @@ export default function Login({ navigation }) {
                 <Text category="c1" >Petrol-Addicts</Text>
             </View>
             <Input
-                label="E-mail"
+                //label="E-mail"
                 placeholder="email@exemplo.com"
                 size="large"
                 autoCapitalize='none'
@@ -109,9 +109,9 @@ export default function Login({ navigation }) {
                 onChangeText={text => setEmail(text)}
             />
             <Input
-                label="Palvra-passe"
+                //Slabel="Palvra-passe"
                 size="large"
-                placeholder="palavrapasse123"
+                placeholder="Palavra-passe"
                 value={password}
                 secureTextEntry={secureTextEntry}
                 style={styles.input}
@@ -120,7 +120,7 @@ export default function Login({ navigation }) {
                 onChangeText={text => setPassword(text)}
             />
             <View style={{ marginLeft: "auto", marginRight: "7%", marginBottom: 15 }}>
-                <Button status={"basic"} size="tiny" appearance="ghost"> Esqueceste-te da palavrapasse?</Button>
+                <Button status={"basic"} size="tiny" appearance="ghost"> Esqueceste-te da palavra-passe?</Button>
             </View>
             <Button style={main.button} appearance="filled" onPress={handleLogin}>Autenticar</Button>
         </KeyboardAvoidingView >

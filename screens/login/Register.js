@@ -107,8 +107,8 @@ export default function Register({ navigation }) {
             <Input
                 size="large"
                 status="basic"
-                label='Nome'
-                placeholder='Sílvia Raquel'
+                //label='Nome'
+                placeholder='Nome Sobrenome'
                 keyboardType='email-address'
                 value={name}
                 accessoryLeft={<Icon name={"person-outline"} />}
@@ -119,7 +119,7 @@ export default function Register({ navigation }) {
 
                 status="basic"
                 size="large"
-                label='O seu e-mail'
+                //label='O seu e-mail'
                 keyboardType="email-address"
                 autoCapitalize={false}
                 placeholder='email@exemplo.com'
@@ -130,9 +130,9 @@ export default function Register({ navigation }) {
             />
             <Input
                 status="basic"
-                label='Palavra-passe'
+                //label='Palavra-passe'
                 size="large"
-                placeholder='palavrapasse123'
+                placeholder='Palavra-passe'
                 value={password}
                 accessoryRight={renderIcon}
                 accessoryLeft={<Icon name={"lock-outline"} />}
@@ -143,14 +143,14 @@ export default function Register({ navigation }) {
             <Input
                 size="large"
                 status="basic"
-                label='Confirme a palavra-passe'
-                placeholder='palavrapasse123'
+                //label='Confirme a palavra-passe'
+                placeholder='Confirmar palavra-passe'
                 value={passowrdConfirm}
                 accessoryRight={renderIcon}
                 secureTextEntry={secureTextEntry}
                 accessoryLeft={<Icon name={"lock-outline"} />}
                 onChangeText={text => setPasswordConfirm(text)}
-                style={[styles.input, { marginBottom: 15 }]}
+                style={[styles.input, { marginBottom: 30 }]}
             />
             <Button appearance="filled" onPress={handleRegister} style={styles.button} size="large">
                 Registar
