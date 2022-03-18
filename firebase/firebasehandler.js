@@ -26,7 +26,7 @@ import {
     getStorage,
     ref,
     uploadBytesResumable,
-    getDownloadURL,
+    getDownloadURL, deleteObject
 } from "firebase/storage";
 
 
@@ -51,5 +51,5 @@ export {
     getDoc, ref, uploadBytesResumable,
     getDownloadURL,
     Timestamp, collection, getDocs, onSnapshot, query, orderBy, 
-    limit, where, deleteDoc, updateDoc, increment
+    limit, where, deleteDoc, updateDoc, increment, deleteObject
 }

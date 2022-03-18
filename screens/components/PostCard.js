@@ -13,7 +13,7 @@ import moment from 'moment';
 import "moment/locale/pt"
 
 
-export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments }) {
+export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments, fileName }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
     const [aspectRatio, setAspectRatio] = useState({ apr: 0 })
@@ -67,7 +67,7 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                         />
                         <Text style={[styles.textB, { marginStart: "3%" }]} category="s1">{name}</Text>
                     </TouchableOpacity>
-                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={id} /> : false}
+                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={id} fileName={fileName}/> : false}
                 </View>
                 <Divider />
                 <View >

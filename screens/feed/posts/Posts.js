@@ -32,7 +32,8 @@ export default function Posts() {
                         uid: doc.data().uid,
                         likes: doc.data().likes,
                         comments: doc.data().comments,
-                        postedAt: doc.data().postedAt
+                        postedAt: doc.data().postedAt,
+                        fileName: doc.data().fileName
                     })
                 }
             )
@@ -67,7 +68,7 @@ export default function Posts() {
                     contentContainerStyle={{ flexGrow: 1 }}
                 >
                     <View style={styles.center}>
-                        <Text>Ainda não temos publicações! :(</Text>
+                        <Text>Ainda não temos publicações! ☹</Text>
                     </View>
                 </ScrollView>
                 :
@@ -76,7 +77,7 @@ export default function Posts() {
                     initialNumToRender={20}
                     refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                     data={posts}
-                    renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} comments={item.comments} />}
+                    renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} comments={item.comments} fileName={item.fileName} />}
                     keyExtractor={(item) => item.id}
                     key={({ item }) => item.id}
                 /> : <Loading />}

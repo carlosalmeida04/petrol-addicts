@@ -5,7 +5,7 @@ import { Icon, Divider, OverflowMenu, MenuItem } from '@ui-kitten/components'
 import { deletePost } from './Reducers'
 
 
-export default function OverflowMenuButton({ postId }) {
+export default function OverflowMenuButton({ postId, fileName }) {
 
     const [visible, setVisible] = useState(false)
     
@@ -20,7 +20,7 @@ export default function OverflowMenuButton({ postId }) {
             [
                 {
                     text: "Sim",
-                    onPress: () => deletePost(postId)
+                    onPress: () => deletePost(postId, fileName)
                 },
                 {
                     text: "Cancelar",

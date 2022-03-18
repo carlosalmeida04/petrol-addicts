@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Alert } from "react-native"
 
+
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -11,7 +12,7 @@ import {
     storage, uploadBytesResumable,
     getDownloadURL,
     ref, auth,
-    Timestamp,
+    Timestamp, deleteObject
 } from "../../firebase/firebasehandler"
 
 
@@ -47,9 +48,10 @@ export const updateLike = async (postId, uid, state) => {
     }
 }
 
-export const deletePost = async (postId) => {
+export const deletePost = async (postId, fileName) => {
     try {
         await deleteDoc(doc(db, "posts", postId))
+        //await deleteObject(ref(storage, `posts/${auth.currentUser.uid}/${postId}/${fileName}`))
         Alert.alert("Sucesso", "Publicação apagada com sucesso!")
     } catch (error) {
         console.log(error)
@@ -65,14 +67,16 @@ export const getName = async () => {
 }
 
 export const createPost = async (url, filename, carro, description) => {
-    let name
-    getName().then((nome) => name = nome)
+
+
 
     const postId = uuidv4()
     try {
+        const nome = await getName()
+        console.log(nome.toString())
         await setDoc(doc(db, "posts", postId), {
             postedAt: Timestamp.fromDate(new Date()),
-            name: name,
+            name: nome.toString(),
             uid: auth.currentUser.uid,
             desc: description,
             car: carro,
@@ -88,6 +92,8 @@ export const createPost = async (url, filename, carro, description) => {
 
 
 export const uploadImage = async (imageUri, carro, desc) => {
+
+    // const navigation = useNavigation()
     try {
 
         let filename = imageUri.substring(imageUri.lastIndexOf("/") + 1)
@@ -97,7 +103,7 @@ export const uploadImage = async (imageUri, carro, desc) => {
         filename = name + Date.now() + "." + extention
 
 
-        let imgUri = await fetch(image)
+        let imgUri = await fetch(imageUri)
         const blob = await imgUri.blob()
         const postFolderRef = uuidv4()
 
@@ -109,7 +115,7 @@ export const uploadImage = async (imageUri, carro, desc) => {
         const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
         uploadTask.on("state_changed",
             (snapshot) => {
-                setUploadProgress(snapshot.bytesTransferred / snapshot.totalBytes * 100)
+                //setUploadProgress(snapshot.bytesTransferred / snapshot.totalBytes * 100)
             },
             (error) => {
                 switch (error.code) {
@@ -127,15 +133,15 @@ export const uploadImage = async (imageUri, carro, desc) => {
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
                     createPost(downloadUrl, filename, carro, desc).then(() => {
-                        setImage(null)
-                        setImagePicked(false)
-                        setUploadProgress(0)
-                        setCarro("")
-                        setDesc("")
+                        // setImage(null)
+                        // setImagePicked(false)
+                        // setUploadProgress(0)
+                        // setCarro("")
+                        // setDesc("")
                         blob.close()
                         imgUri = null
                         Alert.alert("Sucesso", "Publicado com sucesso!")
-                        navigation.goBack()
+                        //navigation.goBack()
                     }).catch(alert)
                 })
             })
