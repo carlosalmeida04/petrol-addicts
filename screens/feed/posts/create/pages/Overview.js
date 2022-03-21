@@ -20,8 +20,13 @@ export default function Overview({ route }) {
             <ScrollView>
                 {params.fromCarInfo ?
                     <View>
+
                         <View style={styles.carView}>
                             <Text category={"h2"} >{params.car}</Text>
+                        </View>
+                        <Text>ola</Text>
+                        <View style={styles.image} >
+                            <Image source={{ uri: params.image }} style={{ aspectRatio: params.ap }} />
                         </View>
                         <View style={{ padding: "2.5%" }}>
                             <Divider />
@@ -71,7 +76,6 @@ export default function Overview({ route }) {
                             <View style={{ width: "95%", marginTop: "2%", flexDirection: "row" }}>
                                 <Input
                                     label="Transmição"
-                                    onSelect={index => transSetSelectedIndex(index)}
                                     value={params.trans}
                                     style={{ width: "63%", marginEnd: "2%" }}
                                     size={"large"}

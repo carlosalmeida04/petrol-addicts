@@ -11,6 +11,8 @@ export default function CarInfo({ navigation, route }) {
     const [displacement, setDisplacement] = useState(0)
     const [power, setPower] = useState(0)
 
+    console.log(params);
+
     const [engineselectedIndex, engineSetSelectedIndex] = useState(new IndexPath(0))
     const [fuelsSelectedIndex, fuelsSetSelectedIndex] = useState(new IndexPath(0))
     const [transSelectedIndex, transSetSelectedIndex] = useState(new IndexPath(0))
@@ -46,7 +48,8 @@ export default function CarInfo({ navigation, route }) {
             desc: params.desc,
             image: params.image,
             name: params.name,
-            fromCarInfo: true
+            fromCarInfo: true,
+            ap: params.ap
         })
     }
 
