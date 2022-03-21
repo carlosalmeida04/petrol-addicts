@@ -15,7 +15,6 @@ export default function Perfil({ navigation }) {
     const [posts, setPosts] = useState([])
     const [loaded, setLoaded] = useState(false)
 
-
     async function getUserInfo() {
         try {
             const usersDocSnap = await getDoc(doc(db, "users", auth.currentUser.uid))
@@ -52,7 +51,6 @@ export default function Perfil({ navigation }) {
             console.log(e)
         }
     }
-
 
     useEffect(() => {
         loaded || getUserInfo().then((nome) => {

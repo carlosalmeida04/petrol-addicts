@@ -7,11 +7,8 @@ import { Layout, Text, Divider, Input, Select, SelectItem, IndexPath } from '@ui
 export default function CarInfo({ navigation, route }) {
 
     const params = route.params
-
     const [displacement, setDisplacement] = useState(0)
     const [power, setPower] = useState(0)
-
-    console.log(params);
 
     const [engineselectedIndex, engineSetSelectedIndex] = useState(new IndexPath(0))
     const [fuelsSelectedIndex, fuelsSetSelectedIndex] = useState(new IndexPath(0))
@@ -63,7 +60,7 @@ export default function CarInfo({ navigation, route }) {
 
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
-            <Header buttonOnPress={navigateNextScreen} buttonText={"Seguinte"} title={"Informações do carro"} subtitle={"Ford Mustang GT"} />
+            <Header buttonOnPress={navigateNextScreen} buttonText={"Seguinte"} title={"Informações do carro"} subtitle={params.car} />
             <ScrollView>
                 <View>
                     <View style={styles.carView}>

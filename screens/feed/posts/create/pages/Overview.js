@@ -2,13 +2,15 @@ import { View, ScrollView, StyleSheet, Dimensions, Image } from 'react-native'
 import React from 'react'
 import Header from '../../../../components/Header'
 import { uploadImage } from '../../../../components/Reducers'
+import { useNavigation } from "@react-navigation/native"
 
 import { Layout, Input, Text, Divider } from '@ui-kitten/components'
 export default function Overview({ route }) {
-    const params = route.params
-    console.log(params)
-    // no final para publicar, enviar os argumentos para a funçao: imgURI, carro e desc: uploadImage(imgUri, carro, desc)
 
+
+    const params = route.params
+
+    const navigation = useNavigation()
 
     const AccessoryRight = ({ text }) => (
         <Text category="s1">{text}</Text>
@@ -16,20 +18,25 @@ export default function Overview({ route }) {
 
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
-            <Header buttonOnPress={() => { uploadImage(params.image, params.car, params.des) }} buttonText="Publicar" title={"Resumo"} />
+            <Header buttonOnPress={() => {
+                uploadImage(params.image, params.car, params.desc).then(() => {
+                    navigation.navigate("Main")
+                })
+            }} buttonText="Publicar" title={"Resumo"} />
+
             <ScrollView>
                 {params.fromCarInfo ?
-                    <View>
+                    <View style={{ marginBottom: "5%" }}>
 
-                        <View style={styles.carView}>
-                            <Text category={"h2"} >{params.car}</Text>
-                        </View>
-                        <Text>ola</Text>
                         <View style={styles.image} >
                             <Image source={{ uri: params.image }} style={{ aspectRatio: params.ap }} />
                         </View>
                         <View style={{ padding: "2.5%" }}>
                             <Divider />
+                        </View>
+                        <View style={styles.carView}>
+                            <Text category={"h2"} >{params.car}</Text>
+                            <Text category={"p1"} >{params.desc}</Text>
                         </View>
 
                         <View style={{ width: "100%", alignItems: "center" }} >
