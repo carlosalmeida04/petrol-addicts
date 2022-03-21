@@ -31,6 +31,8 @@ export default function Create({ navigation }) {
     const [carro, setCarro] = useState("")
     const [name, setName] = useState("")
 
+    const postId = uuidv4()
+
     async function pickImage() {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -50,7 +52,7 @@ export default function Create({ navigation }) {
     }
 
     async function createPost(downlodUrl, filename) {
-        const postId = uuidv4()
+
         try {
             const post = await setDoc(doc(db, "posts", postId), {
                 postedAt: Timestamp.fromDate(new Date()),
@@ -83,13 +85,13 @@ export default function Create({ navigation }) {
 
             let imgUri = await fetch(image)
             const blob = await imgUri.blob()
-            const postFolderRef = uuidv4()
+
 
             const metadata = {
                 contentType: 'image/jpeg'
             }
 
-            const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postFolderRef}/${filename}`)
+            const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postId}/${filename}`)
             const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
             uploadTask.on("state_changed",
                 (snapshot) => {
