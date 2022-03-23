@@ -1,16 +1,110 @@
 import { View, ScrollView, StyleSheet, Dimensions, Image } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../../../../components/Header'
-import { uploadImage } from '../../../../components/Reducers'
 import { useNavigation } from "@react-navigation/native"
+
+import {
+    doc, db,
+    setDoc,
+    storage, uploadBytesResumable,
+    getDownloadURL,
+    ref, auth,
+    Timestamp,
+} from "../../../../../firebase/firebasehandler"
 
 import { Layout, Input, Text, Divider } from '@ui-kitten/components'
 export default function Overview({ route }) {
 
+    const navigation = useNavigation()
+    const [uploadProgress, setUploadProgress] = useState(0)
 
     const params = route.params
 
-    const navigation = useNavigation()
+
+    const createPost = async (url, filename) => {
+
+        const description = params.desc, carro = params.car
+
+        const postId = uuidv4()
+        try {
+            const nome = await getName()
+            console.log(nome.toString())
+            await setDoc(doc(db, "posts", postId), {
+                postedAt: Timestamp.fromDate(new Date()),
+                name: nome.toString(),
+                uid: auth.currentUser.uid,
+                desc: description,
+                car: carro,
+                comments: 0,
+                likes: 0,
+                downloadUrl: url,
+                fileName: filename
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    const uploadImage = async () => {
+
+        const imageUri = params.image
+        try {
+
+            let filename = imageUri.substring(imageUri.lastIndexOf("/") + 1)
+
+            const extention = filename.split(".").pop()
+            const name = filename.split(".").slice(0, -1).join(".")
+            filename = name + Date.now() + "." + extention
+
+
+            let imgUri = await fetch(imageUri)
+            const blob = await imgUri.blob()
+            const postFolderRef = uuidv4()
+
+            const metadata = {
+                contentType: 'image/jpeg'
+            }
+
+            const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postFolderRef}/${filename}`)
+            const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
+            uploadTask.on("state_changed",
+                (snapshot) => {
+                    setUploadProgress(snapshot.bytesTransferred / snapshot.totalBytes * 100)
+                },
+                (error) => {
+                    switch (error.code) {
+                        case 'storage/unauthorized':
+                            console.log("storage/unauthorized")
+                            break;
+                        case 'storage/canceled':
+                            console.log("storage/canceled")
+                            break;
+                        case 'storage/unknown':
+                            console.log("storage/unknown")
+                            break;
+                    }
+                },
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
+                        createPost(downloadUrl, filename).then(() => {
+                            // setImage(null)
+                            // setImagePicked(false)
+                            // setUploadProgress(0)
+                            // setCarro("")
+                            // setDesc("")
+                            blob.close()
+                            imgUri = null
+                            Alert.alert("Sucesso", "Publicado com sucesso!")
+                            //navigation.goBack()
+                        }).catch(alert)
+                    })
+                })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     const AccessoryRight = ({ text }) => (
         <Text category="s1">{text}</Text>
@@ -18,12 +112,8 @@ export default function Overview({ route }) {
 
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
-            <Header buttonOnPress={() => {
-                uploadImage(params.image, params.car, params.desc).then(() => {
-                    navigation.navigate("Main")
-                })
-            }} buttonText="Publicar" title={"Resumo"} />
-
+            <Header buttonText="Publicar" title={"Resumo"} />
+            <View style={{ width: `${uploadProgress}%`, backgroundColor: "#3366FF", height: 2 }} />
             <ScrollView>
                 {params.fromCarInfo ?
                     <View style={{ marginBottom: "5%" }}>
