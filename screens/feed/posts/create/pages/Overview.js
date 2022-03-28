@@ -1,8 +1,9 @@
-import { View, ScrollView, StyleSheet, Dimensions, Image } from 'react-native'
-import React, { useState } from 'react'
+import { View, ScrollView, StyleSheet, Dimensions, Image, Alert } from 'react-native'
+import { Layout, Input, Text, Divider } from '@ui-kitten/components'
 import Header from '../../../../components/Header'
+import { getName } from "../../../../components/Reducers"
 import { useNavigation } from "@react-navigation/native"
-
+import React, { useState } from 'react'
 import {
     doc, db,
     setDoc,
@@ -12,7 +13,10 @@ import {
     Timestamp,
 } from "../../../../../firebase/firebasehandler"
 
-import { Layout, Input, Text, Divider } from '@ui-kitten/components'
+
+import 'react-native-get-random-values'
+import { v4 as uuidv4 } from 'uuid'
+
 export default function Overview({ route }) {
 
     const navigation = useNavigation()
@@ -20,18 +24,17 @@ export default function Overview({ route }) {
 
     const params = route.params
 
+    console.log(params)
 
-    const createPost = async (url, filename) => {
+    async function createPost(url, filename) {
 
         const description = params.desc, carro = params.car
-
         const postId = uuidv4()
         try {
             const nome = await getName()
-            console.log(nome.toString())
             await setDoc(doc(db, "posts", postId), {
                 postedAt: Timestamp.fromDate(new Date()),
-                name: nome.toString(),
+                name: nome,
                 uid: auth.currentUser.uid,
                 desc: description,
                 car: carro,
@@ -45,8 +48,10 @@ export default function Overview({ route }) {
         }
     }
 
+    async function addCar() {
 
-    const uploadImage = async () => {
+    }
+    async function uploadImage() {
 
         const imageUri = params.image
         try {
@@ -90,13 +95,17 @@ export default function Overview({ route }) {
                         createPost(downloadUrl, filename).then(() => {
                             // setImage(null)
                             // setImagePicked(false)
-                            // setUploadProgress(0)
+                            setUploadProgress(0)
                             // setCarro("")
                             // setDesc("")
                             blob.close()
                             imgUri = null
+
+                            // params.fromCarInfo ? addCar().then(() => {
+                            //     navigation.navigate("Main")
+                            // }) : navigation.navigate("Main")
+
                             Alert.alert("Sucesso", "Publicado com sucesso!")
-                            //navigation.goBack()
                         }).catch(alert)
                     })
                 })
@@ -112,7 +121,7 @@ export default function Overview({ route }) {
 
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
-            <Header buttonText="Publicar" title={"Resumo"} />
+            <Header buttonText="Publicar" title={"Resumo"} buttonOnPress={uploadImage} />
             <View style={{ width: `${uploadProgress}%`, backgroundColor: "#3366FF", height: 2 }} />
             <ScrollView>
                 {params.fromCarInfo ?
