@@ -70,7 +70,7 @@ export default function StackProvider() {
                 <Stack.Screen name="Landing" component={Landing} options={{ headerShown: false }} />
                 <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
                 <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
-                <Stack.Screen name="Main" component={Main} options={{ headerShown: false }} />
+                <Stack.Screen name="Main" component={Main} options={{ headerShown: false, gestureEnabled: false }} />
                 <Stack.Screen name="Settings" component={Settings}
                     options={{
                         header: () => (

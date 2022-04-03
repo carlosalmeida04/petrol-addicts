@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { TouchableOpacity, View } from 'react-native'
 import { Icon } from "@ui-kitten/components"
 
@@ -12,8 +12,15 @@ import BottomTabBar from '../components/BottomTabBar'
 
 const Tab = createBottomTabNavigator()
 
-export default function Main({ navigation }) {
+export default function Main({ navigation, route }) {
 
+    const params = route.params
+
+    useEffect(() => {
+        navigation.addListener("beforeRemove", (e) => {
+            e.preventDefault()
+        })
+    }, [])
     return (
         <Tab.Navigator
             backBehavior="order"

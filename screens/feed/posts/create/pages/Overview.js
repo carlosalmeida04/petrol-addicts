@@ -41,7 +41,8 @@ export default function Overview({ route }) {
                 comments: 0,
                 likes: 0,
                 downloadUrl: url,
-                fileName: filename
+                fileName: filename,
+                ap: params.ap
             })
         } catch (error) {
             console.log(error)
@@ -54,7 +55,7 @@ export default function Overview({ route }) {
             if (!params.fromCarInfo) {
                 return
             }
-            await setDoc(doc(db, "carros", params.car), {
+            await setDoc(doc(db, "cars", params.car), {
                 createdAt: Timestamp.fromDate(new Date()),
                 engine: params.engine,
                 fuelType: params.fuel,
@@ -119,6 +120,9 @@ export default function Overview({ route }) {
 
                             addCar().then(() => {
                                 Alert.alert("Sucesso", "Publicado com sucesso!")
+                                navigation.navigate("Main", {
+                                    cameFromCreatePost: true
+                                })
                             }).catch(alert)
 
 
