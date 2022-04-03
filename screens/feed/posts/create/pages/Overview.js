@@ -4,6 +4,7 @@ import Header from '../../../../components/Header'
 import { getName } from "../../../../components/Reducers"
 import { useNavigation } from "@react-navigation/native"
 import React, { useState } from 'react'
+
 import {
     doc, db,
     setDoc,
@@ -24,7 +25,6 @@ export default function Overview({ route }) {
 
     const params = route.params
 
-    console.log(params)
 
     async function createPost(url, filename) {
 
@@ -50,6 +50,22 @@ export default function Overview({ route }) {
 
     async function addCar() {
 
+        try {
+            if (!params.fromCarInfo) {
+                return
+            }
+            await setDoc(doc(db, "carros", params.car), {
+                createdAt: Timestamp.fromDate(new Date()),
+                engine: params.engine,
+                fuelType: params.fuel,
+                displacement: params.displacement,
+                drive: params.drive,
+                transmission: params.trans,
+                power: params.power
+            })
+        } catch (e) {
+            console.log(e)
+        }
     }
     async function uploadImage() {
 
@@ -101,11 +117,11 @@ export default function Overview({ route }) {
                             blob.close()
                             imgUri = null
 
-                            // params.fromCarInfo ? addCar().then(() => {
-                            //     navigation.navigate("Main")
-                            // }) : navigation.navigate("Main")
+                            addCar().then(() => {
+                                Alert.alert("Sucesso", "Publicado com sucesso!")
+                            }).catch(alert)
 
-                            Alert.alert("Sucesso", "Publicado com sucesso!")
+
                         }).catch(alert)
                     })
                 })
