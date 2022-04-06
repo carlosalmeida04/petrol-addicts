@@ -17,6 +17,7 @@ export default function Main({ navigation, route }) {
     const params = route.params
 
     useEffect(() => {
+        
         navigation.addListener("beforeRemove", (e) => {
             e.preventDefault()
         })

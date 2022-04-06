@@ -13,20 +13,13 @@ import moment from 'moment';
 import "moment/locale/pt"
 
 
-export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments, fileName }) {
+export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments, fileName, ap }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
-    const [aspectRatio, setAspectRatio] = useState({ apr: 0 })
     const navigation = useNavigation()
 
 
     useEffect(() => {
-        Image.getSize(img, (srcWith, srcHeight) => {
-            setAspectRatio({
-                ...aspectRatio,
-                apr: (srcWith / srcHeight)
-            })
-        })
 
         getLikeById(id, auth.currentUser.uid).then((res) => {
             setCurrentLikeState({
@@ -67,12 +60,12 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                         />
                         <Text style={[styles.textB, { marginStart: "3%" }]} category="s1">{name}</Text>
                     </TouchableOpacity>
-                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={id} fileName={fileName}/> : false}
+                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={id} fileName={fileName} /> : false}
                 </View>
                 <Divider />
                 <View >
                     <Image
-                        style={[styles.image, { aspectRatio: aspectRatio.apr }]}
+                        style={[styles.image, { aspectRatio: ap }]}
                         source={{ uri: img }}
                     />
                 </View>

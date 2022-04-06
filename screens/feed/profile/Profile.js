@@ -65,31 +65,32 @@ export default function Perfil({ navigation }) {
 
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
-            {loaded ?
-                <View>
-                    <View style={{ marginStart: "2.5%", width: "95%", flexDirection: "row", alignItems: "center" }}>
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+            >
+                {loaded ?
+                    <View>
+                        <View style={{ marginStart: "2.5%", width: "95%", flexDirection: "row", alignItems: "center" }}>
 
-                        <Image style={{ marginTop: "2%", borderRadius: 100, }}
-                            source={{
-                                width: 100,
-                                height: 100,
-                                uri: `https://avatars.dicebear.com/api/initials/${userInfo.nome}.png`
-                            }}
-                        />
+                            <Image style={{ marginTop: "2%", borderRadius: 100, }}
+                                source={{
+                                    width: 100,
+                                    height: 100,
+                                    uri: `https://avatars.dicebear.com/api/initials/${userInfo.nome}.png`
+                                }}
+                            />
 
-                        <View style={{ flexDirection: "column", marginStart: "2%", flexShrink: 1 }}>
-                            <Text style={{ fontWeight: "bold" }}>{userInfo.nome}</Text>
-                            <Text>{userInfo.bio}</Text>
+                            <View style={{ flexDirection: "column", marginStart: "2%", flexShrink: 1 }}>
+                                <Text style={{ fontWeight: "bold" }}>{userInfo.nome}</Text>
+                                <Text>{userInfo.bio}</Text>
+                            </View>
+
                         </View>
+                        <View style={{ alignItems: "center" }}>
+                            <Icon name="grid-outline" fill="black" style={{ height: 30, width: 30 }} />
+                        </View>
+                        <Divider />
 
-                    </View>
-                    <View style={{ alignItems: "center" }}>
-                        <Icon name="grid-outline" fill="black" style={{ height: 30, width: 30 }} />
-                    </View>
-                    <Divider />
-                    <ScrollView
-                        contentContainerStyle={{ flexGrow: 1 }}
-                    >
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                             {posts.map(posts => (
                                 <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
@@ -118,8 +119,9 @@ export default function Perfil({ navigation }) {
                                 </View>
                             ))}
                         </View>
-                    </ScrollView>
-                </View > : <Loading />}
+
+                    </View > : <Loading />
+                }</ScrollView>
         </SafeAreaView >
     )
 }

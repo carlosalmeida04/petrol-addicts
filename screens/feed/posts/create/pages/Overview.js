@@ -24,12 +24,10 @@ export default function Overview({ route }) {
     const [uploadProgress, setUploadProgress] = useState(0)
 
     const params = route.params
-
+    const postId = uuidv4()
 
     async function createPost(url, filename) {
-
         const description = params.desc, carro = params.car
-        const postId = uuidv4()
         try {
             const nome = await getName()
             await setDoc(doc(db, "posts", postId), {
@@ -81,14 +79,14 @@ export default function Overview({ route }) {
 
 
             let imgUri = await fetch(imageUri)
-            const blob = await imgUri.blob()
-            const postFolderRef = uuidv4()
+            let blob = await imgUri.blob()
+
 
             const metadata = {
                 contentType: 'image/jpeg'
             }
 
-            const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postFolderRef}/${filename}`)
+            const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postId}/${filename}`)
             const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
             uploadTask.on("state_changed",
                 (snapshot) => {
@@ -110,21 +108,13 @@ export default function Overview({ route }) {
                 () => {
                     getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
                         createPost(downloadUrl, filename).then(() => {
-                            // setImage(null)
-                            // setImagePicked(false)
                             setUploadProgress(0)
-                            // setCarro("")
-                            // setDesc("")
                             blob.close()
                             imgUri = null
-
                             addCar().then(() => {
                                 Alert.alert("Sucesso", "Publicado com sucesso!")
-                                navigation.navigate("Main", {
-                                    cameFromCreatePost: true
-                                })
+                                navigation.navigate("Main")
                             }).catch(alert)
-
 
                         }).catch(alert)
                     })

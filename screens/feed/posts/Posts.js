@@ -33,7 +33,8 @@ export default function Posts() {
                         likes: doc.data().likes,
                         comments: doc.data().comments,
                         postedAt: doc.data().postedAt,
-                        fileName: doc.data().fileName
+                        fileName: doc.data().fileName,
+                        ap: doc.data().ap
                     })
                 }
             )
@@ -77,7 +78,20 @@ export default function Posts() {
                     initialNumToRender={20}
                     refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                     data={posts}
-                    renderItem={({ item }) => <PostsCard id={item.id} name={item.name} uid={item.uid} img={item.img} desc={item.desc} likes={item.likes} postedAt={item.postedAt} comments={item.comments} fileName={item.fileName} />}
+                    renderItem={({ item }) => (
+                        <PostsCard
+                            id={item.id}
+                            name={item.name}
+                            uid={item.uid}
+                            img={item.img}
+                            desc={item.desc}
+                            likes={item.likes}
+                            postedAt={item.postedAt}
+                            comments={item.comments}
+                            fileName={item.fileName}
+                            ap={item.ap}
+                        />
+                    )}
                     keyExtractor={(item) => item.id}
                     key={({ item }) => item.id}
                 /> : <Loading />}
