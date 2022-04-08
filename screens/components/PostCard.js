@@ -13,7 +13,7 @@ import moment from 'moment';
 import "moment/locale/pt"
 
 
-export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments, fileName, ap }) {
+export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, comments, fileName, ap, car }) {
 
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: likes })
     const navigation = useNavigation()
@@ -80,7 +80,7 @@ export default function PostsCard({ name, desc, img, uid, id, likes, postedAt, c
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: id })}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: id, car: car })}>
                         <Icon
                             style={styles.icon}
                             fill='black'

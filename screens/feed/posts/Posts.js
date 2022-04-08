@@ -90,6 +90,7 @@ export default function Posts() {
                             comments={item.comments}
                             fileName={item.fileName}
                             ap={item.ap}
+                            car={item.car}
                         />
                     )}
                     keyExtractor={(item) => item.id}
