@@ -11,7 +11,7 @@ export default function Login({ navigation }) {
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
-    const [secureTextEntry, setSecureTextEntry] = useState(true);
+    const [secureTextEntry, setSecureTextEntry] = useState(true)
 
     useEffect(() => {
         const unsubsribe = onAuthStateChanged(auth, (user) => {

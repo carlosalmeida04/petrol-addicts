@@ -25,8 +25,9 @@ export default function Settings({ navigation }) {
             await Alert.alert("Alerta",
                 "Atenção, ao limpar a chache a sua sessão irá ser terminada e os dados da aplicação serão removidos!",
                 [
-                    { text: 'Ok', onPress: () => AsyncStorage.clear().then(() => console.log("Done.")) }
-                ], { cancelable: false }
+                    { text: 'Ok', onPress: () => AsyncStorage.clear().then(() => console.log("Done.")) },
+                    { text: 'Cancelar', style: "cancel" }
+                ],
             )
 
         } catch (e) {
@@ -74,6 +75,20 @@ export default function Settings({ navigation }) {
                 })}>
                     <Text category={"p1"}>Alterar biografia</Text>
                     <Icon name={"edit-2-outline"} fill="black" style={styles.icon} />
+                </TouchableOpacity>
+                <Divider />
+            </View>
+            <View style={styles.section}>
+
+                <Text category={"h4"}>Aplicação</Text>
+                <TouchableOpacity style={styles.button} onPress={clearStorage}>
+                    <Text category={"p1"}>Limpar cache</Text>
+                    <Icon name={"trash-2-outline"} fill="black" style={styles.icon} />
+                </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity style={styles.button} onPress={logOut}>
+                    <Text category={"p1"} style={{color: "red"}}>Terminar sessão</Text>
+                    <Icon name={"log-out-outline"} fill="red" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
             </View>

@@ -157,9 +157,13 @@ export default function Comments({ route }) {
                                 :
                                 <FlatList
                                     data={comments}
-                                    renderItem={({ item }) => <Comment id={item.id} name={item.name} uid={item.uid} comment={item.comment} />}
                                     keyExtractor={(item) => item.id}
                                     key={({ item }) => item.id}
+                                    renderItem={({ item }) => <Comment
+                                        id={item.id}
+                                        name={item.name}
+                                        uid={item.uid}
+                                        comment={item.comment} />}
                                 />
                         }
                     </View>
