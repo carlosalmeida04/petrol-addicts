@@ -1,7 +1,7 @@
-import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList, Alert, Image } from 'react-native'
+import { View, ScrollView, StyleSheet, TouchableOpacity, SafeAreaView, FlatList, Alert, Image, RefreshControl } from 'react-native'
 import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy, updateDoc, increment, getDoc } from "../../firebase/firebasehandler"
 import { Input, Divider, Text, Icon } from "@ui-kitten/components"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../Loading'
@@ -20,6 +20,7 @@ export default function Comments({ route }) {
     const [loaded, setLoaded] = useState(false)
     const [comments, setComments] = useState([])
     const [carinfo, setCarInfo] = useState({})
+    const [refresh, setRefresh] = useState(false)
 
     const postId = route.params.postId
     const car = route.params.car
@@ -101,13 +102,21 @@ export default function Comments({ route }) {
     }, [loaded])
 
 
-
+    const onRefresh = useCallback(() => {
+        setRefresh(true)
+        getComments().then((comments) => {
+            setComments(comments)
+            setRefresh(false)
+        })
+    }, [])
 
     return (
         <>
             <ScrollView
                 style={{ backgroundColor: "#fff" }}
-                contentContainerStyle={{ flexGrow: 1 }} >
+                contentContainerStyle={{ flexGrow: 1 }}
+                refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+            >
                 {loaded ?
                     <View style={{ flex: 1 }}>
                         <View style={{ flexDirection: "row", alignItems: "center", textAlign: "center", justifyContent: "center" }}>

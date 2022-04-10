@@ -1,7 +1,7 @@
 import { db, getDoc, doc, auth, query, collection, where, getDocs, orderBy } from "../../../firebase/firebasehandler"
-import { TouchableOpacity, Image, View, SafeAreaView, ScrollView } from 'react-native'
+import { TouchableOpacity, Image, View, SafeAreaView, ScrollView, RefreshControl } from 'react-native'
 import { Icon, Text, Divider } from '@ui-kitten/components'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -14,6 +14,7 @@ export default function Perfil({ navigation }) {
     const [userInfo, setUserInfo] = useState({})
     const [posts, setPosts] = useState([])
     const [loaded, setLoaded] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     async function getUserInfo() {
         try {
@@ -63,9 +64,21 @@ export default function Perfil({ navigation }) {
         })
     }, [])
 
+
+    const onRefresh = useCallback(() => {
+        setRefresh(true)
+        getUserPosts().then((postReturn) => {
+            setPosts(postReturn)
+            getUserInfo().then(() => {
+                setRefresh(false)
+            })
+        })
+    }, [])
+
     return (
         <SafeAreaView style={{ backgroundColor: "#fff", height: "100%" }}>
             <ScrollView
+                refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                 contentContainerStyle={{ flexGrow: 1 }}
             >
                 {loaded ?
