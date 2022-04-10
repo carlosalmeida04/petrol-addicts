@@ -9,7 +9,7 @@ export default function Comment({ id, name, comment, uid }) {
     const navigation = useNavigation()
     return (
         <Layout level="1">
-            <View style={{ marginBottom: "2%" }} key={id}>
+            <View style={{ marginBottom: "2%", marginTop: "2%" }} key={id}>
                 <TouchableOpacity style={styles.row}
                     onPress={() => navigation.navigate("PublicProfile", { uid: uid, title: name })}>
                     <Image
@@ -25,9 +25,9 @@ export default function Comment({ id, name, comment, uid }) {
                     <Text category="p2" style={{ marginTop: "1%" }} numberOfLines={4}>{comment}</Text>
                 </View>
             </View>
-            <View style={styles.container}>
+            {/* <View style={styles.container}>
                 <Divider />
-            </View>
+            </View> */}
         </Layout>
     )
 }

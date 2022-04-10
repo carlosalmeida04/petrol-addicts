@@ -110,38 +110,45 @@ export default function Comments({ route }) {
                 contentContainerStyle={{ flexGrow: 1 }} >
                 {loaded ?
                     <View style={{ flex: 1 }}>
-                        <View style={styles.columns}>
+                        <View style={{ flexDirection: "row", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
+                            <Image style={{ width: 50, height: 50 }} source={require("../../assets/img/car.png")} />
+                            <Text category={"h3"} style={{ textAlign: "center", padding: 15 }}>{car}</Text>
+                        </View>
+                        <View style={[styles.columns, styles.container]}>
+
                             <View style={styles.item}>
-                                <Image style={{ width: 20, height: 20, marginStart: "2%", marginEnd: "2%" }} source={require("../../assets/img/piston.png")} />
+                                <Image style={styles.image} source={require("../../assets/img/engine.png")} />
                                 <Text>{carinfo.engine}</Text>
                             </View>
 
                             <View style={styles.item}>
-                                <Image style={{ width: 20, height: 20, marginStart: "2%", marginEnd: "2%" }} source={require("../../assets/img/trans.png")} />
+                                <Image style={styles.image} source={require("../../assets/img/trans.png")} />
                                 <Text>{carinfo.trans}</Text>
                             </View>
 
                             <View style={styles.item}>
-                                <Image style={{ width: 20, height: 20, marginStart: "2%", marginEnd: "2%" }} source={require("../../assets/img/piston.png")} />
+                                <Image style={styles.image} source={require("../../assets/img/piston.png")} />
                                 <Text>{carinfo.cc}</Text>
                             </View>
 
 
                             <View style={styles.item}>
-                                <Image style={{ width: 20, height: 20, marginStart: "2%", marginEnd: "2%" }} source={require("../../assets/img/axle.png")} />
+                                <Image style={styles.image} source={require("../../assets/img/axle.png")} />
                                 <Text>{carinfo.drive}</Text>
                             </View>
                             <View style={styles.item}>
-                                <Image style={{ width: 20, height: 20, marginStart: "2%", marginEnd: "2%" }} source={require("../../assets/img/power-gears.png")} />
+                                <Image style={styles.image} source={require("../../assets/img/power-gears.png")} />
                                 <Text>{carinfo.cv}</Text>
                             </View>
                             <View style={styles.item}>
-                                <Image style={{ width: 20, height: 20, marginStart: "2%", marginEnd: "2%" }} source={require("../../assets/img/fuel.png")} />
+                                <Image style={styles.image} source={require("../../assets/img/fuel.png")} />
                                 <Text>{carinfo.fuel}</Text>
                             </View>
                         </View>
 
-                        <Divider />
+                        <View style={styles.container}>
+                            <Divider />
+                        </View>
                         {
                             comments.length === 0 ?
                                 <View style={styles.center}>
@@ -227,5 +234,11 @@ const styles = StyleSheet.create({
         width: "50%",
         flexDirection: "row",
         padding: 7
+    },
+    image: {
+        width: 20,
+        height: 20,
+        marginStart: "2%",
+        marginEnd: "2%"
     }
 })

@@ -19,6 +19,7 @@ import Header from "./components/Header"
 import Create from './feed/posts/create/Create'
 import Overview from './feed/posts/create/pages/Overview'
 import CarInfo from './feed/posts/create/pages/CarInfo'
+import Change from './feed/profile/Change'
 
 const Stack = createNativeStackNavigator()
 
@@ -97,6 +98,8 @@ export default function StackProvider() {
                             <Header title="Publicação" />
                         )
                     }} />
+                <Stack.Screen name='Change' component={Change}
+                    options={({ route }) => ({ header: () => <Header title={route.params.title} /> })} />
                 <Stack.Group>
                     <Stack.Screen name='Create' component={Create} options={{ headerShown: false }} />
                     <Stack.Screen name="Overview" component={Overview} options={{ headerShown: false }} />

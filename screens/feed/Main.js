@@ -12,16 +12,14 @@ import BottomTabBar from '../components/BottomTabBar'
 
 const Tab = createBottomTabNavigator()
 
-export default function Main({ navigation, route }) {
-
-    const params = route.params
+export default function Main({ navigation }) {
 
     useEffect(() => {
-        
         navigation.addListener("beforeRemove", (e) => {
             e.preventDefault()
         })
     }, [])
+
     return (
         <Tab.Navigator
             backBehavior="order"

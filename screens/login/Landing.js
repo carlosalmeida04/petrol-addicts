@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { View, Image } from "react-native"
 
 import { Button, Layout } from '@ui-kitten/components'
@@ -8,7 +8,12 @@ import styles from "../../styles/main"
 
 export default function Landing({ navigation }) {
 
+    useEffect(() => {
 
+        navigation.addListener("beforeRemove", (e) => {
+            e.preventDefault()
+        })
+    }, [])
     return (
         <Layout style={styles.containerMain}>
 

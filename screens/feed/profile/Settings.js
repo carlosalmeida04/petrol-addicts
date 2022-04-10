@@ -1,8 +1,9 @@
-import { Alert, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { Alert, TouchableOpacity, View, StyleSheet } from 'react-native'
 import { auth, signOut } from "../../../firebase/firebasehandler"
 
+import { Layout, Text, Icon, Divider } from '@ui-kitten/components'
+
 import React from 'react'
-import Ionicons from "@expo/vector-icons/Ionicons"
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 export default function Settings({ navigation }) {
@@ -34,78 +35,69 @@ export default function Settings({ navigation }) {
 
     }
 
+
     return (
-        <View style={{ height: "100%" }}>
+        <Layout style={{ height: "100%" }} level="1">
 
             {/* Conta*/}
-            <Text style={styles.title}>Conta</Text>
-            <View style={{ backgroundColor: "#fff", }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: "black", fontSize: 16 }}>Alterar e-mail</Text>
-                    <Ionicons name='mail' size={28} color={"black"} style={{ marginEnd: "2%" }} />
-                </TouchableOpacity>
-            </View>
-            <View style={{ with: "100%", height: 1, backgroundColor: "#eee" }} />
-            <View style={{ backgroundColor: "#fff", marginBottom: "2%" }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: "black", fontSize: 16 }}>Alterar palavra-passe</Text>
-                    <Ionicons name='key' size={28} color={"black"} style={{ marginEnd: "2%" }} />
-                </TouchableOpacity>
-            </View>
+            <View style={styles.section}>
 
-
-            {/*Perfil */}
-            <Text style={styles.title}>Perfil</Text>
-            <View style={{ backgroundColor: "#fff", }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: "black" }}>Biografia</Text>
-                    <Ionicons name='create' size={28} color={"black"} style={{ marginEnd: "2%" }} />
+                <Text category={"h4"}>Conta</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
+                    title: "Alteral e-mail"
+                })}>
+                    <Text category={"p1"}>Alterar e-mail</Text>
+                    <Icon name={"email-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
-            </View>
-            <View style={{ with: "100%", height: 1, backgroundColor: "#eee" }} />
-            <View style={{ backgroundColor: "#fff", marginBottom: "2%", }}>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={{ color: "black", fontSize: 16 }}>Nome</Text>
-                    <Ionicons name='person' size={28} color="black" style={{ marginEnd: "2%" }} />
+                <Divider />
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
+                    title: "Alterar palavra-passe"
+                })}>
+                    <Text category={"p1"}>Alterar palavra-passe</Text>
+                    <Icon name={"lock-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
+                <Divider />
             </View>
 
-            {/*Aplicação*/}
-            <Text style={styles.title}>Aplicação</Text>
-            <View style={{ backgroundColor: "#fff", marginBottom: "2%", }}>
-                <TouchableOpacity onPress={clearStorage} style={styles.button}>
-                    <Text style={{ fontSize: 16, color: "black" }}>Limpar cache</Text>
-                    <Ionicons name='trash' size={28} color={"black"} style={{ marginEnd: "2%" }} />
+            <View style={styles.section}>
+
+                <Text category={"h4"}>Perfil</Text>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
+                    title: "Alterar nome"
+                })}>
+                    <Text category={"p1"}>Alterar nome</Text>
+                    <Icon name={"person-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
+                <Divider />
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
+                    title: "Alterar biografia"
+                })}>
+                    <Text category={"p1"}>Alterar biografia</Text>
+                    <Icon name={"edit-2-outline"} fill="black" style={styles.icon} />
+                </TouchableOpacity>
+                <Divider />
             </View>
 
-            {/*Terminar sessão*/}
-            <Text style={styles.title}>Terminar Sessão</Text>
-
-
-            <View style={{ backgroundColor: "#fff", }}>
-                <TouchableOpacity onPress={logOut} style={styles.button}>
-                    <Text style={{ color: "red", fontSize: 16 }}>Terminar Sessão</Text>
-                    <Ionicons name='exit-outline' size={28} color={"red"} style={{ marginEnd: "2%" }} />
-                </TouchableOpacity>
-            </View>
-
-        </View >
+        </Layout >
     )
 }
 
 
 const styles = StyleSheet.create({
-    title: {
-        fontSize: 26,
-        marginStart: "2%",
-        marginBottom: "2%"
+
+    section: {
+        paddingVertical: 15,
+        marginHorizontal: "5%"
+    },
+    icon: {
+        height: 27,
+        width: 27
     },
     button: {
         flexDirection: "row",
-        justifyContent: "space-between",
-        marginStart: "2%",
+        width: "100%",
+        height: 40,
         alignItems: "center",
-        height: 50
+        justifyContent: "space-between"
     }
 })
