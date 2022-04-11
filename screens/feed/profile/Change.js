@@ -35,7 +35,7 @@ export default function Change({ route, navigation }) {
         try {
             await updateEmail(auth.currentUser, email)
             await updateDoc(doc(db, "users", auth.currentUser.uid), { email: email })
-            Alert.alert("Sucesso", "O seu e-mail foi alterado com sucesso!", [
+            Alert.alert("Sucesso", "O teu e-mail foi alterado com sucesso!", [
                 {
                     text: "Ok",
                     onPress: () => navigation.goBack()
@@ -44,7 +44,7 @@ export default function Change({ route, navigation }) {
             ])
         } catch (error) {
             if (error.code === "auth/requires-recent-login") {
-                Alert.alert("Informação", "Termine sessão e volter a autenticar para mudar o e-mail.")
+                Alert.alert("Informação", "Termina sessão e volta a autenticar para mudar o e-mail.")
             }
         }
     }
@@ -58,10 +58,10 @@ export default function Change({ route, navigation }) {
                 return
             }
             if (password.length < 6) {
-                Alert.alert("Informação", "A palavra-passe tem pelo menos de ter 6 caracteres.")
+                Alert.alert("Informação", "A palavra-passe tem de ter pelo menos 6 caracteres.")
             }
             await updatePassword(auth.currentUser, password)
-            Alert.alert("Sucesso", "A sua palavra-passe foi alterada com sucesso!", [
+            Alert.alert("Sucesso", "A tua palavra-passe foi alterada com sucesso!", [
                 {
                     text: "Ok",
                     onPress: () => navigation.goBack()
@@ -70,7 +70,7 @@ export default function Change({ route, navigation }) {
             ])
         } catch (error) {
             if (error.code === "auth/requires-recent-login") {
-                Alert.alert("Informação", "Termine sessão e volter a autenticar para mudar a palavra-passe.")
+                Alert.alert("Informação", "Termina sessão e volta a autenticar para mudar a palavra-passe.")
             }
         }
     }
@@ -78,7 +78,7 @@ export default function Change({ route, navigation }) {
     async function changeName() {
         try {
             await updateDoc(doc(db, "users", auth.currentUser.uid), { name: name })
-            Alert.alert("Sucesso", "O seu nome foi alterado com sucesso!", [
+            Alert.alert("Sucesso", "O teu nome foi alterado com sucesso!", [
                 {
                     text: "Ok",
                     onPress: () => navigation.goBack()
@@ -92,7 +92,7 @@ export default function Change({ route, navigation }) {
 
     async function changeBio() {
         await updateDoc(doc(db, "users", auth.currentUser.uid), { bio: bio })
-        Alert.alert("Sucesso", "A sua biografia foi alterada com sucesso!", [
+        Alert.alert("Sucesso", "A tua biografia foi alterada com sucesso!", [
             {
                 text: "Ok",
                 onPress: () => navigation.goBack()
@@ -127,7 +127,7 @@ export default function Change({ route, navigation }) {
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
                     <Layout level={"1"} style={styles.layout}>
                         <Input
-                            placeholder='Insira aqui o seu e-mail'
+                            placeholder='Insire aqui o teu e-mail'
                             size={"large"}
                             value={email}
                             style={{ padding: 15 }}
@@ -187,7 +187,7 @@ export default function Change({ route, navigation }) {
                 {loaded ?
                     <>
                         <Input
-                            placeholder='Insira aqui o seu nome'
+                            placeholder='Insira aqui o teu nome'
                             size={"large"}
                             value={name}
                             style={{ padding: 15 }}
@@ -214,7 +214,7 @@ export default function Change({ route, navigation }) {
                     {loaded ?
                         <>
                             <Input
-                                placeholder='Insira aqui a sua biografia'
+                                placeholder='Insira aqui o teu biografia'
                                 size={"large"}
                                 value={bio}
                                 style={{ padding: 15 }}
