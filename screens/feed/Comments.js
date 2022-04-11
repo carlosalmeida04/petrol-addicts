@@ -3,7 +3,6 @@ import { doc, getDocs, db, collection, setDoc, auth, Timestamp, query, orderBy, 
 import { Input, Divider, Text, Icon } from "@ui-kitten/components"
 import React, { useEffect, useState, useCallback } from 'react'
 
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../Loading'
 import Comment from '../components/Comment'
 

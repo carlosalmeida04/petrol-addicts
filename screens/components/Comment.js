@@ -4,7 +4,7 @@ import { StyleSheet, TouchableOpacity, Image, View } from "react-native"
 import { Layout, Text } from "@ui-kitten/components"
 import { useNavigation } from "@react-navigation/native"
 
-import { auth, getDoc, doc, db } from '../../firebase/firebasehandler'
+import { getDoc, doc, db } from '../../firebase/firebasehandler'
 
 export default function Comment({ id, comment, uid }) {
 
@@ -19,7 +19,7 @@ export default function Comment({ id, comment, uid }) {
             })
         })
     }, [])
-    
+
     return (
         <Layout level="1">
             <View style={{ marginBottom: "2%", marginTop: "2%" }} key={id}>
