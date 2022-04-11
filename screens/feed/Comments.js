@@ -16,7 +16,6 @@ export default function Comments({ route }) {
 
 
     const [comment, setComment] = useState("")
-    const [name, setName] = useState("")
     const [loaded, setLoaded] = useState(false)
     const [comments, setComments] = useState([])
     const [carinfo, setCarInfo] = useState({})
@@ -42,7 +41,6 @@ export default function Comments({ route }) {
                 await setDoc(addCommentColl, {
                     comment: comment,
                     uid: auth.currentUser.uid,
-                    name: name,
                     createdAt: Timestamp.fromDate(new Date())
                 })
 
@@ -63,7 +61,6 @@ export default function Comments({ route }) {
                 comments.push({
                     id: doc.id,
                     comment: doc.data().comment,
-                    name: doc.data().name,
                     uid: doc.data().uid
                 })
             })
@@ -94,7 +91,6 @@ export default function Comments({ route }) {
     }
 
     useEffect(() => {
-        AsyncStorage.getItem("name").then((name) => setName(name))
         loaded || getComments().then((commentReturn) => {
             setComments(commentReturn)
             getCar().then(() => setLoaded(true))
@@ -168,11 +164,11 @@ export default function Comments({ route }) {
                                     data={comments}
                                     keyExtractor={(item) => item.id}
                                     key={({ item }) => item.id}
-                                    renderItem={({ item }) => <Comment
-                                        id={item.id}
-                                        name={item.name}
-                                        uid={item.uid}
-                                        comment={item.comment} />}
+                                    renderItem={({ item }) =>
+                                        <Comment
+                                            id={item.id}
+                                            uid={item.uid}
+                                            comment={item.comment} />}
                                 />
                         }
                     </View>

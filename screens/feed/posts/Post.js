@@ -51,7 +51,7 @@ export default function Post({ route, navigation }) {
             >
                 {loaded ? <View style={styles.postView}>
                     <View style={[styles.poster, { flexDirection: "row", flex: 1 }]}>
-                        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: params.name })}>
+                        <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: userName })}>
                             <Image
                                 style={{
                                     borderRadius: 100
