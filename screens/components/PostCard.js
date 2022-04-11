@@ -67,7 +67,7 @@ export default function PostsCard({ desc, img, uid, id, likes, postedAt, comment
                         />
                         <Text style={[styles.textB, { marginStart: "3%" }]} category="s1">{userName.name}</Text>
                     </TouchableOpacity>
-                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={id} fileName={fileName} /> : false}
+                    {uid === auth.currentUser.uid ? <OverflowMenuButton postId={uid} fileName={fileName} /> : false}
                 </View>
 
                 <Divider />

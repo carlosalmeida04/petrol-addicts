@@ -9,6 +9,8 @@ import moment from 'moment';
 import "moment/locale/pt"
 import Loading from '../../Loading'
 
+import OverflowMenuButton from '../../components/OverflowMenu'
+
 
 export default function Post({ route, navigation }) {
 
@@ -17,6 +19,7 @@ export default function Post({ route, navigation }) {
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: params.likes })
     const [userName, setUserName] = useState("")
     const [loaded, setLoaded] = useState(false)
+
 
     useEffect(() => {
 
@@ -30,7 +33,6 @@ export default function Post({ route, navigation }) {
                 setLoaded(true)
             })
         })
-
         return setUserName(""), setCurrentLikeState({ state: false, counter: 0 })
     }, [])
 
@@ -48,7 +50,7 @@ export default function Post({ route, navigation }) {
                 contentContainerStyle={{ flexGrow: 1 }}
             >
                 {loaded ? <View style={styles.postView}>
-                    <View style={styles.poster}>
+                    <View style={[styles.poster, { flexDirection: "row", flex: 1 }]}>
                         <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: params.name })}>
                             <Image
                                 style={{
@@ -60,8 +62,9 @@ export default function Post({ route, navigation }) {
                                     uri: `https://avatars.dicebear.com/api/initials/${userName}.png`
                                 }}
                             />
-                            <Text style={styles.textB} category="s1">{userName}</Text>
+                            <Text style={[styles.textB, { marginStart: "3%" }]} category="s1">{userName}</Text>
                         </TouchableOpacity>
+                        {params.uid === auth.currentUser.uid ? <OverflowMenuButton postId={params.id} fileName={params.filename} fromProfile={true} /> : false}
                     </View>
                     <Divider />
                     <View>

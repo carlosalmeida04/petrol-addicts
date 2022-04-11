@@ -44,7 +44,8 @@ export default function Perfil({ navigation }) {
                     likes: doc.data().likes,
                     comments: doc.data().comments,
                     postedAt: doc.data().postedAt,
-                    ap: doc.data().ap
+                    ap: doc.data().ap,
+                    filename: doc.data().fileName
                 })
             })
             return posts
@@ -117,7 +118,8 @@ export default function Perfil({ navigation }) {
                                             likes: posts.likes,
                                             postedAt: posts.postedAt,
                                             comments: posts.comments,
-                                            ap: posts.ap
+                                            ap: posts.ap,
+                                            filename: posts.filename
                                         })
                                     }}>
                                         <Image

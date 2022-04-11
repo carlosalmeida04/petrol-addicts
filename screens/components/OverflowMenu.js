@@ -3,12 +3,13 @@ import React, { useState } from 'react'
 import { Icon, Divider, OverflowMenu, MenuItem } from '@ui-kitten/components'
 
 import { deletePost } from './Reducers'
+import { useNavigation } from '@react-navigation/native'
 
 
-export default function OverflowMenuButton({ postId, fileName }) {
+export default function OverflowMenuButton({ postId, fileName, fromProfile }) {
 
     const [visible, setVisible] = useState(false)
-    
+    const navigation = useNavigation()
     const RenderButton = () => (
         <TouchableOpacity onPress={() => setVisible(true)}>
             <Icon name={"more-vertical-outline"} fill="black" style={{ width: 20, height: 20 }} />
@@ -20,7 +21,10 @@ export default function OverflowMenuButton({ postId, fileName }) {
             [
                 {
                     text: "Sim",
-                    onPress: () => deletePost(postId, fileName)
+                    onPress: async () => {
+                        await deletePost(postId, fileName)
+                        fromProfile ? navigation.goBack() : false
+                    }
                 },
                 {
                     text: "Cancelar",
@@ -40,8 +44,6 @@ export default function OverflowMenuButton({ postId, fileName }) {
                 visible={visible}
                 placement={"bottom start"}
                 onBackdropPress={() => setVisible(false)}>
-                <MenuItem title='Editar' accessoryRight={<Icon name="edit-outline" fill="black" style={{ width: 20, height: 20 }} />} />
-                <Divider />
                 <MenuItem title='Apagar' onPress={handeDeletePost} accessoryRight={<Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />} />
             </OverflowMenu>
         </View>
