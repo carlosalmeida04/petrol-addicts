@@ -11,13 +11,7 @@ import * as ImagePicker from 'expo-image-picker'
 import 'react-native-get-random-values'
 import { v4 as uuidv4 } from 'uuid'
 
-import {
-    storage, uploadBytesResumable,
-    getDownloadURL,
-    ref, auth, doc,
-    setDoc, db,
-    Timestamp,
-} from '../../../../firebase/firebasehandler';
+
 
 
 export default function Create({ navigation }) {
@@ -50,83 +44,6 @@ export default function Create({ navigation }) {
 
         }
     }
-
-    // async function createPost(downlodUrl, filename) {
-
-    //     try {
-    //         const post = await setDoc(doc(db, "posts", postId), {
-    //             postedAt: Timestamp.fromDate(new Date()),
-    //             name: name,
-    //             uid: auth.currentUser.uid,
-    //             desc: desc,
-    //             car: carro,
-    //             comments: 0,
-    //             likes: 0,
-    //             downloadUrl: downlodUrl,
-    //             fileName: filename
-    //         })
-    //         return post
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }
-
-    // async function uploadImage() {
-
-    //     if (desc === "" || carro === "") {
-    //         Alert.alert("Informação", "Tens de introduzir uma descrição e declarar o carro a publicar.")
-    //     } else {
-    //         let filename = image.substring(image.lastIndexOf("/") + 1)
-
-    //         const extention = filename.split(".").pop()
-    //         const name = filename.split(".").slice(0, -1).join(".")
-    //         filename = name + Date.now() + "." + extention
-
-
-    //         let imgUri = await fetch(image)
-    //         const blob = await imgUri.blob()
-
-
-    //         const metadata = {
-    //             contentType: 'image/jpeg'
-    //         }
-
-    //         const storageRef = ref(storage, `posts/${auth.currentUser.uid}/${postId}/${filename}`)
-    //         const uploadTask = uploadBytesResumable(storageRef, blob, metadata)
-    //         uploadTask.on("state_changed",
-    //             (snapshot) => {
-    //                 setUploadProgress(snapshot.bytesTransferred / snapshot.totalBytes * 100)
-    //             },
-    //             (error) => {
-    //                 switch (error.code) {
-    //                     case 'storage/unauthorized':
-    //                         console.log("storage/unauthorized")
-    //                         break;
-    //                     case 'storage/canceled':
-    //                         console.log("storage/canceled")
-    //                         break;
-    //                     case 'storage/unknown':
-    //                         console.log("storage/unknown")
-    //                         break;
-    //                 }
-    //             },
-    //             () => {
-    //                 getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
-    //                     createPost(downloadUrl, filename).then(() => {
-    //                         setImage(null)
-    //                         setImagePicked(false)
-    //                         setUploadProgress(0)
-    //                         setCarro("")
-    //                         setDesc("")
-    //                         blob.close()
-    //                         imgUri = null
-    //                         Alert.alert("Sucesso", "Publicado com sucesso!")
-    //                         navigation.goBack()
-    //                     }).catch(alert)
-    //                 })
-    //             })
-    //     }
-    // }
 
     function removeImage() {
         setImagePicked(false)

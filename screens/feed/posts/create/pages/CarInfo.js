@@ -93,7 +93,7 @@ export default function CarInfo({ navigation, route }) {
                                 size={"large"}
                                 style={{ width: "35%" }}
                             >
-                                {engineIndexes.map(renderOptions).sort()}
+                                {engineIndexes.map(renderOptions)}
                             </Select>
 
                         </View>

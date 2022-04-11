@@ -79,7 +79,11 @@ export default function StackProvider() {
                         )
                     }} />
                 <Stack.Screen name="Car" component={Car}
-                    options={({ route }) => ({ title: route.params.title, headerTitleAlign: "center" })} />
+                    options={({ route }) => ({
+                        header: () => (
+                            <Header title="Carro" subtitle={route.params.title} />
+                        )
+                    })} />
                 <Stack.Screen name="PublicProfile" component={PerfilPublico}
                     options={({ route }) => ({
                         header: () => (
