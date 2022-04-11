@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react'
 import { Icon, Layout, Text, Divider } from '@ui-kitten/components'
 import { getLikeById, updateLike } from "../../components/Reducers"
 
-import { auth } from '../../../firebase/firebasehandler'
+import { auth, getDoc, doc, db } from '../../../firebase/firebasehandler'
 import moment from 'moment';
 import "moment/locale/pt"
+import Loading from '../../Loading'
 
 
 export default function Post({ route, navigation }) {
@@ -14,24 +15,23 @@ export default function Post({ route, navigation }) {
 
     const params = route.params
     const [currentLikeState, setCurrentLikeState] = useState({ state: false, counter: params.likes })
-
-    const [aspectRatio, setAspectRatio] = useState({ apr: 0 })
+    const [userName, setUserName] = useState("")
+    const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
 
-        Image.getSize(params.img, (srcWith, srcHeight) => {
-            setAspectRatio({
-                ...aspectRatio,
-                apr: (srcWith / srcHeight)
+        getDoc(doc(db, "users", params.uid)).then((doc) => {
+            setUserName(doc.data().name)
+            getLikeById(params.id, auth.currentUser.uid).then((res) => {
+                setCurrentLikeState({
+                    ...currentLikeState,
+                    state: res
+                })
+                setLoaded(true)
             })
         })
 
-        getLikeById(params.id, auth.currentUser.uid).then((res) => {
-            setCurrentLikeState({
-                ...currentLikeState,
-                state: res
-            })
-        })
+        return setUserName(""), setCurrentLikeState({ state: false, counter: 0 })
     }, [])
 
     function handleUpdateLike() {
@@ -44,8 +44,10 @@ export default function Post({ route, navigation }) {
 
     return (
         <Layout level={"1"} style={{ height: "100%" }}>
-            <ScrollView >
-                <View style={styles.postView}>
+            <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+            >
+                {loaded ? <View style={styles.postView}>
                     <View style={styles.poster}>
                         <TouchableOpacity style={styles.row} onPress={() => navigation.navigate("PublicProfile", { uid: params.uid, title: params.name })}>
                             <Image
@@ -55,16 +57,16 @@ export default function Post({ route, navigation }) {
                                 source={{
                                     height: 40,
                                     width: 40,
-                                    uri: `https://avatars.dicebear.com/api/initials/${params.name}.png`
+                                    uri: `https://avatars.dicebear.com/api/initials/${userName}.png`
                                 }}
                             />
-                            <Text style={styles.textB} category="s1">{params.name}</Text>
+                            <Text style={styles.textB} category="s1">{userName}</Text>
                         </TouchableOpacity>
                     </View>
                     <Divider />
                     <View>
                         <Image
-                            style={[styles.image, { aspectRatio: aspectRatio.apr }]}
+                            style={[styles.image, { aspectRatio: params.ap }]}
                             source={{ uri: params.img }}
                         />
                     </View>
@@ -89,13 +91,14 @@ export default function Post({ route, navigation }) {
                     </View>
                     <Text style={{ marginStart: "2%" }} category="c1">{currentLikeState.counter} gostos & {params.comments} comentários</Text>
                     <View style={styles.row}>
-                        <Text style={styles.textB} category="s1">{params.name}</Text>
+                        <Text style={styles.textB} category="s1">{userName}</Text>
                         <View style={styles.text}>
                             <Text category="c1" >{params.desc}</Text>
                         </View>
                     </View>
                     <Text style={{ marginStart: "2%", fontSize: 10 }}>{moment(params.postedAt.toDate()).fromNow()}</Text>
-                </View>
+                </View> : <Loading />}
+
             </ScrollView>
         </Layout >
     )

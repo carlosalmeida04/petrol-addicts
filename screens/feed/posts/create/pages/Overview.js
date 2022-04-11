@@ -1,7 +1,6 @@
 import { View, ScrollView, StyleSheet, Dimensions, Image, Alert } from 'react-native'
 import { Layout, Input, Text, Divider } from '@ui-kitten/components'
 import Header from '../../../../components/Header'
-import { getName } from "../../../../components/Reducers"
 import { useNavigation } from "@react-navigation/native"
 import React, { useState } from 'react'
 
@@ -29,10 +28,8 @@ export default function Overview({ route }) {
     async function createPost(url, filename) {
         const description = params.desc, carro = params.car
         try {
-            const nome = await getName()
             await setDoc(doc(db, "posts", postId), {
                 postedAt: Timestamp.fromDate(new Date()),
-                name: nome,
                 uid: auth.currentUser.uid,
                 desc: description,
                 car: carro,
@@ -50,9 +47,7 @@ export default function Overview({ route }) {
     async function addCar() {
 
         try {
-            if (!params.fromCarInfo) {
-                return
-            }
+            if (!params.fromCarInfo) return
             await setDoc(doc(db, "cars", params.car), {
                 createdAt: Timestamp.fromDate(new Date()),
                 engine: params.engine,

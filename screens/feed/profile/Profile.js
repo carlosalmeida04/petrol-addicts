@@ -37,7 +37,6 @@ export default function Perfil({ navigation }) {
             postSnapshot.forEach((doc) => {
                 posts.push({
                     id: doc.id,
-                    name: doc.data().name,
                     desc: doc.data().desc,
                     car: doc.data().car,
                     img: doc.data().downloadUrl,
@@ -45,6 +44,7 @@ export default function Perfil({ navigation }) {
                     likes: doc.data().likes,
                     comments: doc.data().comments,
                     postedAt: doc.data().postedAt,
+                    ap: doc.data().ap
                 })
             })
             return posts
@@ -111,13 +111,13 @@ export default function Perfil({ navigation }) {
                                         navigation.navigate("Post", {
                                             id: posts.id,
                                             img: posts.img,
-                                            name: posts.name,
                                             desc: posts.desc,
                                             car: posts.car,
                                             uid: posts.uid,
                                             likes: posts.likes,
                                             postedAt: posts.postedAt,
-                                            comments: posts.comments
+                                            comments: posts.comments,
+                                            ap: posts.ap
                                         })
                                     }}>
                                         <Image

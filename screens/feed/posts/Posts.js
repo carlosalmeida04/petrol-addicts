@@ -25,7 +25,6 @@ export default function Posts() {
                 (doc) => {
                     posts.push({
                         id: doc.id,
-                        name: doc.data().name,
                         desc: doc.data().desc,
                         car: doc.data().car,
                         img: doc.data().downloadUrl,
@@ -81,7 +80,6 @@ export default function Posts() {
                     renderItem={({ item }) => (
                         <PostsCard
                             id={item.id}
-                            name={item.name}
                             uid={item.uid}
                             img={item.img}
                             desc={item.desc}
