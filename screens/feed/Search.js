@@ -11,7 +11,7 @@ export default function Search({ navigation }) {
     const [search, setSearch] = useState("")
     const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0))
     const [users, setUsers] = useState([])
-    const [cars, setCars] = useState({})
+    const [cars, setCars] = useState([])
     const [hasResults, setHasresults] = useState(true)
     const indexs = ["Pessoas", "Carros"]
 
@@ -32,8 +32,12 @@ export default function Search({ navigation }) {
                 .then((data) => {
                     if (data.empty) setHasresults(false)
                     else {
+
                         let users = []
-                        data.forEach((doc) => users.push({ id: doc.id, name: doc.data().name }))
+                        data.forEach((doc) => {
+                            console.log(doc.data())
+                            users.push({ uid: doc.id, name: doc.data().name })
+                        })
                         setUsers(users)
                         setHasresults(true)
                     }
@@ -98,7 +102,7 @@ export default function Search({ navigation }) {
                 {hasResults ?
                     selectedIndex - 1 === 0 ? users.map((users) => (
                         <View key={users.id}>
-                            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("PublicProfile", { uid: users.id, title: users.name })}>
+                            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("PublicProfile", { uid: users.uid, title: users.name })}>
 
                                 <Image
                                     style={{

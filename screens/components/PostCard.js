@@ -98,7 +98,7 @@ export default function PostsCard({ desc, img, uid, id, likes, postedAt, comment
                     </TouchableOpacity>
                 </View>
 
-                <Text style={{ marginStart: "2%", fontSize: 10 }}>{currentLikeState.counter} gostos & {comments} comentários</Text>
+                <Text style={{ marginStart: "2%", fontSize: 10, opacity: .5 }}>{currentLikeState.counter} gostos & {comments} comentários</Text>
 
                 <View style={styles.row}>
                     <Text style={styles.textB} category="s1">{userName.name}</Text>
@@ -107,7 +107,7 @@ export default function PostsCard({ desc, img, uid, id, likes, postedAt, comment
                     </View>
                 </View>
 
-                <Text style={{ marginStart: "2%", fontSize: 10 }}>{moment(postedAt.toDate()).fromNow()}</Text>
+                <Text style={{ marginStart: "2%", fontSize: 10, opacity: .5 }}>{moment(postedAt.toDate()).fromNow()}</Text>
             </View>
         </Layout >
     )

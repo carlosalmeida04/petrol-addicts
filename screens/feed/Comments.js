@@ -60,7 +60,8 @@ export default function Comments({ route }) {
                 comments.push({
                     id: doc.id,
                     comment: doc.data().comment,
-                    uid: doc.data().uid
+                    uid: doc.data().uid,
+                    createdAt: doc.data().createdAt
                 })
             })
             return comments
@@ -71,7 +72,6 @@ export default function Comments({ route }) {
 
     async function getCar() {
         try {
-            let info
             const carSnapShot = await getDoc(doc(db, "cars", car))
 
             if (!carSnapShot.exists()) return info = false
@@ -166,8 +166,10 @@ export default function Comments({ route }) {
                                     renderItem={({ item }) =>
                                         <Comment
                                             id={item.id}
+                                            comment={item.comment}
                                             uid={item.uid}
-                                            comment={item.comment} />}
+                                            createdAt={item.createdAt}
+                                        />}
                                 />
                         }
                     </View>
@@ -241,7 +243,7 @@ const styles = StyleSheet.create({
     item: {
         width: "50%",
         flexDirection: "row",
-        padding: 7
+        paddingVertical: 7
     },
     image: {
         width: 20,

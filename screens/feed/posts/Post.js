@@ -33,7 +33,10 @@ export default function Post({ route, navigation }) {
                 setLoaded(true)
             })
         })
-        return setUserName(""), setCurrentLikeState({ state: false, counter: 0 })
+        return () => {
+            setUserName("")
+            setCurrentLikeState({ state: false, counter: 0 })
+        }
     }, [])
 
     function handleUpdateLike() {
@@ -83,7 +86,7 @@ export default function Post({ route, navigation }) {
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: params.id })}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Comments", { postId: params.id, car: params.car })}>
                             <Icon
                                 style={styles.icon}
                                 fill='black'

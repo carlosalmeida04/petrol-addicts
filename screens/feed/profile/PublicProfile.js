@@ -15,6 +15,7 @@ export default function PerfilPublico({ route, navigation }) {
     const [posts, setPosts] = useState([])
     const [loaded, setLoaded] = useState(false)
 
+    console.log(params)
     async function getUserInfo() {
         const usersDoc = doc(db, "users", params.uid)
         try {
@@ -54,13 +55,22 @@ export default function PerfilPublico({ route, navigation }) {
 
     useFocusEffect(
         useCallback(() => {
+
+
             loaded || getUserInfo().then(() => {
                 getUserPosts().then((postReturn) => {
                     setPosts(postReturn)
                     setLoaded(true)
                 })
             })
+            return () => {
+                setPosts([])
+                setUserInfo({})
+                setLoaded(false)
+            }
         }, [])
+
+
     )
 
     return (

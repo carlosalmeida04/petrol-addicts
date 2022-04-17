@@ -6,7 +6,10 @@ import { useNavigation } from "@react-navigation/native"
 
 import { getDoc, doc, db } from '../../firebase/firebasehandler'
 
-export default function Comment({ id, comment, uid }) {
+import moment from 'moment'
+import "moment/locale/pt"
+
+export default function Comment({ id, comment, uid, createdAt }) {
 
     const navigation = useNavigation()
     const [userName, setUserName] = useState({ name: "" })
@@ -23,6 +26,7 @@ export default function Comment({ id, comment, uid }) {
     return (
         <Layout level="1">
             <View style={{ marginBottom: "2%", marginTop: "2%" }} key={id}>
+
                 <TouchableOpacity style={styles.row}
                     onPress={() => navigation.navigate("PublicProfile", { uid: uid, title: userName.name })}>
                     <Image
@@ -32,12 +36,15 @@ export default function Comment({ id, comment, uid }) {
                         }}
                     />
                     <Text category="h6" style={{ fontWeight: "bold", marginStart: "1%" }}>{userName.name}</Text>
+
                 </TouchableOpacity>
+
 
                 <View style={styles.comment}>
                     <Text category="p2" style={{ marginTop: "1%" }} numberOfLines={4}>{comment}</Text>
                 </View>
             </View>
+            <Text style={styles.fromDate}>{moment(createdAt.toDate()).fromNow()}</Text>
             {/* <View style={styles.container}>
                 <Divider />
             </View> */}
@@ -65,5 +72,11 @@ const styles = StyleSheet.create({
     container: {
         marginStart: "4%",
         marginEnd: "4%"
+    },
+    fromDate: {
+        fontSize: 10,
+        marginTop: "0.5%",
+        marginStart: "5%",
+        opacity: .5
     }
 })
