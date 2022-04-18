@@ -55,16 +55,11 @@ export const deletePost = async (postId, fileName) => {
         Alert.alert("Sucesso", "Publicação apagada com sucesso!")
     } catch (error) {
         console.log(error)
+        Alert.alert("Erro", "Aconteceu um erro inesperado, tenta novamente mais tarde.")
     }
 }
 
-export const getName = async () => {
-    try {
-        return await AsyncStorage.getItem("name")
-    } catch (e) {
-        console.log(e)
-    }
-}
+
 
 
 

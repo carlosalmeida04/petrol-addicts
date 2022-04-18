@@ -59,6 +59,7 @@ export default function Change({ route, navigation }) {
             }
             if (password.length < 6) {
                 Alert.alert("Informação", "A palavra-passe tem de ter pelo menos 6 caracteres.")
+                return
             }
             await updatePassword(auth.currentUser, password)
             Alert.alert("Sucesso", "A tua palavra-passe foi alterada com sucesso!", [
@@ -160,7 +161,7 @@ export default function Change({ route, navigation }) {
                             accessoryRight={renderIcon}
                         />
                         <Input
-                            placeholder='Repita a palavra-passe'
+                            placeholder='Repitir a palavra-passe'
                             size={"large"}
                             value={passwordConfirm}
                             style={{ paddingHorizontal: 15 }}
@@ -186,14 +187,16 @@ export default function Change({ route, navigation }) {
             <Layout style={styles.layout}>
                 {loaded ?
                     <>
-                        <Input
-                            placeholder='Insira aqui o teu nome'
-                            size={"large"}
-                            value={name}
-                            style={{ padding: 15 }}
-                            onChangeText={text => setName(text)}
+                        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ height: "100%" }}>
+                            <Input
+                                placeholder='Insira aqui o teu nome'
+                                size={"large"}
+                                value={name}
+                                style={{ padding: 15 }}
+                                onChangeText={text => setName(text)}
 
-                        />
+                            />
+                        </TouchableWithoutFeedback>
                         <SafeAreaView style={{ position: "absolute", bottom: 0, width: "100%", }}>
                             <Button
                                 style={{ marginHorizontal: "4%", marginVertical: "5%" }}

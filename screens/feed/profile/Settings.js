@@ -47,14 +47,14 @@ export default function Settings({ navigation }) {
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
                     title: "Alteral e-mail"
                 })}>
-                    <Text category={"p1"}>Alterar e-mail</Text>
+                    <Text style={styles.text}>Alterar e-mail</Text>
                     <Icon name={"email-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
                     title: "Alterar palavra-passe"
                 })}>
-                    <Text category={"p1"}>Alterar palavra-passe</Text>
+                    <Text style={styles.text}>Alterar palavra-passe</Text>
                     <Icon name={"lock-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
@@ -66,14 +66,14 @@ export default function Settings({ navigation }) {
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
                     title: "Alterar nome"
                 })}>
-                    <Text category={"p1"}>Alterar nome</Text>
+                    <Text style={styles.text}>Alterar nome</Text>
                     <Icon name={"person-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
                     title: "Alterar biografia"
                 })}>
-                    <Text category={"p1"}>Alterar biografia</Text>
+                    <Text style={styles.text}>Alterar biografia</Text>
                     <Icon name={"edit-2-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
@@ -82,12 +82,12 @@ export default function Settings({ navigation }) {
 
                 <Text category={"h4"}>Aplicação</Text>
                 <TouchableOpacity style={styles.button} onPress={clearStorage}>
-                    <Text category={"p1"}>Limpar cache</Text>
+                    <Text style={styles.text}>Limpar cache</Text>
                     <Icon name={"trash-2-outline"} fill="black" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
                 <TouchableOpacity style={styles.button} onPress={logOut}>
-                    <Text category={"p1"} style={{color: "red"}}>Terminar sessão</Text>
+                    <Text category={"p1"} style={[styles.text, { color: "red" }]}>Terminar sessão</Text>
                     <Icon name={"log-out-outline"} fill="red" style={styles.icon} />
                 </TouchableOpacity>
                 <Divider />
@@ -101,18 +101,21 @@ export default function Settings({ navigation }) {
 const styles = StyleSheet.create({
 
     section: {
-        paddingVertical: 15,
-        marginHorizontal: "5%"
+        paddingVertical: 18,
+        marginHorizontal: "5%",
     },
     icon: {
-        height: 27,
-        width: 27
+        height: 30,
+        width: 30
     },
     button: {
         flexDirection: "row",
         width: "100%",
-        height: 40,
+        height: 55,
         alignItems: "center",
         justifyContent: "space-between"
+    },
+    text: {
+        fontSize: 17.5,
     }
 })
