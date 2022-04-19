@@ -59,6 +59,7 @@ export const deletePost = async (postId, fileName) => {
 export const deleteComment = async (commedId, postid) => {
     try {
         await deleteDoc(doc(db, "posts", postid, "comments", commedId))
+        await updateDoc(doc(db, "posts", postid), { comments: increment(-1) })
         Alert.alert("Sucesso", "Comentário apagada com sucesso!")
     } catch (error) {
         console.log(error)
