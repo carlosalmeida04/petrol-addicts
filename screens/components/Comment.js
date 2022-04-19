@@ -20,7 +20,8 @@ export default function Comment({ id, comment, uid, createdAt, postID }) {
         getDoc(doc(db, "users", uid)).then((doc) => {
             setUserName({
                 ...userName,
-                name: doc.data().name
+                name: doc.data().name,
+
             })
         })
     }, [])
@@ -30,7 +31,12 @@ export default function Comment({ id, comment, uid, createdAt, postID }) {
             <View style={{ marginBottom: "2%", marginTop: "2%" }} key={id}>
                 <View style={styles.row}>
                     <TouchableOpacity style={styles.row}
-                        onPress={() => navigation.navigate("PublicProfile", { uid: uid, title: userName.name })}>
+                        onPress={() => {
+                            console.log(uid);
+                            // console.log(userName.name);
+                            //ISTO NAO ESTA A MANDAR NADA PARA OS PARAMETROS
+                            navigation.navigate("PublicProfile", { params: { uid: uid, title: userName.name, "teste": "teste" } })
+                        }}>
                         <Image
                             style={styles.image}
                             source={{
@@ -51,7 +57,7 @@ export default function Comment({ id, comment, uid, createdAt, postID }) {
             {/* <View style={styles.container}>
                 <Divider />
             </View> */}
-        </Layout>
+        </Layout >
     )
 }
 const styles = StyleSheet.create({

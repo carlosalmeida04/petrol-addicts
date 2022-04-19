@@ -16,12 +16,15 @@ export default function PerfilPublico({ route, navigation }) {
     const [loaded, setLoaded] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
-    console.log(params)
     async function getUserInfo() {
+        console.log(params)
         try {
-            const usersDoc = doc(db, "users", params.uid)
+            let i = 0;
+            console.log(i + " " + params.uid + " " + params.teste);
+            const usersDoc = doc(db, "users", params.uid.toString())
             const usersDocSnap = await getDoc(usersDoc)
             setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio })
+            i++;
         } catch (e) {
             console.log(e)
         }
