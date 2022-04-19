@@ -3,10 +3,7 @@ import { TouchableOpacity, Image, View, SafeAreaView, ScrollView, RefreshControl
 import { Icon, Text, Divider } from '@ui-kitten/components'
 import React, { useEffect, useState, useCallback } from 'react'
 
-
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import Loading from '../../Loading'
-
 
 export default function Perfil({ navigation }) {
 
