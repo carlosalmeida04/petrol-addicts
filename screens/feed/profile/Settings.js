@@ -10,12 +10,21 @@ export default function Settings({ navigation }) {
 
     async function logOut() {
         try {
-            await AsyncStorage.setItem("isLoggedIn", "0")
-            await AsyncStorage.removeItem("userID")
-            await AsyncStorage.removeItem("name")
-            signOut(auth).then(() => {
-                navigation.replace("Landing")
-            })
+            await Alert.alert("Alerta",
+                "Tens a certeza que queres terminar sessão?",
+                [
+                    {
+                        text: 'Sim', onPress: async () => {
+                            await AsyncStorage.setItem("isLoggedIn", "0")
+                            signOut(auth).then(() => {
+                                navigation.replace("Landing")
+                            })
+                        }
+                    },
+                    { text: 'Cancelar', style: "cancel" }
+                ],
+            )
+
         } catch (e) {
             console.log(e)
         }

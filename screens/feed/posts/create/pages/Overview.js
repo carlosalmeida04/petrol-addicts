@@ -10,7 +10,7 @@ import {
     storage, uploadBytesResumable,
     getDownloadURL,
     ref, auth,
-    Timestamp,
+    Timestamp, getDoc
 } from "../../../../../firebase/firebasehandler"
 
 
@@ -48,6 +48,9 @@ export default function Overview({ route }) {
 
         try {
             if (!params.fromCarInfo) return
+            const checkCar = await getDoc(doc(db, "cars", params.car))
+            if (checkCar.exists()) return
+        
             await setDoc(doc(db, "cars", params.car), {
                 createdAt: Timestamp.fromDate(new Date()),
                 engine: params.engine,
