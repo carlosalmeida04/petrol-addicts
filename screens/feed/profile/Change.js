@@ -2,7 +2,7 @@ import { StyleSheet, SafeAreaView, Alert, TouchableWithoutFeedback, Keyboard } f
 import React, { useState, useEffect } from 'react'
 import { Layout, Text, Input, Button, Icon } from '@ui-kitten/components'
 
-import { getDoc, doc, db, auth, updateDoc, updateEmail, updatePassword } from "../../../firebase/firebasehandler"
+import { getDoc, doc, db, auth, updateDoc, updateEmail, updatePassword, sendPasswordResetEmail } from "../../../firebase/firebasehandler"
 
 import Loading from "../../Loading"
 
@@ -13,6 +13,7 @@ export default function Change({ route, navigation }) {
     const [loaded, setLoaded] = useState(false)
     const [bio, setBio] = useState("")
     const [email, setEmail] = useState("")
+    const [emailReset, setEmailReset] = useState("")
     const [password, setPassword] = useState("")
     const [passwordConfirm, setPassowordConfirm] = useState("")
     const [secureTextEntry, setSecureTextEntry] = useState(true);
@@ -100,6 +101,20 @@ export default function Change({ route, navigation }) {
             }
         ])
     }
+    async function resetPassword() {
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+                Alert.alert("Sucesso", "E-mail enviado com sucesso!", [
+                    {
+                        text: "Ok",
+                        onPress: () => navigation.goBack()
+                    }
+                ])
+            }).catch((error) => {
+                Alert.alert("Erro", "Aconteceu um erro inesperado, tenta novamente mais tarde")
+                console.log(error)
+            })
+    }
 
     useEffect(() => {
         if (params.title === "Alteral e-mail") {
@@ -130,9 +145,11 @@ export default function Change({ route, navigation }) {
                         <Input
                             placeholder='Insire aqui o teu e-mail'
                             size={"large"}
-                            value={email}
+                            value={emailReset}
                             style={{ padding: 15 }}
-                            onChangeText={text => setEmail(text)}
+                            onChangeText={text => setEmailReset(text)}
+                            autoCapitalize={false}
+                            keyboardType={"email-address"}
                         />
                     </Layout>
                 </TouchableWithoutFeedback>
@@ -234,6 +251,32 @@ export default function Change({ route, navigation }) {
                                 >Mudar biografia</Button>
                             </SafeAreaView>
                         </> : <Loading />}
+
+                </Layout >
+            </TouchableWithoutFeedback>
+        )
+    } else if (params.title === "Repor palavra-passe") {
+        return (
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                <Layout style={styles.layout}>
+
+                    <Input
+                        placeholder='O teu e-mail'
+                        size={"large"}
+                        value={email}
+                        style={{ padding: 15 }}
+                        onChangeText={text => setEmail(text)}
+                        maxLength={100}
+                        autoCapitalize={false}
+                        keyboardType={"email-address"}
+                    />
+                    <SafeAreaView style={{ position: "absolute", bottom: 0, width: "100%", }}>
+                        <Button
+                            style={{ marginHorizontal: "4%", marginVertical: "5%" }}
+                            size="large"
+                            onPress={resetPassword}
+                        >Enviar e-mail de recuperação</Button>
+                    </SafeAreaView>
 
                 </Layout >
             </TouchableWithoutFeedback>

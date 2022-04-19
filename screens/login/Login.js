@@ -1,5 +1,5 @@
 import { View, Alert, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native'
-import { signInWithEmailAndPassword, auth, onAuthStateChanged } from "../../firebase/firebasehandler"
+import { signInWithEmailAndPassword, auth, onAuthStateChanged, sendPasswordResetEmail } from "../../firebase/firebasehandler"
 import { Button, Text, Input, Icon } from '@ui-kitten/components'
 import React, { useEffect, useState } from 'react'
 
@@ -38,7 +38,7 @@ export default function Login({ navigation }) {
     async function handleLogin() {
         {
             email === "" || password === "" ?
-                Alert.alert("Erro na autenticação", "Os campos não podem estar vazios!",
+                Alert.alert("Erro", "Os campos não podem estar vazios!",
                     [
                         { text: 'Ok' }
                     ],
@@ -90,6 +90,10 @@ export default function Login({ navigation }) {
         </TouchableWithoutFeedback>
     )
 
+    const resetPassowrd = () => {
+        navigation.navigate("Change", { title: "Repor palavra-passe"})
+    }
+
     return (
 
         <KeyboardAvoidingView style={styles.containerMain} behavior={Platform.OS === "ios" ? "padding" : false}>
@@ -120,7 +124,7 @@ export default function Login({ navigation }) {
                 onChangeText={text => setPassword(text)}
             />
             <View style={{ marginLeft: "auto", marginRight: "7%", marginBottom: 15 }}>
-                <Button status={"basic"} size="tiny" appearance="ghost"> Esqueceste-te da palavra-passe?</Button>
+                <Button status={"basic"} size="tiny" appearance="ghost" onPress={resetPassowrd}> Esqueceste-te da palavra-passe?</Button>
             </View>
             <Button style={main.button} appearance="filled" onPress={handleLogin}>Autenticar</Button>
         </KeyboardAvoidingView >

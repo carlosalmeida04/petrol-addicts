@@ -5,7 +5,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
-    signOut, updateEmail, updatePassword
+    signOut, updateEmail, updatePassword, sendPasswordResetEmail 
 } from "firebase/auth"
 
 
@@ -52,5 +52,5 @@ export {
     getDownloadURL,
     Timestamp, collection, getDocs, onSnapshot, query, orderBy,
     limit, where, deleteDoc, updateDoc, increment, deleteObject,
-    updateEmail, updatePassword
+    updateEmail, updatePassword, sendPasswordResetEmail 
 }
