@@ -116,6 +116,7 @@ export default function Comments({ route }) {
                 style={{ backgroundColor: "#fff" }}
                 contentContainerStyle={{ flexGrow: 1 }}
                 refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
+                showsVerticalScrollIndicator={false}
             >
                 {loaded ?
                     hascarInfo ?
@@ -172,6 +173,7 @@ export default function Comments({ route }) {
                                             data={comments}
                                             keyExtractor={(item) => item.id}
                                             key={({ item }) => item.id}
+                                            showsVerticalScrollIndicator={false}
                                             renderItem={({ item }) =>
                                                 <Comment
                                                     id={item.id}
@@ -196,6 +198,7 @@ export default function Comments({ route }) {
                                         data={comments}
                                         keyExtractor={(item) => item.id}
                                         key={({ item }) => item.id}
+                                        showsVerticalScrollIndicator={false}
                                         renderItem={({ item }) =>
                                             <Comment
                                                 id={item.id}

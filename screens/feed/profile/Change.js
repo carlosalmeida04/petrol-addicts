@@ -101,6 +101,7 @@ export default function Change({ route, navigation }) {
             }
         ])
     }
+    
     async function resetPassword() {
         sendPasswordResetEmail(auth, email)
             .then(() => {
@@ -201,10 +202,10 @@ export default function Change({ route, navigation }) {
 
     else if (params.title === "Alterar nome") {
         return (
-            <Layout style={styles.layout}>
-                {loaded ?
-                    <>
-                        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ height: "100%" }}>
+            <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()} style={{ height: "100%" }}>
+                <Layout level={"1"} style={styles.layout}>
+                    {loaded ?
+                        <>
                             <Input
                                 placeholder='Insira aqui o teu nome'
                                 size={"large"}
@@ -213,16 +214,17 @@ export default function Change({ route, navigation }) {
                                 onChangeText={text => setName(text)}
 
                             />
-                        </TouchableWithoutFeedback>
-                        <SafeAreaView style={{ position: "absolute", bottom: 0, width: "100%", }}>
-                            <Button
-                                style={{ marginHorizontal: "4%", marginVertical: "5%" }}
-                                size="large"
-                                onPress={changeName}
-                            >Mudar nome</Button>
-                        </SafeAreaView>
-                    </> : <Loading />}
-            </Layout>
+
+                            <SafeAreaView style={{ position: "absolute", bottom: 0, width: "100%", }}>
+                                <Button
+                                    style={{ marginHorizontal: "4%", marginVertical: "5%" }}
+                                    size="large"
+                                    onPress={changeName}
+                                >Mudar nome</Button>
+                            </SafeAreaView>
+                        </> : <Loading />}
+                </Layout>
+            </TouchableWithoutFeedback>
         )
     }
 

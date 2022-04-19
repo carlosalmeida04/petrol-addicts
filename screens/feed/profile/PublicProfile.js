@@ -18,11 +18,10 @@ export default function PerfilPublico({ route, navigation }) {
 
     console.log(params)
     async function getUserInfo() {
-        const usersDoc = doc(db, "users", params.uid)
         try {
+            const usersDoc = doc(db, "users", params.uid)
             const usersDocSnap = await getDoc(usersDoc)
-            usersDocSnap.exists() ? setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio }) : console.log("Doc não existente")
-            return usersDocSnap.data().name
+            setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio })
         } catch (e) {
             console.log(e)
         }

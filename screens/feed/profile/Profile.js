@@ -19,10 +19,7 @@ export default function Perfil({ navigation }) {
     async function getUserInfo() {
         try {
             const usersDocSnap = await getDoc(doc(db, "users", auth.currentUser.uid))
-            usersDocSnap.exists() ?
-                setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio }) :
-                console.log("Doc não existente")
-            return usersDocSnap.data().name
+            setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio })
         } catch (e) {
             console.log(e)
         }
@@ -55,12 +52,10 @@ export default function Perfil({ navigation }) {
     }
 
     useEffect(() => {
-        loaded || getUserInfo().then((nome) => {
-            AsyncStorage.setItem("name", nome).then(() => {
-                getUserPosts().then((postReturn) => {
-                    setPosts(postReturn)
-                    setLoaded(true)
-                })
+        loaded || getUserInfo().then(() => {
+            getUserPosts().then((postReturn) => {
+                setPosts(postReturn)
+                setLoaded(true)
             })
         })
     }, [])

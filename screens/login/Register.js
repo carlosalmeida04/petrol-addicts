@@ -71,6 +71,8 @@ export default function Register({ navigation }) {
             Alert.alert("Nome", "Preencha o seu nome.")
         } else if (email === "") {
             Alert.alert("E-mail", "Preencha o seu e-mail.")
+        } else if (password.length < 6) {
+            Alert.alert("Palavra-passe", "A palavra-passe não pode ter menos de 6 caracteres.")
         } else {
             createUserWithEmailAndPassword(auth, email, password).then((user) => {
                 const uuid = user.user.uid
@@ -121,7 +123,7 @@ export default function Register({ navigation }) {
                 size="large"
                 //label='O seu e-mail'
                 keyboardType="email-address"
-                autoCapitalize={false}
+                autoCapitalize={"none"}
                 placeholder='email@exemplo.com'
                 value={email}
                 accessoryLeft={<Icon name={"email-outline"} />}
