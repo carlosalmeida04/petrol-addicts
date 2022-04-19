@@ -146,7 +146,7 @@ export default function Search({ navigation }) {
 
                     :
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                        <Text>Não foram encontrados resultados.</Text>
+                        <Text category={"label"}>Não foram encontrados resultados.</Text>
                     </View>
                 }
             </ScrollView>

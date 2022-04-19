@@ -106,33 +106,37 @@ export default function Perfil({ navigation }) {
                         <Divider />
 
                         <View style={{ flex: 1, flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                            {posts.map(posts => (
-                                <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
-                                    <TouchableOpacity onPress={() => {
-                                        navigation.navigate("Post", {
-                                            id: posts.id,
-                                            img: posts.img,
-                                            desc: posts.desc,
-                                            car: posts.car,
-                                            uid: posts.uid,
-                                            likes: posts.likes,
-                                            postedAt: posts.postedAt,
-                                            comments: posts.comments,
-                                            ap: posts.ap,
-                                            filename: posts.filename
-                                        })
-                                    }}>
-                                        <Image
-                                            style={{ resizeMode: "cover" }}
-                                            source={{
-                                                height: "100%",
-                                                width: "100%",
-                                                uri: posts.img
-                                            }}
-                                        />
-                                    </TouchableOpacity>
+                            {posts.length === 0 ?
+                                <View style={{ marginTop: "60%", justifyContent: "center", alignItems: "center", flex: 1 }}>
+                                    <Text category={"label"}>Ainda não tens publicações feitas.</Text>
                                 </View>
-                            ))}
+                                : posts.map(posts => (
+                                    <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                        <TouchableOpacity onPress={() => {
+                                            navigation.navigate("Post", {
+                                                id: posts.id,
+                                                img: posts.img,
+                                                desc: posts.desc,
+                                                car: posts.car,
+                                                uid: posts.uid,
+                                                likes: posts.likes,
+                                                postedAt: posts.postedAt,
+                                                comments: posts.comments,
+                                                ap: posts.ap,
+                                                filename: posts.filename
+                                            })
+                                        }}>
+                                            <Image
+                                                style={{ resizeMode: "cover" }}
+                                                source={{
+                                                    height: "100%",
+                                                    width: "100%",
+                                                    uri: posts.img
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                ))}
                         </View>
 
                     </View > : <Loading />
