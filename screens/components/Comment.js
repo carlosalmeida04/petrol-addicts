@@ -14,28 +14,27 @@ import "moment/locale/pt"
 export default function Comment({ id, comment, uid, createdAt, postID }) {
 
     const navigation = useNavigation()
-    const [userName, setUserName] = useState({ name: "" })
+    const [userName, setUserName] = useState({ name: "", uid: "" })
 
     useEffect(() => {
         getDoc(doc(db, "users", uid)).then((doc) => {
             setUserName({
                 ...userName,
                 name: doc.data().name,
-
+                uid: doc.id
             })
         })
     }, [])
 
     return (
-        <Layout level="1">
+        <Layout level="1" >
             <View style={{ marginBottom: "2%", marginTop: "2%" }} key={id}>
                 <View style={styles.row}>
                     <TouchableOpacity style={styles.row}
                         onPress={() => {
-                            console.log(uid);
                             // console.log(userName.name);
                             //ISTO NAO ESTA A MANDAR NADA PARA OS PARAMETROS
-                            navigation.navigate("PublicProfile", { params: { uid: uid, title: userName.name, "teste": "teste" } })
+                            navigation.navigate("PublicProfile", { uid: userName.uid, title: userName.name })
                         }}>
                         <Image
                             style={styles.image}
@@ -43,7 +42,7 @@ export default function Comment({ id, comment, uid, createdAt, postID }) {
                                 uri: `https://avatars.dicebear.com/api/initials/${userName.name}.png`
                             }}
                         />
-                        <Text category="h6" style={{ fontWeight: "bold", marginStart: "1%" }}>{userName.name}</Text>
+                        <Text category="h6" style={{ fontWeight: "bold", marginStart: "3%" }}>{userName.name}</Text>
 
                     </TouchableOpacity>
                     {uid === auth.currentUser.uid ? <OverflowMenu commentId={id} fromComments={true} postId={postID} /> : false}

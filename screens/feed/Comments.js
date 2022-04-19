@@ -115,8 +115,7 @@ export default function Comments({ route }) {
             <ScrollView
                 style={{ backgroundColor: "#fff" }}
                 contentContainerStyle={{ flexGrow: 1 }}
-                refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
-                showsVerticalScrollIndicator={false}
+                scrollEnabled={false}
             >
                 {loaded ?
                     hascarInfo ?
@@ -161,7 +160,7 @@ export default function Comments({ route }) {
                                 <Divider />
                             </View>
 
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 1, height: "100%" }}>
 
                                 {
                                     comments.length === 0 ?
@@ -174,6 +173,7 @@ export default function Comments({ route }) {
                                             keyExtractor={(item) => item.id}
                                             key={({ item }) => item.id}
                                             showsVerticalScrollIndicator={false}
+                                            refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                                             renderItem={({ item }) =>
                                                 <Comment
                                                     id={item.id}
@@ -199,6 +199,7 @@ export default function Comments({ route }) {
                                         keyExtractor={(item) => item.id}
                                         key={({ item }) => item.id}
                                         showsVerticalScrollIndicator={false}
+                                        refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
                                         renderItem={({ item }) =>
                                             <Comment
                                                 id={item.id}

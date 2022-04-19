@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { TouchableOpacity, Image, View, SafeAreaView, ScrollView, StyleSheet, RefreshControl } from 'react-native'
 import { db, getDoc, doc, collection, getDocs, query, orderBy, where } from "../../../firebase/firebasehandler"
 import { useFocusEffect } from '@react-navigation/native'
@@ -6,25 +6,23 @@ import { Icon, Text, Divider, Layout } from '@ui-kitten/components'
 
 import Loading from '../../Loading'
 
+import { CommonActions } from '@react-navigation/native'
 
 export default function PerfilPublico({ route, navigation }) {
 
     const params = route.params
 
-    const [userInfo, setUserInfo] = useState({})
-    const [posts, setPosts] = useState([])
+    const [userInfo, setUserInfo] = useState({ nome: "", bio: "" })
+    const [userPosts, setUserPosts] = useState([])
     const [loaded, setLoaded] = useState(false)
     const [refresh, setRefresh] = useState(false)
 
     async function getUserInfo() {
-        console.log(params)
         try {
-            let i = 0;
-            console.log(i + " " + params.uid + " " + params.teste);
-            const usersDoc = doc(db, "users", params.uid.toString())
+            const usersDoc = doc(db, "users", params.uid)
             const usersDocSnap = await getDoc(usersDoc)
+            usersDocSnap.exists() ? console.log("existe") : console.log("nao existe")
             setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio })
-            i++;
         } catch (e) {
             console.log(e)
         }
@@ -59,9 +57,9 @@ export default function PerfilPublico({ route, navigation }) {
 
     const onRefresh = useCallback(() => {
         setRefresh(true)
-        getUserInfo().then((posts) => {
+        getUserInfo().then(() => {
             getUserPosts().then(posts => {
-                setPosts(posts)
+                setUserPosts(posts)
                 setRefresh(false)
             })
         })
@@ -69,21 +67,16 @@ export default function PerfilPublico({ route, navigation }) {
 
     useFocusEffect(
         useCallback(() => {
-            loaded || getUserInfo().then(() => {
-                getUserPosts().then((postReturn) => {
-                    setPosts(postReturn)
+            const getInfo = getUserInfo().then(() => {
+                getUserPosts().then((posts) => {
+                    setUserPosts(posts)
                     setLoaded(true)
                 })
             })
-            return () => {
-                setPosts([])
-                setUserInfo({})
-                setLoaded(false)
-            }
+            return getInfo, setLoaded(false), setUserInfo({ nome: "", bio: "" }), setUserPosts([])
         }, [])
-
-
     )
+
 
     return (
         <Layout level={"1"} >
@@ -116,11 +109,11 @@ export default function PerfilPublico({ route, navigation }) {
                             </View>
                             <Divider />
                         </View>
-                        {posts.length === 0 ?
+                        {userPosts.length === 0 ?
                             <View style={styles.center}>
                                 <Text category={"label"}>Este utilizador ainda não fez publicações.</Text>
                             </View>
-                            : posts.map(posts => (
+                            : userPosts.map(posts => (
                                 <View style={styles.postsView} key={posts.id}>
                                     <View style={{ height: 130, width: "33.3333333%" }}>
                                         <TouchableOpacity onPress={() => {
