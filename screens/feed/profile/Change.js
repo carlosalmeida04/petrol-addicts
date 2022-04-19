@@ -117,8 +117,8 @@ export default function Change({ route, navigation }) {
     }
 
     useEffect(() => {
-        if (params.title === "Alteral e-mail") {
-            setEmail(auth.currentUser.email)
+        if (params.title === "Alterar e-mail") {
+            setEmailReset(auth.currentUser.email)
         }
         else if (params.title === "Alterar nome") {
             loaded || getDoc(doc(db, "users", auth.currentUser.uid)).then((data) => {

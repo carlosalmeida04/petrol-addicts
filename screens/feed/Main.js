@@ -51,7 +51,7 @@ export default function Main({ navigation }) {
                     title: "Perfil",
                     headerRight: () => (
                         <TouchableOpacity style={{ marginRight: "2%" }} onPress={() => navigation.navigate("Settings")}>
-                            <Icon name="settings-2-outline" fill="black" style={{ height: 30, width: 30 }} />
+                            <Icon name="settings-outline" fill="black" style={{ height: 25, width: 25 }} />
                         </TouchableOpacity>
                     )
                 }}

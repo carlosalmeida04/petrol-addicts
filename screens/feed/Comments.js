@@ -24,7 +24,7 @@ export default function Comments({ route }) {
     const car = route.params.car
 
     const InputTextLenght = () => (
-        <Text category="c1">{comment.length}/80</Text>
+        <Text category="label" style={{ opacity: .5 }}>{comment.length}/80</Text>
     )
 
     async function makeComment() {
@@ -185,11 +185,11 @@ export default function Comments({ route }) {
                             </View>
                         </> :
                         <View style={{ flex: 1 }}>
-                        
+
                             {
                                 comments.length === 0 ?
                                     <View style={styles.center}>
-                                        <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
+                                        <Text category={"label"}>Ainda não há comentários. Sê o primeiro a comentar!</Text>
                                     </View>
                                     :
                                     <FlatList
@@ -213,9 +213,6 @@ export default function Comments({ route }) {
             </ScrollView>
 
             <SafeAreaView style={{ backgroundColor: "#fff", }}>
-                <View style={styles.container}>
-                    <Divider />
-                </View>
                 <View style={styles.inputView}>
                     <Input
                         size="large"
@@ -224,19 +221,20 @@ export default function Comments({ route }) {
                         placeholder='Comentário'
                         value={comment}
                         maxLength={80}
-                        accessoryRight={InputTextLenght}
+                        accessoryLeft={InputTextLenght}
+                        accessoryRight={<TouchableOpacity
+                            onPress={() => {
+                                makeComment().then(() => {
+                                    setComment("")
+                                    setLoaded(false)
+                                })
+                            }}
+                            style={styles.button}
+                        >
+                            <Icon name="paper-plane-outline" style={{ height: 25, width: 25 }} fill="black" />
+                        </TouchableOpacity>}
                     />
-                    <TouchableOpacity
-                        onPress={() => {
-                            makeComment().then(() => {
-                                setComment("")
-                                setLoaded(false)
-                            })
-                        }}
-                        style={styles.button}
-                    >
-                        <Icon name="paper-plane-outline" style={{ height: 25, width: 25 }} fill="black" />
-                    </TouchableOpacity>
+
                 </View>
             </SafeAreaView>
         </>
@@ -248,17 +246,20 @@ export default function Comments({ route }) {
 const styles = StyleSheet.create({
 
     input: {
-        width: "85%"
+        width: "100%",
+        height: 60
     },
     inputView: {
         flexDirection: "row",
-        marginEnd: "2%",
-        marginStart: "2%"
+        marginEnd: "4%",
+        marginStart: "4%"
     },
     button: {
-        flex: 1,
+        height: 50,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        flex: 1,
+        width: "100%"
     },
     container: {
         marginStart: "4%",
