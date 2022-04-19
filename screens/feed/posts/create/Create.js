@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react'
 import { Image, View, TouchableOpacity, Platform, StyleSheet, Alert, KeyboardAvoidingView, ScrollView, Dimensions } from 'react-native'
 
 import { useFocusEffect } from "@react-navigation/native"
-import { getName } from "../../../components/Reducers"
+
 import { Input } from "@ui-kitten/components"
 
 import Header from "../../../components/Header"
@@ -23,7 +23,6 @@ export default function Create({ navigation }) {
     const [aspectRatio, setAspectRatio] = useState(0)
     const [desc, setDesc] = useState("")
     const [carro, setCarro] = useState("")
-    const [name, setName] = useState("")
 
     const postId = uuidv4()
 
@@ -65,7 +64,6 @@ export default function Create({ navigation }) {
                     onPress: () => navigation.navigate("CarInfo", {
                         car: carro,
                         image: image,
-                        name: name,
                         desc: desc,
                         ap: aspectRatio
                     }),
@@ -75,7 +73,6 @@ export default function Create({ navigation }) {
                     onPress: () => navigation.navigate("Overview", {
                         car: carro,
                         image: image,
-                        name: name,
                         desc: desc,
                         fromCarInfo: false,
                         ap: aspectRatio
@@ -90,7 +87,6 @@ export default function Create({ navigation }) {
     useFocusEffect(
         useCallback(() => {
             const pick = pickImage()
-            getName().then((nome) => setName(nome))
             return pick, setImage(false), setImagePicked(false)
         }, [])
     )

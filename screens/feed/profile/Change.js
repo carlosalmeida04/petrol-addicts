@@ -137,7 +137,7 @@ export default function Change({ route, navigation }) {
 
 
 
-    if (params.title === "Alteral e-mail") {
+    if (params.title === "Alterar e-mail") {
         return (
             <>
                 <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

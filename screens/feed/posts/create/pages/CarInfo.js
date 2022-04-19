@@ -44,7 +44,6 @@ export default function CarInfo({ navigation, route }) {
             drive: drive[driveSelectedIndex - 1],
             desc: params.desc,
             image: params.image,
-            name: params.name,
             fromCarInfo: true,
             ap: params.ap
         })

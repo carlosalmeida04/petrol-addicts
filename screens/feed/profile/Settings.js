@@ -45,7 +45,7 @@ export default function Settings({ navigation }) {
 
                 <Text category={"h4"}>Conta</Text>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Change", {
-                    title: "Alteral e-mail"
+                    title: "Alterar e-mail"
                 })}>
                     <Text style={styles.text}>Alterar e-mail</Text>
                     <Icon name={"email-outline"} fill="black" style={styles.icon} />

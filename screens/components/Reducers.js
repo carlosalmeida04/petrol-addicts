@@ -51,7 +51,7 @@ export const updateLike = async (postId, uid, state) => {
 export const deletePost = async (postId, fileName) => {
     try {
         await deleteDoc(doc(db, "posts", postId))
-        await deleteObject(ref(storage, `posts/${auth.currentUser.uid}/${postId}/${fileName}`))
+        //await deleteObject(ref(storage, `posts/${auth.currentUser.uid}/${postId}/${fileName}`))
         Alert.alert("Sucesso", "Publicação apagada com sucesso!")
     } catch (error) {
         console.log(error)
