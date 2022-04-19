@@ -21,7 +21,6 @@ export default function PerfilPublico({ route, navigation }) {
         try {
             const usersDoc = doc(db, "users", params.uid)
             const usersDocSnap = await getDoc(usersDoc)
-            usersDocSnap.exists() ? console.log("existe") : console.log("nao existe")
             setUserInfo({ nome: usersDocSnap.data().name, bio: usersDocSnap.data().bio })
         } catch (e) {
             console.log(e)
