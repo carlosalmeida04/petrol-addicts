@@ -119,8 +119,8 @@ export default function PerfilPublico({ route, navigation }) {
                                 <Text category={"label"}>Este utilizador ainda não fez publicações.</Text>
                             </View>
                             : posts.map(posts => (
-                                <View style={styles.postsView}>
-                                    <View key={posts.id} style={{ height: 130, width: "33.3333333%" }}>
+                                <View style={styles.postsView} key={posts.id}>
+                                    <View style={{ height: 130, width: "33.3333333%" }}>
                                         <TouchableOpacity onPress={() => {
                                             navigation.navigate("Post", {
                                                 id: posts.id,

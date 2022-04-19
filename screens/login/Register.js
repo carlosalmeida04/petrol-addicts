@@ -109,7 +109,7 @@ export default function Register({ navigation }) {
                 status="basic"
                 //label='Nome'
                 placeholder='Nome Sobrenome'
-                keyboardType='email-address'
+                keyboardType='ascii-capable'
                 value={name}
                 accessoryLeft={<Icon name={"person-outline"} />}
                 onChangeText={text => setName(text)}

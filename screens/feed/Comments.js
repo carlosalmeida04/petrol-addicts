@@ -19,7 +19,7 @@ export default function Comments({ route }) {
     const [comments, setComments] = useState([])
     const [carinfo, setCarInfo] = useState({})
     const [refresh, setRefresh] = useState(false)
-
+    const [hascarInfo, sethasCarinfo] = useState(false)
     const postId = route.params.postId
     const car = route.params.car
 
@@ -72,6 +72,7 @@ export default function Comments({ route }) {
 
     async function getCar() {
         try {
+            let info
             const carSnapShot = await getDoc(doc(db, "cars", car))
 
             if (!carSnapShot.exists()) return info = false
@@ -84,6 +85,7 @@ export default function Comments({ route }) {
                 cv: carSnapShot.data().power,
                 trans: carSnapShot.data().transmission
             })
+            return info = true
         } catch (error) {
             console.log(error)
         }
@@ -92,7 +94,10 @@ export default function Comments({ route }) {
     useEffect(() => {
         loaded || getComments().then((commentReturn) => {
             setComments(commentReturn)
-            getCar().then(() => setLoaded(true))
+            getCar().then((info) => {
+                info ? sethasCarinfo(true) : sethasCarinfo(false)
+                setLoaded(true)
+            })
         })
     }, [loaded])
 
@@ -113,66 +118,95 @@ export default function Comments({ route }) {
                 refreshControl={<RefreshControl refreshing={refresh} onRefresh={onRefresh} />}
             >
                 {loaded ?
-                    <View style={{ flex: 1 }}>
-                        <View style={{ flexDirection: "row", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
-                            <Image style={{ width: 50, height: 50 }} source={require("../../assets/img/car.png")} />
-                            <Text category={"h3"} style={{ textAlign: "center", padding: 15 }}>{car}</Text>
-                        </View>
-                        <View style={[styles.columns, styles.container]}>
-
-                            <View style={styles.item}>
-                                <Image style={styles.image} source={require("../../assets/img/engine.png")} />
-                                <Text>{carinfo.engine}</Text>
+                    hascarInfo ?
+                        <>
+                            <View style={{ flexDirection: "row", alignItems: "center", textAlign: "center", justifyContent: "center" }}>
+                                <Image style={{ width: 50, height: 50 }} source={require("../../assets/img/car.png")} />
+                                <Text category={"h3"} style={{ textAlign: "center", padding: 15 }}>{car}</Text>
                             </View>
+                            <View style={[styles.columns, styles.container]}>
 
-                            <View style={styles.item}>
-                                <Image style={styles.image} source={require("../../assets/img/trans.png")} />
-                                <Text>{carinfo.trans}</Text>
-                            </View>
-
-                            <View style={styles.item}>
-                                <Image style={styles.image} source={require("../../assets/img/piston.png")} />
-                                <Text>{carinfo.cc}</Text>
-                            </View>
-
-
-                            <View style={styles.item}>
-                                <Image style={styles.image} source={require("../../assets/img/axle.png")} />
-                                <Text>{carinfo.drive}</Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Image style={styles.image} source={require("../../assets/img/power-gears.png")} />
-                                <Text>{carinfo.cv}</Text>
-                            </View>
-                            <View style={styles.item}>
-                                <Image style={styles.image} source={require("../../assets/img/fuel.png")} />
-                                <Text>{carinfo.fuel}</Text>
-                            </View>
-                        </View>
-
-                        <View style={styles.container}>
-                            <Divider />
-                        </View>
-                        {
-                            comments.length === 0 ?
-                                <View style={styles.center}>
-                                    <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
+                                <View style={styles.item}>
+                                    <Image style={styles.image} source={require("../../assets/img/engine.png")} />
+                                    <Text>{carinfo.engine}</Text>
                                 </View>
-                                :
-                                <FlatList
-                                    data={comments}
-                                    keyExtractor={(item) => item.id}
-                                    key={({ item }) => item.id}
-                                    renderItem={({ item }) =>
-                                        <Comment
-                                            id={item.id}
-                                            comment={item.comment}
-                                            uid={item.uid}
-                                            createdAt={item.createdAt}
-                                        />}
-                                />
-                        }
-                    </View>
+
+                                <View style={styles.item}>
+                                    <Image style={styles.image} source={require("../../assets/img/trans.png")} />
+                                    <Text>{carinfo.trans}</Text>
+                                </View>
+
+                                <View style={styles.item}>
+                                    <Image style={styles.image} source={require("../../assets/img/piston.png")} />
+                                    <Text>{carinfo.cc}</Text>
+                                </View>
+
+
+                                <View style={styles.item}>
+                                    <Image style={styles.image} source={require("../../assets/img/axle.png")} />
+                                    <Text>{carinfo.drive}</Text>
+                                </View>
+                                <View style={styles.item}>
+                                    <Image style={styles.image} source={require("../../assets/img/power-gears.png")} />
+                                    <Text>{carinfo.cv}</Text>
+                                </View>
+                                <View style={styles.item}>
+                                    <Image style={styles.image} source={require("../../assets/img/fuel.png")} />
+                                    <Text>{carinfo.fuel}</Text>
+                                </View>
+                            </View>
+
+                            <View style={styles.container}>
+                                <Divider />
+                            </View>
+
+                            <View style={{ flex: 1 }}>
+
+                                {
+                                    comments.length === 0 ?
+                                        <View style={styles.center}>
+                                            <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
+                                        </View>
+                                        :
+                                        <FlatList
+                                            data={comments}
+                                            keyExtractor={(item) => item.id}
+                                            key={({ item }) => item.id}
+                                            renderItem={({ item }) =>
+                                                <Comment
+                                                    id={item.id}
+                                                    comment={item.comment}
+                                                    uid={item.uid}
+                                                    createdAt={item.createdAt}
+                                                    postID={postId}
+                                                />}
+                                        />
+                                }
+                            </View>
+                        </> :
+                        <View style={{ flex: 1 }}>
+                        
+                            {
+                                comments.length === 0 ?
+                                    <View style={styles.center}>
+                                        <Text>Ainda não há comentários. Sê o primeiro a comentar!</Text>
+                                    </View>
+                                    :
+                                    <FlatList
+                                        data={comments}
+                                        keyExtractor={(item) => item.id}
+                                        key={({ item }) => item.id}
+                                        renderItem={({ item }) =>
+                                            <Comment
+                                                id={item.id}
+                                                comment={item.comment}
+                                                uid={item.uid}
+                                                createdAt={item.createdAt}
+                                                postID={postId}
+                                            />}
+                                    />
+                            }
+                        </View>
                     :
                     <Loading />
                 }

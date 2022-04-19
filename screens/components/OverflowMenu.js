@@ -2,11 +2,11 @@ import { StyleSheet, View, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { Icon, Divider, OverflowMenu, MenuItem } from '@ui-kitten/components'
 
-import { deletePost } from './Reducers'
+import { deletePost, deleteComment } from './Reducers'
 import { useNavigation } from '@react-navigation/native'
 
 
-export default function OverflowMenuButton({ postId, fileName, fromProfile }) {
+export default function OverflowMenuButton({ postId, fileName, fromProfile, fromComments, commentId }) {
 
     const [visible, setVisible] = useState(false)
     const navigation = useNavigation()
@@ -34,7 +34,23 @@ export default function OverflowMenuButton({ postId, fileName, fromProfile }) {
             cancelable: false
         })
     }
-
+    const handleDeletComment = () => {
+        Alert.alert("Aviso", "Tens a certeza que queres apagar este comentário?",
+            [
+                {
+                    text: "Sim",
+                    onPress: async () => {
+                        await deleteComment(commentId, postId)
+                    }
+                },
+                {
+                    text: "Cancelar",
+                    style: "cancel"
+                },
+            ], {
+            cancelable: false
+        })
+    }
 
     return (
         <View style={{ marginStart: "auto", justifyContent: "center", marginEnd: "1%" }} >
@@ -44,7 +60,7 @@ export default function OverflowMenuButton({ postId, fileName, fromProfile }) {
                 visible={visible}
                 placement={"bottom start"}
                 onBackdropPress={() => setVisible(false)}>
-                <MenuItem title='Apagar' onPress={handeDeletePost} accessoryRight={<Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />} />
+                <MenuItem title='Apagar' onPress={fromComments ? handleDeletComment : handeDeletePost} accessoryRight={<Icon name="trash-outline" fill="black" style={{ width: 20, height: 20 }} />} />
             </OverflowMenu>
         </View>
     )
