@@ -31,12 +31,7 @@ import {
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyD9eZHomjZFFsTgcg6TeVQfOM2-Aupp9eg",
-    authDomain: "petrol-addicts.firebaseapp.com",
-    projectId: "petrol-addicts",
-    storageBucket: "petrol-addicts.appspot.com",
-    messagingSenderId: "1084590713198",
-    appId: "1:1084590713198:web:16675363ad641fc156b97f"
+    //put your firebase config here
 };
 
 const app = initializeApp(firebaseConfig)
