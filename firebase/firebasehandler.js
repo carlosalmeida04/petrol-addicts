@@ -5,7 +5,7 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     onAuthStateChanged,
-    signOut, updateEmail, updatePassword, sendPasswordResetEmail 
+    signOut, updateEmail, updatePassword, sendPasswordResetEmail
 } from "firebase/auth"
 
 
@@ -31,7 +31,12 @@ import {
 
 
 const firebaseConfig = {
-    //put your firebase config here
+    apiKey: "AIzaSyD9eZHomjZFFsTgcg6TeVQfOM2-Aupp9eg",
+    authDomain: "petrol-addicts.firebaseapp.com",
+    projectId: "petrol-addicts",
+    storageBucket: "petrol-addicts.appspot.com",
+    messagingSenderId: "1084590713198",
+    appId: "1:1084590713198:web:16675363ad641fc156b97f"
 };
 
 const app = initializeApp(firebaseConfig)
@@ -47,5 +52,5 @@ export {
     getDownloadURL,
     Timestamp, collection, getDocs, onSnapshot, query, orderBy,
     limit, where, deleteDoc, updateDoc, increment, deleteObject,
-    updateEmail, updatePassword, sendPasswordResetEmail 
+    updateEmail, updatePassword, sendPasswordResetEmail
 }
