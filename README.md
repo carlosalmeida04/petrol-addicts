@@ -58,5 +58,5 @@ Now, to run and open the app:
 **<h2>Lincense</h2>**
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This project is covered under the **[MIT License](https://github.com/carlosalmeida04/petrol-addicts/blob/master/LICENSE.MD)**
+This project is covered under the **[MIT License](https://github.com/carlosalmeida04/petrol-addicts/blob/master/LICENSE.MD)**.
 
