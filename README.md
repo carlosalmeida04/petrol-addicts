@@ -54,3 +54,9 @@ Now, to run and open the app:
     ```
 3. This will open a **[tab](https://github.com/carlosalmeida04/petrol-addicts/blob/master/assets/img/mdimages/expo%20console.png)** on your browser
 4. Open the Expo Go App on your phone, and scan the QR Code that appears on the browser. Additionally, you can run it on a iOS Simulator by pressing **``Run on iOS Simulator``** or on an Android Emulator **``Run Android device/simulator``** . 
+
+**<h2>Lincense</h2>**
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project is covered under the **[MIT License](https://github.com/carlosalmeida04/petrol-addicts/blob/master/LICENSE.MD)**
+
